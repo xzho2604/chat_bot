@@ -10,7 +10,7 @@
 * Build Local Chat Bot Model Using Python: <br />
   https://www.analyticsvidhya.com/blog/2018/01/faq-chatbots-the-future-of-information-searching/
 * Use Python Diagflow API example: <br />
-  https://pusher.com/tutorials/chatbot-flask-dialogflow 
+  https://pusher.com/tutorials/chatbot-flask-dialogflow  <br />
   https://www.youtube.com/watch?v=FVNyUehBU2I
 * Diagflow Python Client API: <br />
   https://dialogflow-python-client-v2.readthedocs.io/en/latest/
