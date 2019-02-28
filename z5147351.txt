@@ -1,13 +1,16 @@
 
 22/02:
-  Team Formation, discuss the project outline and team reach consensus to do project one house bulter application
+    Team Formation, discuss the project outline and team reach consensus to do project one house bulter application
  
 26/02:
-  Group meetin disuss the implementation of the projects involves:
+    Group meetin disuss the implementation of the projects involves:
     1. How to train Diagflow
     2. What Function need to implement for this applicaiton
     3. How Mongo DB for the back end
     4. Diaflow embedded web dialog box for the front end
     5. Quick and dirty implementation of pizza ordering or flight booking
-    
+
+28/02:
+    Create simple travel management chat book able to book flight
+       
   
