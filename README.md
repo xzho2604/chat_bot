@@ -14,6 +14,7 @@
   https://www.youtube.com/watch?v=FVNyUehBU2I
 * Diagflow Python Client API: <br />
   https://dialogflow-python-client-v2.readthedocs.io/en/latest/
+  https://developers.google.com/api-client-library/python/apis/dialogflow/v2 <br />
 * Report Chart Drawing: <br />
   www.lucidchart.com/
 
