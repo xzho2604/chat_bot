@@ -17,6 +17,8 @@
   https://developers.google.com/api-client-library/python/apis/dialogflow/v2 <br />
 * Report Chart Drawing: <br />
   www.lucidchart.com/
+* Read Python API:<br />
+  https://cloud.google.com/dialogflow-enterprise/docs/quickstart-api
 
 
 
