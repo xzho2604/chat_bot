@@ -12,5 +12,16 @@
 
 28/02:
     Create simple travel management chat book able to book flight
+
+04/03:
+    Study the backend API of webhood for fullfillment, and did a simple implememntation
+    of weather enquiries.
+
+05/03:
+    Group meeting and discussing the backend API to the diagflow so that backend could talk 
+    directly to the client and enquire diagflow directly through diagflow API on behalf of client
+    and then process the result and return to the client.
+    Discuss project proposal structure as well as work division.
+ 
        
   
