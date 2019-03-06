@@ -1,2 +1,16 @@
 Week 1
-Group formed.
+Group formed, members including Erik, Pako, Allen and me.
+The group project we desided is the household butler bot
+We talked about tech stacks each one of us having and decided to use react as our front end library and python flask to write our back end server, we are going to user dialogflow as our main text processing engine. 
+After the meeting, I did some research about the dialogflow and tried getting familiarize with it.
+
+
+
+Week 2
+We had a informal meeting on tuesday(26 Feb) before our lab, I decided to take charge of the front end side and Erik, pako decided to build the server and integration with third party apis. Allen is going to work on chat design and other dialogflow setting.
+On friday, after a debate about two different kind of system architecture(front-end <-> dialogflow <-> back-end & front-end <-> back-end <-> dialogflow), we decided to pick the second one as it's more customizable and flexible for different type of message media.
+We also had a little play on the diaflow web demo and discovered some prebuilt intents and how these were designed.
+
+
+
+Week 3
