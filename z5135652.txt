@@ -14,3 +14,4 @@ We also had a little play on the diaflow web demo and discovered some prebuilt i
 
 
 Week 3
+Read a lot of documentations and apis about dialogflow and react.
