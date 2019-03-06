@@ -6,7 +6,8 @@
 
 ## Resources:
 * Diagflow Basic Tutorial: <br />
-  https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00
+  https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00 <br />
+  https://www.youtube.com/watch?v=-tOamKtmxdY 
 * Build Local Chat Bot Model Using Python: <br />
   https://www.analyticsvidhya.com/blog/2018/01/faq-chatbots-the-future-of-information-searching/
 * Use Python Diagflow API example: <br />
