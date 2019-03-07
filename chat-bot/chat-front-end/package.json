@@ -6,8 +6,7 @@
     "react": "^16.8.4",
     "react-chat-widget": "^2.1.4-1",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8",
-    "process.env.PUBLIC_URL": "latest"
+    "react-scripts": "2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
