@@ -1,47 +1,21 @@
-# -*- coding:utf8 -*-
-# !/usr/bin/env python
-# Copyright 2017 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
 # Updated in July 2018 to reflect Dialogflow v2 changes for request/response
 # Author - Naresh Ganatra
 # http://youtube.com/c/NareshGanatra
-
-
 from __future__ import print_function
 #from future.standard_library import install_aliases
 #install_aliases()
-
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
-
 import json
 import os
-
 from flask import Flask
 from flask import request
 from flask import make_response
 from  weather_api import *
 
-
-
-
 # Flask app should start in global layout
 app = Flask(__name__)
-
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -57,58 +31,18 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-
+#process the request and return the response accordingly
 def processRequest(req):
     print ("starting processRequest...",req.get("queryResult").get("action"))
     action = req.get("queryResult").get("action") 
     
-    if action != "weather":
+    if action == "weather": #perform weather service
+        result = weather_service(req) #call the weather service
+    else:
         print ("Please check your action name in DialogFlow...")
         return {}
 
-    city = req["queryResult"]["parameters"]["address"]["city"]
-    #get the location parametre from the res and send to the weather API
-    weather = get_weather(city)
-    print("the weather we get back is " + weather)
-
-
-
-
-    '''
-    print("111111111111")
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    print("1.5 1.5 1.5")
-    yql_query = makeYqlQuery(req)
-    print ("2222222222")
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    print("3333333333")
-    print (yql_url)
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
-    #for some the line above gives an error and hence decoding to utf-8 might help
-    #data = json.loads(result.decode('utf-8'))
-    print("44444444444")
-    print (data)
-    res = makeWebhookResult(data)
-    '''
-    speech = "The weather in " + city + "is " + weather
-    result = {
-    "fulfillmentText": speech,
-     "source": "Yahoo Weather"
-    }
-
     return result 
-
-
-def makeYqlQuery(req):
-    result = req.get("queryResult")
-    parameters = result.get("parameters")
-    city = parameters.get("geo-city")
-    if city is None:
-        return None
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
 
 
 def makeWebhookResult(data):
