@@ -3,7 +3,8 @@
 * implement Book room or trip using diagflow 
 * Try backend API with Json file
 * import Airline Modul or coffe module to implement simple booking for order function
-
+## WorkSpaces:
+* [Project Proposal:](https://www.overleaf.com/5973716318hnyngfttwfyj)
 ## Resources:
 * Diagflow Basic Tutorial: <br />
   https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00 <br />
