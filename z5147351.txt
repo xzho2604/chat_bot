@@ -24,4 +24,9 @@
     Discuss project proposal structure as well as work division.
  
        
-  
+06/03:
+    study epic two the context of the dialogflow to make converstation more smooth
+    using follow up intention.
+ 
+07/03:
+    report writing, research on the back end API to the dilogflow
