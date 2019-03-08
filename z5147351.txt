@@ -30,3 +30,7 @@
  
 07/03:
     report writing, research on the back end API to the dilogflow
+
+08/03:
+    Demo the current process during the tutorial , and find out the backend api taling to the daigflow thorugh
+    google cloud server , done the configuration for the authentication.
