@@ -24,6 +24,7 @@
 * Front End link with back  <br />
 https://alligator.io/react/axios-react/<br />
 * Back End to Diagflow API configure<br />
+https://stackoverflow.com/questions/50217133/dialogflow-detectintenttext
 
 
 
