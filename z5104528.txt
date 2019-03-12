@@ -9,6 +9,15 @@ week2:
 	1. The general application structure and the techs stacks involved.
 	2. Exchange the ideas about the process when Dialogflow dealing with a real problem. 
 	3. Decide to begin with starting a demo based on Dialogflow (Flight booking).
+
+
+week3:
+
+  Group meeting on Tuesday, assign the duty about proposal to every group member.
+
+  Complete the background & timeline part of the proposal report.
+
+  Investigate the openweather API and implement a simple calling based on python http.
 	
 
 
