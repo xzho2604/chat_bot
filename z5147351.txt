@@ -34,3 +34,9 @@
 08/03:
     Demo the current process during the tutorial , and find out the backend api taling to the daigflow thorugh
     google cloud server , done the configuration for the authentication.
+
+14/03:
+    Figure out how backend talk to the front end using tcp socket ,so that backend could talk to the front end diretly and         send client enquiries to the dialogflow api and get fullfillment.
+    
+    
+    
