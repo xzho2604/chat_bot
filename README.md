@@ -6,10 +6,11 @@
 ## WorkSpaces:
 * [Project Proposal](https://www.overleaf.com/5973716318hnyngfttwfyj)
 ## BackEnd Usage:
-* cd back_end 
+* cd chat-bot/back_end 
 * python app.py
 * In another terminal same folder./ngrok http 5000
 * Goes to the diagflow and enable webhoook in the intention set the fullfil URL as per ngrok
+* python back2diag.py [port] : to initiate the backedn interation with the front end
 ## Resources:
 * Diagflow Basic Tutorial: <br />
   https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00 <br />
