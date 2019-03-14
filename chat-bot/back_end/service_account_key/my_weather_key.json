@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "newagent-1dcb6",
+  "private_key_id": "a2ce542bd3ba7803419a2240dfa60b67c965b33c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHepjcuhsQ3vVw\nn7e/4+QYwjFGE79Gk97/2z3JJ+Mla0ZCJO/iczA49IUwTkrVQBbrkDIqIDvUjw6R\nVlnd0c2cRKgXL0UNlV4wJxOvH03o3NPFTls1EkZAwsE6CTlIh1KrIFBjO6x0DJSr\nzhcz623zuT9wkPJMlqqlumKGfm+xWU4g/Xw5aIHH7iV9/7vOZ69urT/gnDUhjvZh\nbHXO55cyr5VrXwARU6e4NoPUb8GAXscxeC2jw11VIMrV6I7ZZR4HeO+vVZ/TZdjk\nkzeFbUbE1KAdMH0TJYhE1GTFG71YzqSgwYu4vPrymiLmE4KVGqRo2BawMOgn6bUM\nUDwD5TW7AgMBAAECggEANDq53oVOA+dU3VW8b15UgVULQL135htelqBJd6tdcpU5\ncqUoOCMP28HOQ70kI9zhg3EgaV5CPB/u4Qf6hLVjwAhL+LIUQv+6hyIcKcypAhEb\n07v17pnn0hoMLM1wdbiU4SCXW7wqpcILhUZzVdFNWzTEUw1om7wRV05LcMqXJRh1\nOupbsyfjbkPH+R1/85IE7uJU9mX4r11qpfOl8Bl7r2oWzxa2/PIfwPKaz2XTE13P\n4/0eIaVTo33VVF93zItEbO4iurZf0Yjl8NtGMkZJDDQHSbuczwW2AOmTmTslE/p7\n+Nx94x2cVGuuv7XJLUqLX/yebrhxRgV4gadGv+OGgQKBgQD/onTRYZHoYTgcEOcv\nyzNnoYpT3pGg7hnRhWS++gScA8JgqygWvD1hyxodv7kbPG727bXFZunsorgWoCcR\nQtAsaEgXFtcxsu2tL81O5KM6fgWWto84f05LgsbSxzR3iY++y3q737RFZFTvAvBn\ntOkOLLRUxEovG+Mg3LtylfXfgQKBgQDHw5eGWfWMDdQxFP420yiTmv1+KDRo/bIt\nQsHE0Hbh5bsJwIcGR65FV+Mi6KQkniNHnGofgwc8ogGSllfuAGZ1CBWWQuNRhXOu\nNmKEvuNnurRmNQih7DhBFShCi1pUZ+MQx4HOBq2jTVQRGRzuJdyGSUSzFGKrMgNN\nwnP7UrQzOwKBgDpGcpL4xyZOY1giklFW5VUOglY0OsaRANm+qwTOQha+1KTs36qv\nJt8QSdfWSQBoenNYJUPm/hSv03906vMIZCR7cVOyJURzIbOFXixJ+tvutp9w5p1e\niB62pVSPjOpjNZ2tDUGe8Z2QDbye0ucRWr+ceU+Jn8+1b8WiDClG/lIBAoGBAML+\nZZY7kbhYd1xBxbP2gpEypWbUD/S8T4RmuYZIhwMSoHRwflze83m0xH564F7uDjoE\nsIJ6AEJrUWWpY8NqmJh8f7XhLMuSnMzdQWWaf5ftY9KwyfBlCLRe1qG+LTpe/gKO\n/GIDmtLg1MKr5NWCF7TtKCY2K+o4M4lf2p7kqAmpAoGAeukWDGSWLkvb2VQN0HJb\nOo3Ai2FVIpmS5nBghw0neDYF+4B7hXIlGsTPqoDmO6ZfoknI0OVKpqV9nwkE3mhp\nU2Sq2EFQG7WmOBh+0jU/K+EAVCCNxz2C4EHbTUrOskS9qguyS5W+IebtWf7E/gUa\nOJMLSFZ6tWLxpPmrOm2cj5U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "my-weather@newagent-1dcb6.iam.gserviceaccount.com",
+  "client_id": "112155558644279241371",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/my-weather%40newagent-1dcb6.iam.gserviceaccount.com"
+}

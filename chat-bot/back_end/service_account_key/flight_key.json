@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "flights-af2e6",
+  "private_key_id": "c7d7dac9e6e1e4a237f45fba836dcf5238b20ace",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCb+QfIczCWpK2j\nlgZaKRC49sUOMFyt/iymDnZ4rHoVLH5S8PE52FVGnnRz8K1GR7mpMhsGvECxe8xu\nP0lW9GP1b4R7MQTyvmv+CI7N3wa3c8XF1A8FAUoWW8vBtLFQFH7QhLW3WWF2VaR1\nd70NV4vGhTnd+pOonP/qwK6Bx8O5iyyfAmApF/pbmFFusgs+YRpkeeHdduyGvFFd\nYemyGhpPKA/b2cfHvK9F5ipeRI5GPIK35cn+iUeEGvESFYfrOgrc7l/WE+cNfS4v\n28hAUZouCQmjJ70AmOg3t6GKKDkuflTGcqP3kGrz1WY23gMojQUPYFikspEO1OGD\nJGxp+gdrAgMBAAECggEAM6WJizmBXFCZYrK51b8FV4n3BFTFS6P/mtjtJ9ZM8pfy\nGHrKFdJpomGzw/RtG/mCI+GAi4Folpycu+De4xk3xDyyDKzVq5+cWNjymH8CVVrT\noUcv1gNwSekJllHD6PVwbJGVLmo9WJbRR0hn5HQZx5mz6KohnNKn907oOfcw+03z\nCO5UydJgSxMXUlXte8FuOvU0hX5d5TKf7NOSpfsiM/Dixhabq6KZwPE7wHis2CZY\nbMbcLsjeXUqCp/3nY0Mx+gUzUWMeJsxY9LIud6MfbUR0WZiX2kzrZ2tMmJjYnuIJ\nRccprbm6xZ9s37NS9yxkSq4MZxKgEt2PuiXNnoazgQKBgQDOPLe13KDHcHkfeKKO\nDKMy6GfoP+ahL5f1T2/jh6zcKOWIEg11AWchMBKCjrOcab9To63BV32tpueDFDUz\nf+79bhNdPnlU/CvaVkP/Ybrw+wdBdpyjmTpU0oThhn3Dz7cLkbiWE7wv3DoWknCn\nX7ejj5mbcj8SX42qhsWbmLQDwQKBgQDBm3pKsk300LpmSUiBLGwqRd7+8334Lcna\nmqN/7LWB04FKzLgeUuN59yrWL+SXZP+ByL2Divf1MTHfhGMpklJRAH7Qo1kgwuw7\nmHArX75YILYxeH26cRGqMb6ch/XlT+4zj6yTuYh3c6RjgaXwfNvN+Acc1NgVYbIV\n+GaCh97mKwKBgGWpxJ2ffpoRtYNwAiGn1SMZMW9pYJUAUxYX7H3qualld5BV5dBR\nura/bcBx+9QUxL3EJ7jxGgDqD6Gr6nXSkMrY4i7KxyC/lhZxA9/2GyMDe5YnlBuJ\nQxnhFKPfmktWL1NCqA1C+TdWhkPuOB4pruqvtPbNoI28EKeI/AwxgDuBAoGAbtxv\nl0woVXIb+iwmZ0kfmsktmsGktTLK7fE0hDDv8ipBU6qMF1kRRqqgjcsY0xQTNqbS\n1fsCZxVHYJz3BzvxBM8Kzr9qbtcO3EU6nauSW/ZHPWaoX9UU72bSpeE4jZlKZZ30\njRZlLTk7vXrkoSNt3bATqo+6N+wcRHZbhIz2tscCgYAd03KIDZXh0R3KiYaVMw5y\nfMlHTGzHsmRUWFepuEtF8Ee4mHrP4THok+1zN8YZVdfUQtDKSa/0U3D1PIjfnds/\nx69N18BenZxue2KA4+Fgrp3IVTfHtlWqNbGso99yYoHy4N7NJhpo4anDi5mlZR3/\n8LYYTbPquca+gAsxSqBoCQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "flightbooking@flights-af2e6.iam.gserviceaccount.com",
+  "client_id": "102804376744906449575",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flightbooking%40flights-af2e6.iam.gserviceaccount.com"
+}
