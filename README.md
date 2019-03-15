@@ -14,6 +14,13 @@ https://ngrok.com/download<br />
 
 * Goes to the diagflow and enable webhoook in the intention set the fullfil URL as per ngrok
 * python back2diag.py [port] : to initiate the backedn interation with the front end
+
+## FrontEnd Usage:
+* make sure you have nodejs installed in your system
+* cd chat-bot/chat-front-end
+* (Run this command only at the first time: ) npm install
+* npm start
+
 ## Resources:
 * Diagflow Basic Tutorial: <br />
   https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00 <br />
