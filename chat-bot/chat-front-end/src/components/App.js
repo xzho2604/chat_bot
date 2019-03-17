@@ -1,12 +1,4 @@
-import React, { Component } from 'react';
-import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } from 'react-chat-widget';
-
-import 'react-chat-widget/lib/styles.css';
-import logo from '../img/UNSW.png';
-import VideoItem from './testVideoComponent';
-import MusicItem from './testMusicComponent';
-
-import axios from 'axios';
+import React, { Component } from 'react'; import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } from 'react-chat-widget'; import 'react-chat-widget/lib/styles.css'; import logo from '../img/UNSW.png'; import VideoItem from './testVideoComponent'; import MusicItem from './testMusicComponent'; import axios from 'axios';
 class App extends Component {
     componentDidMount() {
         addResponseMessage("Hello! I'm your household butler, how can I help you?");
@@ -16,7 +8,7 @@ class App extends Component {
         console.log(`New message incoming! ${newMessage}`);
         // TODO insert codes here to fetch data from backend service apis.
 
-        axios.post('https://localhost:5000', {params: {query: newMessage}}).then(res => {
+        axios.post('http://localhost:5000/', {params: {query: newMessage}}).then(res => {
             console.log(res);
         });
 
