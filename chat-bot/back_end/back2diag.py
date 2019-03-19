@@ -19,7 +19,7 @@ import os
 from flask import Flask
 from flask import request
 from flask import make_response
-
+from flask import jsonify
 
 
 #============================================================================
@@ -50,13 +50,27 @@ session_id = 'first'  #API caller defined
 #============================================================================
 app = Flask(__name__)
 
+#return to the fron end json:id,text,type
 @app.route('/', methods=['POST'])
 #@app.route('/', methods=['GET'])
 def backend():
     print("I am here ==================")
-    #req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-    print(request)
-    return "hello out"
+    #extrac the relevant parametrs
+    req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    params = req['params']
+    object_id= params['ObjectID']
+    query = params['query']
+
+    print(query)
+    res= {
+        'params': 
+            {'ObjectID': object_id, 'query': query}
+    }
+
+    res = json.dumps(res)
+
+    print("the response is" ,res)
+    return jsonify(res) 
 
 if __name__ == '__main__':
     app.run()
