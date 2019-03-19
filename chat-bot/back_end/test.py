@@ -20,21 +20,11 @@ from  api_service.weather_api import *
 app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
-def webhook():
-    req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-
-    print("Request:")
-    #print(json.dumps(req, indent=4)) #print out the hierachy of python dict in json format
-
-    res = processRequest(req)
-
-    res = json.dumps(res, indent=4)
-    r = make_response(res)
-    r.headers['Content-Type'] = 'application/json'
-    return r
-
+#@app.route('/', methods=['GET'])
+def test():
+    print("I am here ==================")
+    print(request)
+    return "hello out"
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    print("Starting app on port %d" % port)
-    app.run(debug=True, port=port, host='127.0.0.1')
+    app.run()

@@ -38,5 +38,6 @@
 14/03:
     Figure out how backend talk to the front end using tcp socket ,so that backend could talk to the front end diretly and         send client enquiries to the dialogflow api and get fullfillment.
     
-    
+17/03/:
+    find out the how the backend could communicat with the fornt end through http request 
     

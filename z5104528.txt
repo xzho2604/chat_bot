@@ -18,6 +18,10 @@ week3:
   Complete the background & timeline part of the proposal report.
 
   Investigate the openweather API and implement a simple calling based on python http.
+
+week4:
+
+  Read the docments of spotify api and dialogflow.
 	
 
 
