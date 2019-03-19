@@ -24,6 +24,9 @@ class App extends Component {
                 query: newMessage
             }}).then(res => {
             console.log(res);
+            if (res.type === 'text') {
+                addResponseMessage(res.res);
+            }
         });
         // should return the exact objectID as front-end passed.
         // backendAPI.post(':3000', {
@@ -52,8 +55,6 @@ class App extends Component {
             renderCustomComponent(
                 MusicItem, null, true
             )
-        } else {
-            addResponseMessage("Simply reply some text.");
         }
     };
 
