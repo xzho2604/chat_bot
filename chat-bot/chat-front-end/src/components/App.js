@@ -7,6 +7,8 @@ import VideoItem from './testVideoComponent';
 import MusicItem from './testMusicComponent';
 
 import axios from 'axios';
+
+import backendAPI from '../apis/BackEndApi';
 class App extends Component {
     componentDidMount() {
         addResponseMessage("Hello! I'm your household butler, how can I help you?");
@@ -15,14 +17,20 @@ class App extends Component {
     handleNewUserMessage = (newMessage) => {
         console.log(`New message incoming! ${newMessage}`);
         // TODO insert codes here to fetch data from backend service apis.
-
-        axios.post('https://localhost:5000', {params: {query: newMessage}}).then(res => {
+        //
+        axios.post(' http://localhost:5000/', {params: {query: newMessage}}).then(res => {
             console.log(res);
         });
+        // should return the exact objectID as front-end passed.
+        // backendAPI.post(':3000', {
+        //     params: {
+        //         objectID: 'TEST',
+        //         query: newMessage
+        //     }
+        // });
 
         if (newMessage === 'video') {
             addResponseMessage("This is a test for video");
-
             renderCustomComponent(
                 VideoItem, null, true
             )
