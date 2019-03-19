@@ -60,13 +60,10 @@ def backend():
     params = req['params']
     object_id= params['ObjectID']
     query = params['query']
+    
 
     print(query)
-    res= {
-        'params': 
-            {'ObjectID': object_id, 'query': query}
-    }
-
+    res=  {'ObjectID': object_id, 'res': query,'type':'text'}
     res = json.dumps(res)
 
     print("the response is" ,res)

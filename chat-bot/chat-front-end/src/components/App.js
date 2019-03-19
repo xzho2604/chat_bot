@@ -25,6 +25,7 @@ class App extends Component {
             }}).then(res => {
             console.log(res);
             if (res.type === 'text') {
+                console.log(res.res);
                 addResponseMessage(res.res);
             }
         });
