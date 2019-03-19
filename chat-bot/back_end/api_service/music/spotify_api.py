@@ -16,6 +16,7 @@ def get_artist(name):
     results = sp.search(q='artist:' + name, type='artist')
     items = results['artists']['items']
     if len(items) > 0:
+        print(items[0])
         return items[0]
     else:
         return None
@@ -24,7 +25,9 @@ def get_artist(name):
 def show_artist_albums(artist):
     albums = []
     results = sp.artist_albums(artist['id'], album_type='album')
+    print(results)
     albums.extend(results['items'])
+    print(albums)
     while results['next']:
         results = sp.next(results)
         albums.extend(results['items'])
