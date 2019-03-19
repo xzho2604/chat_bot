@@ -1,4 +1,14 @@
-import React, { Component } from 'react'; import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } from 'react-chat-widget'; import 'react-chat-widget/lib/styles.css'; import logo from '../img/UNSW.png'; import VideoItem from './testVideoComponent'; import MusicItem from './testMusicComponent'; import axios from 'axios';
+import React, { Component } from 'react';
+import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } from 'react-chat-widget';
+
+import 'react-chat-widget/lib/styles.css';
+import logo from '../img/UNSW.png';
+import VideoItem from './testVideoComponent';
+import MusicItem from './testMusicComponent';
+
+import axios from 'axios';
+
+import backendAPI from '../apis/BackEndApi';
 class App extends Component {
     componentDidMount() {
         addResponseMessage("Hello! I'm your household butler, how can I help you?");
@@ -15,10 +25,16 @@ class App extends Component {
             }}).then(res => {
             console.log(res);
         });
+        // should return the exact objectID as front-end passed.
+        // backendAPI.post(':3000', {
+        //     params: {
+        //         objectID: 'TEST',
+        //         query: newMessage
+        //     }
+        // });
 
         if (newMessage === 'video') {
             addResponseMessage("This is a test for video");
-
             renderCustomComponent(
                 VideoItem, null, true
             )
