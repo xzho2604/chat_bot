@@ -23,10 +23,10 @@ class App extends Component {
                 ObjectID: "TESTID", 
                 query: newMessage
             }}).then(res => {
-            console.log(res);
-            if (res.type === 'text') {
-                console.log(res.res);
-                addResponseMessage(res.res);
+                let r = JSON.parse(res.data);
+            console.log(r);
+            if (r.type === 'text') {
+                addResponseMessage(r.res);
             }
         });
         // should return the exact objectID as front-end passed.
