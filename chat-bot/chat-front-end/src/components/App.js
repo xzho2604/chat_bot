@@ -24,8 +24,8 @@ class App extends Component {
                 query: newMessage
             }}).then(res => {
             console.log(res);
-            if (res.type === 'text') {
-                addResponseMessage(res.res);
+            if (res.data.type === 'text') {
+                addResponseMessage(res.data.res);
             }
         });
         // should return the exact objectID as front-end passed.
