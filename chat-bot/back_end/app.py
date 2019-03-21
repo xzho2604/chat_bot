@@ -14,7 +14,7 @@ from flask import request
 from flask import make_response
 
 #import third party services apis functions
-from  api_service.weather_api import *
+from  api_service.weather.weather_api import *
 
 # Flask app should start in global layout
 app = Flask(__name__)

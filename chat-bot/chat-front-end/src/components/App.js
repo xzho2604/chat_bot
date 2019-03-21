@@ -24,7 +24,6 @@ class App extends Component {
                 query: newMessage
             }}).then(res => {
                 let r = JSON.parse(res.data);
-            console.log(r);
             if (r.type === 'text') {
                 addResponseMessage(r.res);
             }
