@@ -18,17 +18,17 @@ class App extends Component {
         console.log(`New message incoming! ${newMessage}`);
         // TODO insert codes here to fetch data from backend service apis.
 
-        axios.post('http://localhost:5000/', {
-            params: {
-                ObjectID: "TESTID", 
-                query: newMessage
-            }}).then(res => {
-            console.log(res);
-            let r = JSON.parse(res.data);
-            if (r.type === 'text') {
-                addResponseMessage(r.res);
-            }
-        });
+        // axios.post('http://localhost:5000/', {
+        //     params: {
+        //         ObjectID: "TESTID",
+        //         query: newMessage
+        //     }}).then(res => {
+        //         console.log(res);
+        //         let r = JSON.parse(res.data);
+        //         if (r.type === 'text') {
+        //             addResponseMessage(r.res);
+        //         }
+        //     });
         // should return the exact objectID as front-end passed.
         // backendAPI.post(':3000', {
         //     params: {

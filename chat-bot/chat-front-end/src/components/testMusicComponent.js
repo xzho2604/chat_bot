@@ -6,11 +6,12 @@ const videoItem = () => {
         <div>
             <iframe
                 src={url}
-                title="TEST"
-                frameborder="0"
+                width="300"
+                height="380"
+                frameBorder="0"
                 allowtransparency="true"
                 allow="encrypted-media"
-            />
+                title="test"/>
         </div>
     )
 };
