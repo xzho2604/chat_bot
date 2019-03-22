@@ -5,7 +5,8 @@ import 'react-chat-widget/lib/styles.css';
 import logo from '../img/UNSW.png';
 import VideoItem from './VideoComponent';
 import MusicItem from './MusicComponent';
-
+import WeatherItem from './WeatherItem';
+import LoginItem from './LoginItem';
 import axios from 'axios';
 
 import backendAPI from '../apis/BackEndApi';
@@ -16,6 +17,12 @@ class App extends Component {
 
     handleNewUserMessage = (newMessage) => {
         console.log(`New message incoming! ${newMessage}`);
+        let itemDict = {
+            music: MusicItem,
+            video: VideoItem,
+            weather: WeatherItem,
+            login: LoginItem
+        };
         // TODO insert codes here to fetch data from backend service apis.
 
         // axios.post('http://localhost:5000/', {
@@ -36,37 +43,52 @@ class App extends Component {
         //         query: newMessage
         //     }
         // });
+
+    // else if (newMessage === 'link') {
+    //         //Render Link
+    //         addResponseMessage("This is a test for link");
+    //
+    //         addLinkSnippet( {
+    //             title: 'My awesome link',
+    //             link: 'https://dialogflow.com',
+    //             // target: '_blank'
+    //         });
+    //     }
+
+        let item;
+        ////////////////////////////////
+        //This is a fake data generate part.
         if (newMessage === 'video') {
             //Render Video Item
             addResponseMessage("This is a test for video");
-            let videoItem = {
+            item = {
                 url: 'https://www.youtube.com/embed/0LHxvxdRnYc'
             };
-            renderCustomComponent(
-                VideoItem, videoItem, true
-            )
-        } else if (newMessage === 'link') {
-            //Render Link
-            addResponseMessage("This is a test for link");
-
-            addLinkSnippet( {
-                title: 'My awesome link',
-                link: 'https://dialogflow.com',
-                // target: '_blank'
-            });
-        } else if (newMessage === 'music') {
+        }  else if (newMessage === 'music') {
             //Render music item
             addResponseMessage("This is a test for music player.");
             // A tester for music widget
-            let musicInfo = {
+            item = {
                 type: 'album',
                 url: 'https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3',
                 title: 'album'
             };
-            renderCustomComponent(
-                MusicItem, musicInfo, true
-            )
+        } else if (newMessage === 'weather') {
+            addResponseMessage("This is a test for weather widget.");
+            item = {
+                time: '16:00 PM 19/01/2019',
+                weather: 'Sunny'
+            };
+        } else if (newMessage === 'login') {
+            addResponseMessage("This is a test for login widget.");
+            item = {
+                info: "whatever"
+            };
         }
+        /////////////////////////////////////////
+        renderCustomComponent(
+            itemDict[newMessage], item, true
+        )
     };
 
     render() {
