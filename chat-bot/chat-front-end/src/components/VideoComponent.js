@@ -1,11 +1,10 @@
 import React from 'react';
 
-const videoItem = () => {
-    const url = 'https://www.youtube.com/embed/0LHxvxdRnYc';
+const videoItem = (item) => {
     return (
         <div>
             <iframe
-                src={url}
+                src={item.url}
                 title="TEST"
                 allowFullScreen="allowFullScreen"
             />
