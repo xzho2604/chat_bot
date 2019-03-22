@@ -38,7 +38,15 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
         text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
         query_input = dialogflow.types.QueryInput(text=text_input)
         response = session_client.detect_intent(session=session, query_input=query_input)
-        
+        intent = response.query_result.intent.display_name
+        action  = response.query_result.action
+        param = response.query_result.parameters
+
+        print("the intent name is:",intent)
+        print("the action is",action)
+        for p in param:
+            print("the para is" ,p, param[p])
+
         print('Fulfillment text: {}\n'.format(response.query_result.fulfillment_text))
         return response.query_result.fulfillment_text
         #print(response)
@@ -48,6 +56,7 @@ project_id = 'weather-f22a9'
 session_id = 'first'  #API caller defined
 
 #============================================================================
+'''
 app = Flask(__name__)
 
 #return to the fron end json:id,text,type
@@ -55,18 +64,15 @@ app = Flask(__name__)
 #@app.route('/', methods=['GET'])
 def backend():
     print("I am here ==================")
-    #extrac the relevant parametrs
+    #extrac the relevant parametrs from the front end 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
     params = req['params']
     object_id= params['ObjectID']
     query = params['query']
-
     print(query)
-    res= {
-        'params': 
-            {'ObjectID': object_id, 'query': query}
-    }
-
+    
+    fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':'text'}
     res = json.dumps(res)
 
     print("the response is" ,res)
@@ -75,12 +81,12 @@ def backend():
 if __name__ == '__main__':
     app.run()
 
+'''
 
 
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
-'''
 args = sys.argv[1:] #python 8888 5555
 ip =  "127.0.0.1"
 port = int(args[0])
@@ -99,7 +105,7 @@ with conn:
             print("received:",data.decode())
             #pass the user text to the dialogflow api
             fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
+            print(fullfill_text)
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
-'''
 
