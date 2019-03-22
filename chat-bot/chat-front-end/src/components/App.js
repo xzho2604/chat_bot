@@ -3,8 +3,8 @@ import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } fro
 
 import 'react-chat-widget/lib/styles.css';
 import logo from '../img/UNSW.png';
-import VideoItem from './testVideoComponent';
-import MusicItem from './testMusicComponent';
+import VideoItem from './VideoComponent';
+import MusicItem from './MusicComponent';
 
 import axios from 'axios';
 
@@ -36,13 +36,17 @@ class App extends Component {
         //         query: newMessage
         //     }
         // });
-
         if (newMessage === 'video') {
+            //Render Video Item
             addResponseMessage("This is a test for video");
+            let videoItem = {
+                url: 'https://www.youtube.com/embed/0LHxvxdRnYc'
+            };
             renderCustomComponent(
-                VideoItem, null, true
+                VideoItem, videoItem, true
             )
         } else if (newMessage === 'link') {
+            //Render Link
             addResponseMessage("This is a test for link");
 
             addLinkSnippet( {
@@ -51,10 +55,16 @@ class App extends Component {
                 // target: '_blank'
             });
         } else if (newMessage === 'music') {
+            //Render music item
             addResponseMessage("This is a test for music player.");
-
+            // A tester for music widget
+            let musicInfo = {
+                type: 'album',
+                url: 'https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3',
+                title: 'album'
+            };
             renderCustomComponent(
-                MusicItem, null, true
+                MusicItem, musicInfo, true
             )
         }
     };
