@@ -3,12 +3,13 @@ import sys
 import spotipy
 import json
 
+
 ''' main function to call the spotify api
 
     last updated time :
     21/03/2019
 '''
-
+filename = '/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
 def  get_access_token(filename):
     file = open(filename)
     try:
@@ -16,6 +17,10 @@ def  get_access_token(filename):
     finally:
         file.close()
     return token
+
+#initialisation of token
+token = get_access_token(filename)
+sp = spotipy.Spotify(auth = token)
 
 # get the basic jason file of the artist
 def get_artist(name):
@@ -28,7 +33,10 @@ def get_artist(name):
         return None
 
 # random  get one or several recommended songs name and url by search artist[id]
-def show_recommendations_for_artist(name):
+#take in a request from the dialogflow and parse to take out the artist name parame and return a jason with recommened song
+def show_recommendations_for_artist(req):
+
+    name = city = req["queryResult"]["parameters"]["artist"][0]
     artist = get_artist(name)
     content = []
     results = sp.recommendations(seed_artists = [artist['id']])
@@ -39,7 +47,9 @@ def show_recommendations_for_artist(name):
             external_url = track['external_urls']['spotify'].replace('com', 'com/embed')
             #print(track['name'], '-', track['artists'][0]['name'])
             content.append({'name': track['name'], 'url': external_url, 'artist_name': track['artists'][0]['name']})
-    data = json.dumps({'type': 'track', 'contents': content})
+    #data = json.dumps({'type': 'track', 'contents': content})
+    data = {'type': 'track', 'contents': content}
+
     print(data)
     return data
 

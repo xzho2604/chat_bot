@@ -15,6 +15,7 @@ from flask import make_response
 
 #import third party services apis functions
 from  api_service.weather.weather_api import *
+from  api_service.music.spotify_api import *
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -37,9 +38,29 @@ def webhook():
 def processRequest(req):
     print ("starting processRequest...",req.get("queryResult").get("action"))
     action = req.get("queryResult").get("action") 
-    
+
+    print("the action now is :",action) 
+
     if action == "weather": #perform weather service
         result = weather_service(req) #call the weather service
+    elif action == "flight.book":
+        print("now i the flight")
+        result = {
+            "fulfillmentText": "flight booked Done!",
+            "source": "sky"
+        }
+    elif action == "music.play":
+        print("now in music")
+        result = show_recommendations_for_artist(req)
+        print("the returned content:",result["contents"],type(result["contents"]))
+        music_name = result["contents"][0]["name"]
+        url = result["contents"][0]["url"]
+        result = {
+            "fulfillmentText": url,
+            "source": "spotify"
+        }
+
+
     else:
         print ("Please check your action name in DialogFlow...")
         return {}
