@@ -14,4 +14,15 @@ We also had a little play on the diaflow web demo and discovered some prebuilt i
 
 
 Week 3
-Read a lot of documentations and apis about dialogflow and react.
+Read documentations and apis about dialogflow and react. Built a prototype of the chat-bot interface.
+
+Week 4
+Improving the chat-bot interface, it can now deal with the text input, and the function of different output (text, video(Youtube), music(spotify), hyperlink) was done.
+
+Week 5
+Modulation of the video and music component, made it easier to use.
+Configured the communication between front-end and back-end.
+Provide a sample return data object for front-end rendering.
+
+Week 6
+Read documentations about authentication protocol at front-end side and how it pass to the back-end.
