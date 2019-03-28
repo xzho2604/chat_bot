@@ -40,4 +40,7 @@
     
 17/03/:
     find out the how the backend could communicat with the fornt end through http request 
+
+21/07:
+    connected with the musica api and the configured chat bot with music weather and flight booking functions
     
