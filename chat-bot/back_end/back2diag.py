@@ -48,7 +48,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
             print("the para is" ,p, param[p])
 
         print('Fulfillment text: {}\n'.format(response.query_result.fulfillment_text))
-        return response.query_result.fulfillment_text
+        return action ,response.query_result.fulfillment_text
         #print(response)
 
 #get the project id from google cloud of the dialogflow agent
@@ -56,7 +56,6 @@ project_id = 'weather-f22a9'
 session_id = 'first'  #API caller defined
 
 #============================================================================
-'''
 app = Flask(__name__)
 
 #return to the fron end json:id,text,type
@@ -64,6 +63,7 @@ app = Flask(__name__)
 #@app.route('/', methods=['GET'])
 def backend():
     print("I am here ==================")
+    type_name = "" #name of the returned action
     #extrac the relevant parametrs from the front end 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
     params = req['params']
@@ -71,8 +71,9 @@ def backend():
     query = params['query']
     print(query)
     
-    fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
-    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':'text'}
+    action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+
+    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':action}
     res = json.dumps(res)
 
     print("the response is" ,res)
@@ -82,8 +83,6 @@ if __name__ == '__main__':
     app.run()
 
 '''
-
-
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
@@ -108,4 +107,4 @@ with conn:
             print(fullfill_text)
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
-
+'''
