@@ -5,6 +5,7 @@ import httplib2
 import requests
 from requests.auth import HTTPDigestAuth
 import json
+import xmltodict
 
 URL = "http://api.openweathermap.org/data/2.5"
 
@@ -30,6 +31,35 @@ def get_weather(city_name):
     print('The weather now in ' + city_name + ' is ' + weather)
     return weather
 
+def get_forecast(city_name, day):
+
+    url = URL + '/forecast?q=' + city_name + '&' + 'APPID=' + api_key + '&' + 'mode=xml'
+    print(url)
+    http = httplib2.Http()
+    content_type_header = "application/xml"
+
+    headers = {'Content-Type': content_type_header}
+    response, content = http.request(url,
+                                     'GET',
+                                     headers=headers)
+    xmlparse = xmltodict.parse(content)
+
+    if day == 'today':
+        interval = 8
+    elif day == 'tomorrow':
+        interval = 16
+    elif day == 'the day aftertomorrow':
+        interval = 24
+
+    # for i in range (len(xmlparse['weatherdata']['forecast']['time'])):
+    #     print('time from', xmlparse['weatherdata']['forecast']['time'][i]['@from']
+    #           ,xmlparse['weatherdata']['forecast']['time'][i]['@to'],'time to')
+    #
+    #     print(xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name'])
+
+    print(day + ' weather ' + 'in ' + city_name + ' is ' + xmlparse['weatherdata']['forecast']['time'][interval]['symbol']['@name'])
+
+
 #return the client requery result
 def weather_service(req):
     city = req["queryResult"]["parameters"]["address"]["city"]
@@ -50,3 +80,4 @@ def weather_service(req):
 if __name__=="__main__":
     print("main")
     get_weather(city_name)
+    get_forecast(city_name, 'tomorrow')
