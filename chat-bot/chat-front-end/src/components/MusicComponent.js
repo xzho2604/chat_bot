@@ -22,6 +22,8 @@ const musicItem = (item) => {
                 <iframe
                     src={item.url}
                     frameBorder="0"
+                    width="300"
+                    height="80"
                     allowtransparency="true"
                     allow="encrypted-media"
                     title={item.title}/>

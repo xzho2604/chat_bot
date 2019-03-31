@@ -13,6 +13,7 @@ import backendAPI from '../apis/BackEndApi';
 class App extends Component {
     componentDidMount() {
         addResponseMessage("Hello! I'm your household butler, how can I help you?");
+        console.log(process.argv);
     }
 
     handleNewUserMessage = (newMessage) => {
@@ -36,60 +37,61 @@ class App extends Component {
         //             addResponseMessage(r.res);
         //         }
         //     });
-        // should return the exact objectID as front-end passed.
-        // backendAPI.post(':3000', {
-        //     params: {
-        //         objectID: 'TEST',
-        //         query: newMessage
-        //     }
-        // });
 
-    // else if (newMessage === 'link') {
-    //         //Render Link
-    //         addResponseMessage("This is a test for link");
-    //
-    //         addLinkSnippet( {
-    //             title: 'My awesome link',
-    //             link: 'https://dialogflow.com',
-    //             // target: '_blank'
-    //         });
-    //     }
+        if (newMessage === 'link') {
+            //Render Link
+            addResponseMessage("This is a test for link");
 
-        let item;
-        ////////////////////////////////
-        //This is a fake data generate part.
-        if (newMessage === 'video') {
-            //Render Video Item
-            addResponseMessage("This is a test for video");
-            item = {
-                url: 'https://www.youtube.com/embed/0LHxvxdRnYc'
-            };
-        }  else if (newMessage === 'music') {
-            //Render music item
-            addResponseMessage("This is a test for music player.");
-            // A tester for music widget
-            item = {
-                type: 'album',
-                url: 'https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3',
-                title: 'album'
-            };
-        } else if (newMessage === 'weather') {
-            addResponseMessage("This is a test for weather widget.");
-            item = {
-                time: '16:00 PM 19/01/2019',
-                weather: 'Sunny'
-            };
-        } else if (newMessage === 'login') {
-            addResponseMessage("This is a test for login widget.");
-            item = {
-                info: "whatever"
-            };
+            addLinkSnippet( {
+                title: 'My awesome link',
+                link: 'https://dialogflow.com',
+                // target: '_self'
+                // target = self for jumping at the same page, target = _blank for jumping in the new page
+            });
+        } else if (newMessage === 'text') {
+            addResponseMessage("This is a test for text");
+        } else {
+            let item;
+            ////////////////////////////////
+            //This is a fake data generate part.
+            if (newMessage === 'video') {
+                //Render Video Item
+                addResponseMessage("This is a test for video");
+                item = {
+                    url: 'https://www.youtube.com/embed/0LHxvxdRnYc'
+                };
+            }  else if (newMessage === 'music') {
+                //Render music item
+                addResponseMessage("This is a test for music player.");
+                // A tester for music widget
+                item = {
+                    type: 'album',
+                    url: 'https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3',
+                    title: 'album'
+                };
+                // item = {
+                //     type: "track",
+                //     url: "https://open.spotify.com/embed/track/623pmkD6sclgLBQrrPqyz4",
+                //     title: 'test'
+                // };
+            } else if (newMessage === 'weather') {
+                addResponseMessage("This is a test for weather widget.");
+                item = {
+                    time: '16:00 PM 19/01/2019',
+                    weather: 'Sunny'
+                };
+            } else if (newMessage === 'login') {
+                addResponseMessage("This is a test for login widget.");
+                item = {
+                    info: "whatever"
+                };
+            }
+            /////////////////////////////////////////
+            renderCustomComponent(
+                itemDict[newMessage], item, true
+            )
         }
-        /////////////////////////////////////////
-        renderCustomComponent(
-            itemDict[newMessage], item, true
-        )
-    };
+    }
 
     render() {
         return (
