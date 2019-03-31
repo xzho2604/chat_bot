@@ -20,6 +20,10 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
+#music webhook fullfill is disabled process from the backedn
+from api_service.music.spotify_api import *
+
+
 
 
 #============================================================================
@@ -30,11 +34,11 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account_key/weather_key.
 #function to pass input and get back the response
 def detect_intent_texts(project_id, session_id, texts, language_code):
     session_client = dialogflow.SessionsClient()
-
     session = session_client.session_path(project_id, session_id)
     print('Session path: {}\n'.format(session))
 
     for text in texts:
+        #extract parametres from the response
         text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
         query_input = dialogflow.types.QueryInput(text=text_input)
         response = session_client.detect_intent(session=session, query_input=query_input)
@@ -42,13 +46,16 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
         action  = response.query_result.action
         param = response.query_result.parameters
 
+
         print("the intent name is:",intent)
         print("the action is",action)
+
+
         for p in param:
-            print("the para is" ,p, param[p])
+            print("the para is" ,p,"with:", param[p])
 
         print('Fulfillment text: {}\n'.format(response.query_result.fulfillment_text))
-        return action ,response.query_result.fulfillment_text
+        return param, action ,response.query_result.fulfillment_text
         #print(response)
 
 #get the project id from google cloud of the dialogflow agent
@@ -56,8 +63,8 @@ project_id = 'weather-f22a9'
 session_id = 'first'  #API caller defined
 
 #============================================================================
+'''
 app = Flask(__name__)
-
 #return to the fron end json:id,text,type
 @app.route('/', methods=['POST'])
 #@app.route('/', methods=['GET'])
@@ -72,6 +79,9 @@ def backend():
     print(query)
     
     action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    if(action == "music.play"):
+        if(params["song"]):
+           #To do 
 
     res=  {'ObjectID': object_id, 'res': fullfill_text,'type':action}
     res = json.dumps(res)
@@ -81,7 +91,6 @@ def backend():
 
 if __name__ == '__main__':
     app.run()
-
 '''
 #============================================================================
 #socket version
@@ -102,9 +111,24 @@ with conn:
         data = conn.recv(1024)
         if data: #if there is any data from the front end
             print("received:",data.decode())
+
             #pass the user text to the dialogflow api
-            fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
-            print(fullfill_text)
+            #music_flag if there is conent stores the parametres
+            param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
+            print("action:",action)
+            print("fullfilltext:",fullfill_text)
+
+            if(action == "music.play"): #process the parametre and pass to backend
+                if(param['song']):
+                    fullfill_text= request_song(param['song'])
+                elif(param['artist']):
+                    fullfill_text = show_recommendations_for_artist(param['artist'])
+                elif(param['album']):
+                    fullfill_text = param['album'] #need to add api for album
+                fullfill_text = json.dumps(fullfill_text) #stringify as json 
+            print(fullfill_text,type(fullfill_text))
+
+
+
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
-'''

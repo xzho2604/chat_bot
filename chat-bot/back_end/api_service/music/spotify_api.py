@@ -34,9 +34,7 @@ def get_artist(name):
 
 # random  get one or several recommended songs name and url by search artist[id]
 #take in a request from the dialogflow and parse to take out the artist name parame and return a jason with recommened song
-def show_recommendations_for_artist(req):
-
-    name = city = req["queryResult"]["parameters"]["artist"][0]
+def show_recommendations_for_artist(name):
     artist = get_artist(name)
     content = []
     results = sp.recommendations(seed_artists = [artist['id']])
@@ -50,7 +48,7 @@ def show_recommendations_for_artist(req):
     #data = json.dumps({'type': 'track', 'contents': content})
     data = {'type': 'track', 'contents': content}
 
-    print(data)
+    #print(data)
     return data
 
 # show all the albums of the artist
@@ -74,20 +72,21 @@ def show_artist_albums(name):
         if name not in seen:
             #print((' ' + name))
             seen.add(name)
-    data = json.dumps({'type': 'album', 'contents': content})
-    print(data)
+    data = {'type': 'album', 'contents': content}
+    #print(data)
     return data
 
+#given song name return artist name,url,album
 def request_song(track):
     content = []
     results = sp.search(q='track:' + track, type='track')
     items = results['tracks']['items']
     data = items[0]['artists'][0]['external_urls']['spotify']
-    print(items[0]['artists'][0]['name'])
     content.append({'name': items[0]['name'], 'url': items[0]['artists'][0]['external_urls']['spotify'],
                     'artist_name': items[0]['artists'][0]['name']})
-    data = json.dumps({'type': 'track', 'contents': content})
-    print(data)
+    data = {'type': 'track', 'contents': content}
+    #print(data)
+    return data
 
 
 if __name__ == '__main__':

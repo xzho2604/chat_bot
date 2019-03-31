@@ -51,13 +51,13 @@ def get_forecast(city_name, day):
     elif day == 'the day aftertomorrow':
         interval = 24
 
-    # for i in range (len(xmlparse['weatherdata']['forecast']['time'])):
-    #     print('time from', xmlparse['weatherdata']['forecast']['time'][i]['@from']
-    #           ,xmlparse['weatherdata']['forecast']['time'][i]['@to'],'time to')
-    #
-    #     print(xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name'])
+    for i in range (len(xmlparse['weatherdata']['forecast']['time'])):
+         print('time from', xmlparse['weatherdata']['forecast']['time'][i]['@from']
+               ,xmlparse['weatherdata']['forecast']['time'][i]['@to'],'time to')
+    
+         print(xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name'])
 
-    print(day + ' weather ' + 'in ' + city_name + ' is ' + xmlparse['weatherdata']['forecast']['time'][interval]['symbol']['@name'])
+    #print(day + ' weather ' + 'in ' + city_name + ' is ' + xmlparse['weatherdata']['forecast']['time'][interval]['symbol']['@name'])
 
 
 #return the client requery result
