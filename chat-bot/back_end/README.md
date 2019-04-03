@@ -18,9 +18,9 @@ By intention there are currently the following types:
 The form of the data structure returned in fullfill_text convinient for front end processing
 *  music.play: <br/>
     * A single song
-```javascript
-{"type": "track", "contents": [{"name": "Armed And Dangerous", "url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]}
-```
+    ```javascript
+    {"type": "track", "contents": [{"name": "Armed And Dangerous",                 "url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]}
+    ```
 <br/>
     * An album <br/>
 
