@@ -1,5 +1,3 @@
-#Python 2.7.6
-#RestfulClient.py
 
 import httplib2
 import requests
@@ -63,7 +61,6 @@ def get_forecast(req):
 
     print(ret_dict)
     return ret_dict
-
 
 #return the client requery result
 def weather_service(req):

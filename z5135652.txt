@@ -26,3 +26,9 @@ Provide a sample return data object for front-end rendering.
 
 Week 6
 Read documentations about authentication protocol at front-end side and how it pass to the back-end.
+
+Week 7
+Designing the Weather UI for user calling weather function, examined and discussed some designs in pinteres, Iphone application, etc. Discussed about the data formation for weather function.
+
+Week 8
+Implemented the Weather UI.
