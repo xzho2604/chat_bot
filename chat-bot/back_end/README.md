@@ -27,8 +27,9 @@ The form of the data structure returned in fullfill_text convinient for front en
 
 
 
-* weather: 
+* weather: 5 day weather forcast including today , city will contain the city being enquired
 ```javascript
 {"wed": "scattered clouds", "thu": "light rain", "fri": "scattered clouds", "sat": "light rain", "sun": "clear sky", "city": "Sydney"}
 ```
-* flight.book: "done flight booking!"
+* flight.book: it will be just a confirmation string</ br>
+"done flight booking!"
