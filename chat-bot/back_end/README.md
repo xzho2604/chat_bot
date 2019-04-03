@@ -22,9 +22,10 @@ The form of the data structure returned in fullfill_text convinient for front en
     {"type": "track", "contents": [{"name": "Armed And Dangerous","url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]}
     ```
     * An album <br/>
-
-
-
+    ```javascrip
+    {'type': 'album', 'contents': [{'name': 'Dangerous Woman', 'url':'https://open.spotify.com/embed/album/3OZgEywV4krCZ814pTJWr7', 'artist_name': 'Ariana Grande'}]}
+    ```
+    <br />
 
 
 * weather: 5 day weather forcast including today , city will contain the city being enquired
