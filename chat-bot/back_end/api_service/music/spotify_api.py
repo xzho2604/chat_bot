@@ -9,7 +9,7 @@ import json
     last updated time :
     21/03/2019
 '''
-filename = '/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
+filename = './web-api-auth/authorization_code/auth_token.txt'
 def  get_access_token(filename):
     file = open(filename)
     try:
@@ -76,6 +76,34 @@ def show_artist_albums(name):
     #print(data)
     return data
 
+def get_artist_albums(artist_name, album_name):
+    if artist_name == None:
+        request_album(album_name)
+    else:
+        artist = get_artist(artist_name)
+        content = []
+        albums = []
+        results = sp.artist_albums(artist['id'], album_type='album')
+        #print('+++++++results+++++++++',results)
+        albums.extend(results['items'])
+        while results['next']:
+            results = sp.next(results)
+            albums.extend(results['items'])
+        seen = set()  # to avoid dups
+        albums.sort(key=lambda album: album['name'].lower())
+        #print('+++++albums+++++', albums)
+        for album in albums:
+            if album['name'] == album_name:
+                external_url = album['external_urls']['spotify'].replace('com', 'com/embed')
+                content.append({'name': album['name'], 'url': external_url, 'artist_name': album['artists'][0]['name']})
+                name = album['name']
+            if name not in seen:
+                #print((' ' + name))
+                seen.add(name)
+            data = {'type': 'album', 'contents': content}
+            #print(data)
+            return data
+
 #given song name return artist name,url,album
 def request_song(track):
     content = []
@@ -88,6 +116,18 @@ def request_song(track):
     #print(data)
     return data
 
+def request_album(album):
+    content = []
+    results = sp.search(q='album:' + album, type='track')
+    items = results['tracks']['items']
+    # print(items[0])
+    data = items[0]['artists'][0]['external_urls']['spotify']
+    external_url = items[0]["album"]['external_urls']['spotify'].replace('com', 'com/embed')
+    content.append({'name': items[0]['album']['name'], 'url': external_url,
+                    'artist_name': items[0]['artists'][0]['name']})
+    data = {'type': 'album', 'contents': content}
+    print(data)
+    return data
 
 if __name__ == '__main__':
 
@@ -96,13 +136,13 @@ if __name__ == '__main__':
     sp = spotipy.Spotify(auth = token)
 
     # test 1
-    request_song('Dangerous')
+    request_album('Dangerous')
 
-    name = 'michael jackson'
-    if name:
-        # test2
-        show_artist_albums(name)
-        # test3
-        show_recommendations_for_artist(name)
-    else:
-        print("Can't find that artist")
+    # name = 'michael jackson'
+    # if name:
+    #     # test2
+    #     show_artist_albums(name)
+    #     # test3
+    #     show_recommendations_for_artist(name)
+    # else:
+    #     print("Can't find that artist")
