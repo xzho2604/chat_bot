@@ -1,8 +1,8 @@
 # Backend 2 Front End Communication API
 
 ## Communication protocal
-* back end to the front end will return a jasnified string of the form: \>
- {'ObjectID': object_id, 'res': fullfill_text,'type':action}
+* back end to the front end will return a jasnified string of the form: />
+ {'ObjectID': object_id, 'res': fullfill_text,'type':action}  />
 where the Object ID is the ID from the front end and res will contain the response data structure , type is the actual action of the intent
 
 ## Type
