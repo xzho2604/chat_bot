@@ -14,9 +14,9 @@ By intention there are currently the following types:
 ## Fullfill_text
 The form of the data structure returned in fullfill_text convinient for front end processing
 * music.play: <br/>
-** a single song
+..* A single song
 {"type": "track", "contents": [{"name": "Armed And Dangerous", "url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]} <br />
-** a album <br/>
+..* An album <br/>
 
 
 
