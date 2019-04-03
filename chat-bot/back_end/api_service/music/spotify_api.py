@@ -9,7 +9,7 @@ import json
     last updated time :
     21/03/2019
 '''
-filename = './web-api-auth/authorization_code/auth_token.txt'
+filename ='/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
 def  get_access_token(filename):
     file = open(filename)
     try:
@@ -138,11 +138,11 @@ if __name__ == '__main__':
     # test 1
     request_album('Dangerous')
 
-    # name = 'michael jackson'
-    # if name:
-    #     # test2
-    #     show_artist_albums(name)
-    #     # test3
-    #     show_recommendations_for_artist(name)
-    # else:
-    #     print("Can't find that artist")
+    name = 'michael jackson'
+    #if name:
+        # test2
+        #print(show_artist_albums(name))
+        # test3
+        #print(show_recommendations_for_artist(name))
+    #else:
+    #    print("Can't find that artist")
