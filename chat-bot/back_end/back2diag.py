@@ -23,6 +23,8 @@ from flask import jsonify
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
+import random
+from helper import *
 
 
 
@@ -93,6 +95,7 @@ def backend():
 if __name__ == '__main__':
     app.run()
 '''
+
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
@@ -121,25 +124,14 @@ with conn:
             
             #if action is music process at backend
             if(action == "music.play"): #process the parametre and pass to backend
-                if(param['song']):
-                    fullfill_text= request_song(param['song'])
-                elif(param['artist']):
-                    fullfill_text = show_recommendations_for_artist(param['artist'])
-                elif(param['album']):
-                    fullfill_text = param['album'] #need to add api for album
-            print(fullfill_text,type(fullfill_text))
-
+                fullfill_text=process_music(param)
             #if user is action weather
             if(action == "weather"): #get the next 5 day forcast of this city
-                city = param['address']['city']
-                fullfill_text = get_forecast(city)
-                fullfill_text["city"] =city 
-                
-            fullfill_text = json.dumps(fullfill_text) #stringify as json 
+                fullfill_text=process_weather(param)
+
+            #processing complete sedn the result to the front end
             print(fullfill_text,type(fullfill_text))
-                
-
-
+            fullfill_text = json.dumps(fullfill_text) #stringify as json 
 
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
