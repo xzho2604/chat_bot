@@ -16,7 +16,7 @@ By intention there are currently the following types:
 
 ## Fullfill_text
 The form of the data structure returned in fullfill_text convinient for front end processing
-* music.play: <br/>
+1.  music.play: <br/>
 ..* A single song
 ```javascript
 {"type": "track", "contents": [{"name": "Armed And Dangerous", "url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]}
@@ -28,8 +28,8 @@ The form of the data structure returned in fullfill_text convinient for front en
 
 
 
-* weather: 
+2. weather: 
 ```javascript
 {"wed": "scattered clouds", "thu": "light rain", "fri": "scattered clouds", "sat": "light rain", "sun": "clear sky", "city": "Sydney"}
 ```
-* flight.book: "done flight booking!"
+3. flight.book: "done flight booking!"
