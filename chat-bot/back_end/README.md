@@ -31,5 +31,5 @@ The form of the data structure returned in fullfill_text convinient for front en
 ```javascript
 {"wed": "scattered clouds", "thu": "light rain", "fri": "scattered clouds", "sat": "light rain", "sun": "clear sky", "city": "Sydney"}
 ```
-* flight.book: it will be just a confirmation string </ br>
+* flight.book: it will be just a confirmation string <br\>
 "done flight booking!"
