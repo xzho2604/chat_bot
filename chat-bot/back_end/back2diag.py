@@ -117,7 +117,8 @@ with conn:
             param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
             print("action:",action)
             print("fullfilltext:",fullfill_text)
-
+            
+            #if action is music process at backend
             if(action == "music.play"): #process the parametre and pass to backend
                 if(param['song']):
                     fullfill_text= request_song(param['song'])

@@ -42,7 +42,7 @@ def processRequest(req):
     print("the action now is :",action) 
 
     if action == "weather": #perform weather service
-        result = weather_service(req) #call the weather service
+        result = get_forcast(req) #need return 7 day forcast json 
     elif action == "flight.book":
         print("now i the flight")
         result = {
