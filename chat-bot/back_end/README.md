@@ -21,8 +21,8 @@ The form of the data structure returned in fullfill_text convinient for front en
     ```javascript
     {"type": "track", "contents": [{"name": "Armed And Dangerous",                 "url":"https://open.spotify.com/artist/4MCBfE4596Uoi2O4DtmEMz", "artist_name": "Juice WRLD"}]}
     ```
-<br/>
     * An album <br/>
+
 
 
 
