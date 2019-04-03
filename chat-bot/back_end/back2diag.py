@@ -22,6 +22,7 @@ from flask import make_response
 from flask import jsonify
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
+from  api_service.weather.weather_api import *
 
 
 
@@ -126,8 +127,17 @@ with conn:
                     fullfill_text = show_recommendations_for_artist(param['artist'])
                 elif(param['album']):
                     fullfill_text = param['album'] #need to add api for album
-                fullfill_text = json.dumps(fullfill_text) #stringify as json 
             print(fullfill_text,type(fullfill_text))
+
+            #if user is action weather
+            if(action == "weather"): #get the next 5 day forcast of this city
+                city = param['address']['city']
+                fullfill_text = get_forecast(city)
+                fullfill_text["city"] =city 
+                
+            fullfill_text = json.dumps(fullfill_text) #stringify as json 
+            print(fullfill_text,type(fullfill_text))
+                
 
 
 

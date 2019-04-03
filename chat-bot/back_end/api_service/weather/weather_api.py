@@ -12,27 +12,9 @@ URL = "http://api.openweathermap.org/data/2.5"
 city_name = 'London'
 api_key = 'dcab36878042169db010d12e64498409'
 
-#give city name return single day weather forcaset
-def get_weather(city_name):
-
-    url = URL + '/weather?q=' + city_name + '&' +  'APPID=' + api_key
-    print(url)
-    http = httplib2.Http()
-    content_type_header = "application/json"
-
-    headers = {'Content-Type': content_type_header}
-    response, content = http.request(url,
-                                     'GET',
-                                     headers=headers)
-    print('status:', response['status'])
-    content = json.loads(content)
-    weather = content['weather'][0]['main']
-    print('The weather now in ' + city_name + ' is ' + weather)
-    return weather
-
 #given the request extract the city name and gives forcast wthin 5 days
-def get_forecast(req):
-    city_name = req['queryResult']['parameters']['address']['city']
+def get_forecast(city_name):
+    #city_name = req['queryResult']['parameters']['address']['city']
 
     ret_dict = {} #store the result of the enqury
     date_arr= ["mon","tue",'wed',"thu","fri","sat","sun"]
@@ -83,3 +65,25 @@ if __name__=="__main__":
     print("main")
     get_weather(city_name)
     get_forecast(city_name, 'tomorrow')
+
+
+'''
+#give city name return single day weather forcaset
+def get_weather(city_name):
+
+    url = URL + '/weather?q=' + city_name + '&' +  'APPID=' + api_key
+    print(url)
+    http = httplib2.Http()
+    content_type_header = "application/json"
+
+    headers = {'Content-Type': content_type_header}
+    response, content = http.request(url,
+                                     'GET',
+                                     headers=headers)
+    print('status:', response['status'])
+    content = json.loads(content)
+    weather = content['weather'][0]['main']
+    print('The weather now in ' + city_name + ' is ' + weather)
+    return weather
+
+'''

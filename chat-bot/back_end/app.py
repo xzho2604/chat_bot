@@ -42,13 +42,18 @@ def processRequest(req):
     print("the action now is :",action) 
 
     if action == "weather": #perform weather service
-        result = get_forcast(req) #need return 7 day forcast json 
+        result = {
+            "fullfillmentText":get_forcast(req) #return {weekday:weather,...} 5 days forcast
+            "source":"openweather"
+        
+
     elif action == "flight.book":
         print("now i the flight")
         result = {
             "fulfillmentText": "flight booked Done!",
             "source": "sky"
         }
+
     elif action == "music.play":
         print("now in music")
         result = show_recommendations_for_artist(req)
@@ -67,10 +72,14 @@ def processRequest(req):
     
     #other actions 
 
-
     return result 
 
+if __name__ == '__main__':
+    port = int(os.getenv('PORT', 5000))
+    print("Starting app on port %d" % port)
+    app.run(debug=True, port=port, host='0.0.0.0')
 
+'''
 def makeWebhookResult(data):
     print ("starting makeWebhookResult...")
     query = data.get('query')
@@ -131,10 +140,4 @@ def static_reply():
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
-
-
-
-if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    print("Starting app on port %d" % port)
-    app.run(debug=True, port=port, host='0.0.0.0')
+'''
