@@ -16,6 +16,7 @@ from flask import make_response
 #import third party services apis functions
 from  api_service.weather.weather_api import *
 from  api_service.music.spotify_api import *
+from helper import *
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -36,23 +37,19 @@ def webhook():
 
 #process the request and return the response accordingly
 def processRequest(req):
-    print ("starting processRequest...",req.get("queryResult").get("action"))
-    action = req.get("queryResult").get("action") 
+    action = req["queryResult"]["action"] 
+    param = req['queryResult']['parameters']
 
     print("the action now is :",action) 
-
+    
+    #fullfill weather
     if action == "weather": #perform weather service
         result = {
-            "fullfillmentText":get_forcast(req) #return {weekday:weather,...} 5 days forcast
-            "source":"openweather"
-        
-
-    elif action == "flight.book":
-        print("now i the flight")
-        result = {
-            "fulfillmentText": "flight booked Done!",
-            "source": "sky"
+            "fulfillmentText": "~",
+            "source":json.dumps(process_weather(param)), 
+            #"ans":process_weather(param)
         }
+
 
     elif action == "music.play":
         print("now in music")

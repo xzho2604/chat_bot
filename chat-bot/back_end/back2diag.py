@@ -6,6 +6,9 @@ Google Cloud:
 2. API Services -> Crendentials -> create crednetials -> service account ->jason key
 3. add os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'yourfilename.json' to tbe file to run
 '''
+#ssh -R chatbot:80:localhost:5000 serveo.net 
+#static confiuration of the localhost to external internet
+
 from __future__ import print_function
 import os
 import dialogflow
@@ -44,58 +47,86 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
         #extract parametres from the response
         text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
         query_input = dialogflow.types.QueryInput(text=text_input)
+
         response = session_client.detect_intent(session=session, query_input=query_input)
         intent = response.query_result.intent.display_name
         action  = response.query_result.action
         param = response.query_result.parameters
+        fulfillment = response.query_result.fulfillment_text
 
 
         print("the intent name is:",intent)
         print("the action is",action)
-
-
         for p in param:
             print("the para is" ,p,"with:", param[p])
-
-        print('Fulfillment text: {}\n'.format(response.query_result.fulfillment_text))
-        return param, action ,response.query_result.fulfillment_text
+        print('Fulfillment text: {}\n'.format(fulfillment))
+       
+        return param, action ,fulfillment
         #print(response)
 
 #get the project id from google cloud of the dialogflow agent
 project_id = 'weather-f22a9'  
 session_id = 'first'  #API caller defined
-
 #============================================================================
-'''
 app = Flask(__name__)
 #return to the fron end json:id,text,type
 @app.route('/', methods=['POST'])
 #@app.route('/', methods=['GET'])
 def backend():
-    print("I am here ==================")
-    type_name = "" #name of the returned action
     #extrac the relevant parametrs from the front end 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
     params = req['params']
     object_id= params['ObjectID']
     query = params['query']
-    print(query)
+    print("query:",query)
     
-    action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
-    if(action == "music.play"):
-        if(params["song"]):
-           #To do 
+    param,action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    #print("action:",action)
+    #print("fullfilltext:",fullfill_text)
 
-    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':action}
-    res = json.dumps(res)
+    tp = 'text' #type init as text
+    if(fullfill_text): #if there is response means not the end asking for params so pass as text
+        print(fullfill_text,type(fullfill_text),"type:",tp)
+        res=  {'ObjectID': object_id, 'res': fullfill_text,'type':"text"}
+        return res
 
+
+    #here means the final process , to fullfill in the backend
+    if(action == "music.getSongsByArtist"): 
+        fullfill_text=artist_song(param)
+        tp ="music"
+    if(action == "music.getAlbumListByArtist"):
+        fullfill_text=artist_album(param)
+        tp ="music"
+    if(action == "music.playSong"):
+        fullfill_text=play_song(param)
+        tp = "music"
+
+    #if user is action weather
+    if(action == "weather"): #get the next 5 day forcast of this city
+        fullfill_text=process_weather(param)
+        tp = "weather"
+
+    #other functions to fullfill
+
+    #if until this stage fullfill_text still not being filled means not recognised intend retunr error to user
+    if(not fullfill_text):
+        fullfill_text = "Sorry I do not understand what you said!"
+        tp = 'text'
+
+    #processing complete sedn the result to the front end
+    print("final fullfill text:",fullfill_text,type(fullfill_text))
+    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':tp}
     print("the response is" ,res)
-    return jsonify(res) 
+
+    return res
+    #res = json.dumps(res)
+    #return jsonify(res) 
 
 if __name__ == '__main__':
     app.run()
-'''
 
+'''
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
@@ -118,20 +149,38 @@ with conn:
 
             #pass the user text to the dialogflow api
             #music_flag if there is conent stores the parametres
+
             param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
             print("action:",action)
             print("fullfilltext:",fullfill_text)
+
+            tp = 'text' #type init as text
+            if(fullfill_text): #if there is response means not the end asking for params so pass as text
+                print(fullfill_text,type(fullfill_text),"type:",tp)
+                conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
+                continue
+                #return res
             
-            #if action is music process at backend
-            if(action == "music.play"): #process the parametre and pass to backend
-                fullfill_text=process_music(param)
+            #here means the final process , to fullfill in the backend
+            if(action == "music.getSongsByArtist"): 
+                fullfill_text=artist_song(param)
+                tp ="music"
+            if(action == "music.getAlbumListByArtist"):
+                fullfill_text=artist_album(param)
+                tp ="music"
+            if(action == "music.playSong"):
+                fullfill_text=play_song(param)
+                tp = "music"
+
             #if user is action weather
             if(action == "weather"): #get the next 5 day forcast of this city
                 fullfill_text=process_weather(param)
-
+                tp = "weather"
+           
             #processing complete sedn the result to the front end
-            print(fullfill_text,type(fullfill_text))
+            print(fullfill_text,type(fullfill_text),"type:",tp)
             fullfill_text = json.dumps(fullfill_text) #stringify as json 
 
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
+'''
