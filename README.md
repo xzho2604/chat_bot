@@ -16,9 +16,6 @@ Then your local host can be access via static ip address of: <br /><br />
 https://chatbot.serveo.net/
 
 
-* Goes to the diagflow and enable webhoook in the intention set the fullfil URL as per ngrok
-* python back2diag.py [port] : to initiate the backedn interation with the front end
-
 ## FrontEnd Usage:
 * make sure you have nodejs installed in your system
 * cd chat-bot/chat-front-end
