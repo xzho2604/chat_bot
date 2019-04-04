@@ -10,9 +10,9 @@
 * python back2dialogflow.py
 * In another terminal:
 ```bash
-ssh -R chabot:80:localhost:8000 serveo.net <br/>
+ssh -R chabot:80:localhost:8000 serveo.net 
 ```
-Then your local host can be access via static ip address of: <br />
+Then your local host can be access via static ip address of: <br /><br />
 https://chatbot.serveo.net/
 
 
