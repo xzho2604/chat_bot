@@ -7,10 +7,11 @@
 * [Project Proposal](https://www.overleaf.com/5973716318hnyngfttwfyj)
 ## BackEnd Usage:
 * cd chat-bot/back_end
-* python app.py
-* In another terminal same folder./ngrok http 5000<br />
-To install ngrok and put the excutable in the current folder<br />
-https://ngrok.com/download<br />
+* python back2dialogflow.py
+* In another terminal:ssh -R chabot:80:localhost:8000 serveo.net <br/>
+Then your local host can be access via static ip address of: <br />
+https://chatbot.serveo.net/
+
 
 * Goes to the diagflow and enable webhoook in the intention set the fullfil URL as per ngrok
 * python back2diag.py [port] : to initiate the backedn interation with the front end
