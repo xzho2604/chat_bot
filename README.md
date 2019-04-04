@@ -8,7 +8,10 @@
 ## BackEnd Usage:
 * cd chat-bot/back_end
 * python back2dialogflow.py
-* In another terminal:ssh -R chabot:80:localhost:8000 serveo.net <br/>
+* In another terminal:
+```bash
+ssh -R chabot:80:localhost:8000 serveo.net <br/>
+```
 Then your local host can be access via static ip address of: <br />
 https://chatbot.serveo.net/
 
