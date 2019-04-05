@@ -28,6 +28,7 @@ from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
 import random
 from helper import *
+import re
 
 
 
@@ -88,21 +89,29 @@ def backend():
     if(fullfill_text): #if there is response means not the end asking for params so pass as text
         print(fullfill_text,type(fullfill_text),"type:",tp)
         res=  {'ObjectID': object_id, 'res': fullfill_text,'type':"text"}
-        return res
+        res = json.dumps(res)
+        return jsonify(res)
 
-
+    
+   # x = re.search("music\.",action)#check the action and decide what tp is
+   # tp = "music" if(x) 
+   # x = re.search("weather\.",action)
+   # tp = "weather" if(x) 
+    
     #here means the final process , to fullfill in the backend
-    if(action == "music.getSongsByArtist"): 
+    if(action == "music.getSongsByArtist"): #get artist return a recomended song
         fullfill_text=artist_song(param)
         tp ="music"
-    if(action == "music.getAlbumListByArtist"):
+    if(action == "music.getAlbumListByArtist"): #get artist return an album
         fullfill_text=artist_album(param)
         tp ="music"
-    if(action == "music.playSong"):
+    if(action == "music.playSong"): #get song play a single song
         fullfill_text=play_song(param)
         tp = "music"
-
-    #if user is action weather
+    if(action == "music.getAlbum"): #get song play a single song
+        fullfill_text=play_album(param)
+        tp = "music"
+    #if user is action weatherjjjj
     if(action == "weather"): #get the next 5 day forcast of this city
         fullfill_text=process_weather(param)
         tp = "weather"
@@ -112,20 +121,20 @@ def backend():
     #if until this stage fullfill_text still not being filled means not recognised intend retunr error to user
     if(not fullfill_text):
         fullfill_text = "Sorry I do not understand what you said!"
-        tp = 'text'
 
     #processing complete sedn the result to the front end
     print("final fullfill text:",fullfill_text,type(fullfill_text))
     res=  {'ObjectID': object_id, 'res': fullfill_text,'type':tp}
-    print("the response is" ,res)
+    print("the response is:" ,res)
 
-    return res
-    #res = json.dumps(res)
-    #return jsonify(res) 
+    #return res
+    res = json.dumps(res)
+    return jsonify(res) 
 
 if __name__ == '__main__':
-    app.run()
-
+    #port = int(os.getenv('PORT', 5000))
+    app.run(debug=True)
+    #app.run()
 '''
 #============================================================================
 #socket version
