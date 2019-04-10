@@ -10,6 +10,7 @@ import json
     21/03/2019
 '''
 filename ='/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
+# filename = './web-api-auth/authorization_code/auth_token.txt'
 def  get_access_token(filename):
     file = open(filename)
     try:
@@ -109,11 +110,13 @@ def request_song(track):
     content = []
     results = sp.search(q='track:' + track, type='track')
     items = results['tracks']['items']
-    data = items[0]['artists'][0]['external_urls']['spotify']
-    content.append({'name': items[0]['name'], 'url': items[0]['artists'][0]['external_urls']['spotify'],
-                    'artist_name': items[0]['artists'][0]['name']})
+    # data = items[0]['artists'][0]['external_urls']['spotify']
+    # print(items[1]['external_urls']['spotify'])
+    # 'url': items[0]['artists'][0]['external_urls']['spotify']
+    content.append({'name': items[1]['name'], 'url': items[1]['external_urls']['spotify'].replace('com', 'com/embed'),
+                    'artist_name': items[1]['artists'][0]['name']})
     data = {'type': 'track', 'contents': content}
-    #print(data)
+    print(data)
     return data
 
 def request_album(album):
@@ -136,7 +139,7 @@ if __name__ == '__main__':
     sp = spotipy.Spotify(auth = token)
 
     # test 1
-    request_album('Dangerous')
+    request_song('Dangerous')
 
     name = 'michael jackson'
     #if name:

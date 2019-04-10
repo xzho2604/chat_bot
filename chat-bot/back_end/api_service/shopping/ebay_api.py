@@ -37,9 +37,9 @@ def search_product(searches):
 			title = item["title"][0]
 			condition = item['condition'][0]['conditionDisplayName'][0]
 			price = item['sellingStatus'][0]["convertedCurrentPrice"][0]['__value__']
-			data = {'titile':titile, 'price':price, 'condition': condition}
-			return data
+			data = {'titile':title, 'price':price, 'condition': condition}
 			print(data)
+			return data
 
 if __name__ == "__main__":
 	search_product(['laptop,1000'])
