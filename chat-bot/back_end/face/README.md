@@ -9,6 +9,9 @@ python network_image.py -d face_detection_model -r output/recognizer.pickle  -l 
 ```
 Will start the verification server listening to the incomming verificaiton request
 
+## face_lib.py:
+A utility lib for network_image.py that contains the model encoding and verification
+
 ## extract_embeddings.py: 
 ```python
 python extract_embeddings.py -i dataset -e output/embeddings.pickle -d face_detection_model
