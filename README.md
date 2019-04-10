@@ -10,7 +10,7 @@
 * python back2dialogflow.py
 * In another terminal:
 ```bash
-ssh -R chabot:80:localhost:8000 serveo.net 
+ssh -R chabot:80:localhost:8000 serveo.net
 ```
 Then your local host can be access via static ip address of: <br /><br />
 https://chatbot.serveo.net/
@@ -47,3 +47,9 @@ https://stackoverflow.com/questions/50217133/dialogflow-detectintenttext
 * cd ..\capstone-project-mr-robot\chat-bot\back_end\api_service\music\web-api-auth\authorization_code
 * node app.js
 * visit localhsot:8888 and log in with a spotify account then the token will be stored in local program automatically
+
+## Mongodb init:
+* install Mogodb, cd ../MongoDB/Server/3.4/bin
+* run 'mongod.exe -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
+* run 'mongoimport -d chatbot -c users --file ../data/users.json' to import the data into database
+* import userservice.py to call the functions
