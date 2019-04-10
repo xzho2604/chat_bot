@@ -5,7 +5,7 @@
 # File Usage and Description
 * extract_embeddings.py: 
 ```python
-python extract_embeddings.py --dataset dataset --embeddings output/embeddings.pickle --detector face_detection_model
+python extract_embeddings.py \--dataset dataset \--embeddings output/embeddings.pickle \--detector face_detection_model
 ```
 Will detect face uisng caffe people decetion model and cropped the face and  extract the encoding 128 features out of each face save in to the database.<br\>
 
