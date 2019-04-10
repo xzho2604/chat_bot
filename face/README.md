@@ -5,19 +5,19 @@
 # File Usage and Description
 * extract_embeddings.py: 
 ```python
-python extract_embeddings.py \--dataset dataset \--embeddings output/embeddings.pickle \--detector face_detection_model
+python extract_embeddings.py -i dataset -e output/embeddings.pickle -d face_detection_model
 ```
 Will detect face uisng caffe people decetion model and cropped the face and  extract the encoding 128 features out of each face save in to the database.<br\>
 
 * extract_embeddings_al.py: 
 ```python
-python extract_embeddings_al.py --dataset dataset --embeddings output/embeddings.pickle --detector face_detection_model --shape shape_predictor_68_face_landmarks.dat
+python extract_embeddings_al.py -i dataset -e output/embeddings.pickle -d face_detection_model -s shape_predictor_68_face_landmarks.dat
 ```
 Same as above , but with affine transform to align the face before embedding , using dlib face detector.
 
 * train_model.py:
 ```python
-python train_model.py --embeddings output/embeddings.pickle --recognizer output/recognizer.pickle --le output/le.pickle
+python train_model.py -e output/embeddings.pickle -r output/recognizer.pickle -l output/le.pickle
 ```
 Using svm to classify the data from previous step encoding and output the recognizer trained using svm and label back to database
 
@@ -46,8 +46,8 @@ python face_img.py -s shape_predictor_68_face_landmarks.dat -d face_detection_mo
 Same as above ,except go through all the image in test with face not aligned.
 
 * Other Utilities
-..* fr_utils.py 
-..* inception_blocks_v2.py
+  * fr_utils.py 
+  * inception_blocks_v2.py
 
 
 
