@@ -3,6 +3,12 @@
 
 
 # File Usage and Description
+## network_image.py:
+```python
+python network_image.py -d face_detection_model -r output/recognizer.pickle  -l output/le.pickle
+```
+Will start the verification server listening to the incomming verificaiton request
+
 ## extract_embeddings.py: 
 ```python
 python extract_embeddings.py -i dataset -e output/embeddings.pickle -d face_detection_model
