@@ -29,4 +29,10 @@ week5:
 
 week6:
 
- Improving weather api.
+ Improve weather api.
+
+ week7:
+ Add ebay shoppig api.
+
+ week8:
+ To adjust the face detection login module, design and inplement a simple mongodb.
