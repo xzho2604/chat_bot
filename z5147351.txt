@@ -41,6 +41,26 @@
 17/03/:
     find out the how the backend could communicat with the fornt end through http request 
 
-21/07:
+21/03:
     connected with the musica api and the configured chat bot with music weather and flight booking functions
+
+25/03:
+    established protocol of the communication with the front end and backend
+    
+30/03:
+    Discussed the machine learning module to incoorporate into the chatbot
+  
+04/04:
+    initial development of the facial recogniton system using open face CNN
+ 
+07/04:
+    improved the accuracy by adding a svm on top of the CNN encoding output
+   
+11/04:
+    further imporve the face recognition accuracy by introducint face detection and cropping,and Affine transform to align the face 
+    
+12/04:
+    Discuss the intergration of the face recognition module into the chat bot and user context information retrival
+    
+  
     
