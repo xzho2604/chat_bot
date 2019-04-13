@@ -6,6 +6,8 @@ const videoItem = (item) => {
             <iframe
                 src={item.url}
                 title="TEST"
+                width="290"
+                height="300"
                 allowFullScreen="allowFullScreen"
             />
         </div>
