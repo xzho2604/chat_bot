@@ -1,0 +1,31 @@
+.container {
+    width: 30em;
+    height: 10em;
+    /*background: linear-gradient(to right, #00a1ff, #c0e5ff);*/
+    background-image:url("./Syd.jpg");
+    background-size: cover;
+    background-position: center;
+    /*background: #eb1e18;*/
+    border-radius: 10px;
+}
+
+.title {
+    text-align: center;
+    font-family: Georgia, monospace;
+    color: #ffe0e0;
+}
+
+.left {
+    float: left;
+    padding: 10px;
+}
+
+.city { color: white }
+
+.Temp { color: white }
+
+.right {
+    float: right;
+    padding: 10px;
+    width: 80px;
+}

@@ -1,9 +1,11 @@
 import {addLinkSnippet, addResponseMessage, renderCustomComponent} from "react-chat-widget";
 import MusicItem from "../components/MusicComponent";
 import VideoItem from "../components/VideoComponent";
-import WeatherItem from "../components/WeatherItem";
+import WeatherItem from "../components/WeatherComponent";
 import LoginItem from "../components/LoginItem";
 
+
+//This is a tester for return local item.
 export const messageTester = (newMessage) => {
     console.log(newMessage);
     if (newMessage === 'link') {

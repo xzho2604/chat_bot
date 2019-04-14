@@ -1,70 +1,82 @@
-import React, { Component } from 'react';
-import { Widget, addResponseMessage, addLinkSnippet, renderCustomComponent } from 'react-chat-widget';
-
+import React, {Component} from 'react';
+import {Widget, addResponseMessage, addLinkSnippet, renderCustomComponent, senderPlaceHolder, toggleInputDisabled} from 'react-chat-widget';
+// import ReactDOM from 'react-dom';
 import 'react-chat-widget/lib/styles.css';
 import logo from '../img/UNSW.png';
 import VideoItem from './VideoComponent';
 import MusicItem from './MusicComponent';
-import WeatherItem from './WeatherItem';
+import WeatherItem from './WeatherComponent';
 import LoginItem from './LoginItem';
 import LoginModal from './LoginModal';
-import { messageTester } from '../testItems'
-import { backEndDataApi, backEndLoginApi } from '../apis';
+import {messageTester} from '../testItems'
+import {chatApi} from '../apis';
 import {ObjectID} from "bson";
 
 class App extends Component {
     state = {
-        loggedIn: false
+        user: null
     };
 
-    componentDidMount() {
+    componentDidMount = () => {
+        toggleInputDisabled();
         addResponseMessage("Hello! I'm a household butler, how can I help you?");
-        setTimeout(() => {renderCustomComponent(
-            LoginModal, this.handleLogin ,true
-        )}, 1500);
+        setTimeout(() => {
+            renderCustomComponent(
+                LoginModal, [this.loginModalCallback], true);
+        }, 1000);
         console.log(process.argv);
-    }
-    
-    handleLogin = (user) => {
-        if (user !== undefined) {
+    };
+
+    loginModalCallback = (user) => {
+        if (user !== null) {
+            this.setState({user: user});
+            // ReactDOM.unmountComponentAtNode(this.modalRef.current);
             addResponseMessage(`Hello ${user}! How can I help you?`);
-            this.setState({loggedIn: true});
+            //Enable input
+            toggleInputDisabled();
+            this.itemDict = {
+                music: MusicItem,
+                video: VideoItem,
+                weather: WeatherItem,
+                login: LoginItem
+            };
         } else {
             addResponseMessage(`Sorry I can't recognize you, would you like to login manually?`);
             renderCustomComponent(
-                LoginItem, null ,true
+                LoginItem, null, true
             );
         }
     };
 
-    handleDataSuccess = () => {
-
+    handleChatSuccess = (r) => {
+        console.log(r.data);
+        let {type, res, ObjectID } = r.data;
+        if (type === "text") {
+            addResponseMessage(res);
+        } else if (type === "link") {
+            addLinkSnippet(res);
+        } else {
+            renderCustomComponent(
+                this.itemDict[type], res, true
+            )
+        }
     };
-    handleDataErr = () => {
 
+    handleChatErr = (err) => {
+        console.log(err);
     };
 
-    handleNewUserMessage = (newMessage) => {
-        console.log(`New message incoming! ${newMessage}`);
-        // {'ObjectID': object_id, 'res': fullfill_text,'type':action}
-        let messageObject = {
-            "ObjectID": new ObjectID().toString(),
-            "msg": newMessage,
-            "timeStamp": new Date()
+    handleNewUserMessage = (message) => {
+        let payload = {
+            ObjectId: new ObjectID().toString(),
+            msg: message,
+            timeStamp: new Date(),
+            user: this.state.user
         };
-
-        console.log(messageObject);
-        const itemDict = {
-            music: MusicItem,
-            video: VideoItem,
-            weather: WeatherItem,
-            login: LoginItem
-        };
-
-        messageTester(newMessage);
+        messageTester(message);
         // TODO Test new api.
-        // backEndDataApi(messageObject, this.handleDataSuccess, this.handleDataErr);
-        };
+        // chatApi(payload, this.handleChatSuccess, this.handleChatErr);
+    };
 
     render() {
         return (
@@ -72,9 +84,11 @@ class App extends Component {
                 <Widget
                     handleNewUserMessage={this.handleNewUserMessage}
                     profileAvatar={logo}
+                    titleAvatar={logo}
                     title="COMP9900"
                     subtitle="Team Mr.Robot"
                     height="300"
+                    senderPlaceHolder="Hello"
                 />
             </div>
         );

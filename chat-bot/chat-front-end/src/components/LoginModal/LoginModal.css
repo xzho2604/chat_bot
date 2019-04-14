@@ -1,0 +1,16 @@
+canvas .Capture {
+    display: none
+}
+canvas .Submit {
+    margin: auto;
+    display: block
+}
+video .Capture {
+    margin: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+video .Submit {
+    display: none
+}
