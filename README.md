@@ -41,7 +41,11 @@ https://chatbot.serveo.net/
 * Front End link with back  <br />
 https://alligator.io/react/axios-react/<br />
 * Back End to Diagflow API configure<br />
-https://stackoverflow.com/questions/50217133/dialogflow-detectintenttext
+https://stackoverflow.com/questions/50217133/dialogflow-detectintenttext<br />
+* Smart Light API
+https://api.developer.lifx.com/docs/set-state<br />
+* Python context switch
+https://flask-assistant.readthedocs.io/en/latest/contexts.html<br />
 
 ## Music api (spotify) calling process:
 * cd ..\capstone-project-mr-robot\chat-bot\back_end\api_service\music\web-api-auth\authorization_code
