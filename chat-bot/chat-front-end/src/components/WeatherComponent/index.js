@@ -1,20 +1,14 @@
 import React from 'react';
-import testSvg from '../../icons/wi-cloud.svg'
+import testSvg from './weatherIcons/wi-cloud.svg'
 import './WeatherComponent.css';
-import SYD from './Syd.jpg';
+import { Cities } from './Cities';
 const weatherItem = (weatherItem) => {
-    let item = {
-        city: "Sydney",
-        title: "Weather Forecast",
-        temp: '26°',
-        weather: "Sunny"
-    };
     return (
-        <div className="container" style={{backgroundImage : SYD}}>
-            <h1 className="title">{item.title}</h1>
+        <div className="container" style={{backgroundImage : `url(${Cities[weatherItem.city]})`}}>
+            <h1 className="title">{weatherItem.title}</h1>
             <div className="left">
-                <h3 className="city">{item.city}</h3>
-                <div className="Temp">{item.temp}</div>
+                <h3 className="city">{weatherItem.city}</h3>
+                <div className="Temp">{weatherItem.temp}</div>
             </div>
             <div className="right">
                 {/*<div className="icon">This is an icon</div>*/}

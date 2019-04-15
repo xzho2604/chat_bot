@@ -45,8 +45,12 @@ const videoItem = {
 };
 const weatherItem = {
     time: '16:00 PM 19/01/2019',
-    weather: 'Sunny'
+    city: "Melbourne",
+    title: "Weather Forecast",
+    temp: '26°',
+    weather: "Sunny"
 };
+
 const loginItem = {
     info: "whatever"
 };

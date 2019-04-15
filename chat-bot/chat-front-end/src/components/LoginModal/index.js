@@ -17,7 +17,7 @@ class LoginModal extends React.Component {
 
         this.videoRef = React.createRef();
         this.canvasRef = React.createRef();
-        this.modalRef = React.createRef();
+        // this.modalRef = React.createRef();
     }
     // componentDidMount() {
     // }
@@ -25,7 +25,7 @@ class LoginModal extends React.Component {
     setModalVisible(modalVisible) {
         this.setState({ modalVisible });
         this.setState({stat: "Capture"});
-        // this.openCam();
+        this.openCam();
     }
     handleLoginSuccess = (res) => {
         console.log(res.data);
@@ -43,30 +43,32 @@ class LoginModal extends React.Component {
     };
 
     handleSubmit = () => {
-        // this.closeCam();
+        this.closeCam();
         this.setState({ modalLoading: true });
-        loginApi({login: "TestPayload"}, this.handleLoginSuccess, this.handleLoginError);
+        let imgURL = this.canvasRef.current.toDataURL();
+        console.log(imgURL);
+        loginApi({login: "TEST"}, this.handleLoginSuccess, this.handleLoginError);
         console.log("Submitting!");
     };
 
     handleCancel = () => {
-        // this.closeCam();
+        this.closeCam();
         this.setState({ modalVisible: false });
     };
 
     handleCapture = () => {
-        // this.closeCam();
+        this.closeCam();
         this.setState( {stat: "Submit"});
-        // let canvas = this.canvasRef.current;
-        // let video = this.videoRef.current;
-        // canvas.height = 360;
-        // canvas.width = 480;
-        // canvas.getContext('2d').drawImage(video, 0, 0, 480, 360);
+        let canvas = this.canvasRef.current;
+        let video = this.videoRef.current;
+        canvas.height = 360;
+        canvas.width = 480;
+        canvas.getContext('2d').drawImage(video, 0, 0, 480, 360);
         console.log("Captured!");
     };
 
     handleRetake = () => {
-        // this.openCam();
+        this.openCam();
         this.setState( {stat: "Capture"});
         console.log("Retaking!");
     };
@@ -125,9 +127,6 @@ class LoginModal extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={footer[this.state.stat]}
-                    // onLoad={() => {
-                    //     console.log("loaded.");
-                    // }}
                 >
                     <video id="video" className={this.state.stat}/>
                     <canvas id="canvas" className={this.state.stat}/>,

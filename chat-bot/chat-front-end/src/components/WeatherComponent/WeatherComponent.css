@@ -1,12 +1,10 @@
 .container {
     width: 30em;
     height: 10em;
-    /*background: linear-gradient(to right, #00a1ff, #c0e5ff);*/
-    background-image:url("./Syd.jpg");
     background-size: cover;
     background-position: center;
-    /*background: #eb1e18;*/
     border-radius: 10px;
+    box-shadow: 1px 2px 11px 0px #a67171;
 }
 
 .title {

@@ -8,7 +8,9 @@ import MusicItem from './MusicComponent';
 import WeatherItem from './WeatherComponent';
 import LoginItem from './LoginItem';
 import LoginModal from './LoginModal';
-import {messageTester} from '../testItems'
+import TestLoading from './TestLoading';
+// import {messageTester} from '../testItems';
+import './App.css';
 import {chatApi} from '../apis';
 import {ObjectID} from "bson";
 
@@ -19,6 +21,8 @@ class App extends Component {
 
     componentDidMount = () => {
         toggleInputDisabled();
+        renderCustomComponent(
+            TestLoading, null, true);
         addResponseMessage("Hello! I'm a household butler, how can I help you?");
         setTimeout(() => {
             renderCustomComponent(
@@ -28,18 +32,19 @@ class App extends Component {
     };
 
     loginModalCallback = (user) => {
+        console.log(user);
         if (user !== null) {
             this.setState({user: user});
-            // ReactDOM.unmountComponentAtNode(this.modalRef.current);
-            addResponseMessage(`Hello ${user}! How can I help you?`);
-            //Enable input
-            toggleInputDisabled();
             this.itemDict = {
                 music: MusicItem,
                 video: VideoItem,
                 weather: WeatherItem,
                 login: LoginItem
             };
+            // ReactDOM.unmountComponentAtNode(this.modalRef.current);
+            addResponseMessage(`Hello ${user}! How can I help you?`);
+            //Enable input
+            toggleInputDisabled();
         } else {
             addResponseMessage(`Sorry I can't recognize you, would you like to login manually?`);
             renderCustomComponent(
@@ -56,6 +61,8 @@ class App extends Component {
         } else if (type === "link") {
             addLinkSnippet(res);
         } else {
+            console.log(type);
+            console.log(this.itemDict[type]);
             renderCustomComponent(
                 this.itemDict[type], res, true
             )
@@ -73,9 +80,9 @@ class App extends Component {
             timeStamp: new Date(),
             user: this.state.user
         };
-        messageTester(message);
+        // messageTester(message);
         // TODO Test new api.
-        // chatApi(payload, this.handleChatSuccess, this.handleChatErr);
+        chatApi(payload, this.handleChatSuccess, this.handleChatErr);
     };
 
     render() {
