@@ -4,7 +4,7 @@ import './WeatherComponent.css';
 import { Cities } from './Cities';
 const weatherItem = (weatherItem) => {
     return (
-        <div className="container" style={{backgroundImage : `url(${Cities[weatherItem.city]})`}}>
+        <div className="container weather" style={{backgroundImage : `url(${Cities[weatherItem.city]})`}}>
             <h1 className="title">{weatherItem.title}</h1>
             <div className="left">
                 <h3 className="city">{weatherItem.city}</h3>

@@ -86,6 +86,7 @@ class LoginModal extends React.Component {
         })
             .then(function(stream) {
                 /* use the stream */
+                console.log("Here");
                 let video = this.videoRef.current;
                 this.setState({video: video});
                 video.srcObject = stream;
@@ -128,8 +129,8 @@ class LoginModal extends React.Component {
                     onCancel={this.handleCancel}
                     footer={footer[this.state.stat]}
                 >
-                    <video id="video" className={this.state.stat}/>
-                    <canvas id="canvas" className={this.state.stat}/>,
+                    <video id="video" ref={this.videoRef} className={this.state.stat}/>
+                    <canvas id="canvas" ref={this.canvasRef} className={this.state.stat}/>,
                 </Modal>
             </div>
         );

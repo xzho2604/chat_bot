@@ -1,16 +1,20 @@
-canvas .Capture {
+canvas.Capture {
     display: none
 }
-canvas .Submit {
+canvas.Submit {
     margin: auto;
     display: block
 }
-video .Capture {
+video.Capture {
     margin: auto;
     display: block;
     border-radius: 10px;
 }
 
-video .Submit {
+video.Submit {
     display: none
+}
+
+.ant-modal-body {
+    text-align: center;
 }
