@@ -5,9 +5,16 @@ from flask import jsonify
 import cv2
 import numpy as np
 from face_lib import *
+import base64
+from imageio import imread
+import io
+from flask_cors import CORS
 
+
+# python network_image.py -d face_detection_model -r output 
 #=============================================================================
 ## construct the argument parser and parse the arguments
+'''
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--confidence", type=float, default=0.5,
 	help="minimum probability to filter weak detections")
@@ -27,7 +34,7 @@ print("Rcogniser Loaded!")
 protoPath = os.path.sep.join([args["detector"], "deploy.prototxt"])
 modelPath = os.path.sep.join([args["detector"],	"res10_300x300_ssd_iter_140000.caffemodel"])
 detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
-print("Detector loaded!")
+print("Detector Loaded!")
 
 #create a model for the face image
 FRmodel = faceRecoModel(input_shape=(3, 96, 96))
@@ -36,41 +43,32 @@ FRmodel = faceRecoModel(input_shape=(3, 96, 96))
 load_weights_from_FaceNet(FRmodel)
 print("Weight and Model Loaded!")
 print("Listening to the incoming request...")
-
-
-imagePaths = list(paths.list_images("test"))
-correct = 0 #keep track of the correct image recognised
-total_rec = 0 #keep track of the total image recognised
-
-for (i, imagePath) in enumerate(imagePaths):
-    name = imagePath.split(os.path.sep)[-2] #get the name of the person (the dir name)
-    #return dict of {person:prob,...}
-    all_identities = recognize_faces_in_cam(imagePath,recognizer,le,detector,FRmodel)
-    for person in all_identities: #check if recognised face contains the correct person
-        print(name," get recognised as:", person,"with prb:",all_identities[person])
-        if name == person:
-            correct += 1 #correct rec
-    total_rec += 1
-
-#finish all the rec calculate total
-print("Test Finished with accuracy of:",round(correct/total_rec,2))
-
-
-
-
+'''
 
 #=============================================================================
 app = Flask(__name__)
+CORS(app)
 @app.route('/', methods=['POST'])
 def network():
     #check the request's flag 
-    req = request.get_json(silent=True, force=True) #req is a dict of returned jaso
+    #req = request.get_json(silent=True, force=True) #req is a dict of returned jaso
+    req = request.form.to_dict() 
     print(req)
 
-    #show the received image
-    cv2.imshow("Received Image",img)
-    cv2.waitKey(0)
+    #img = imread(io.BytesIO(base64.b64decode(img_string)))
+    #cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    #cv2.imshow("Received",cv2_img)
 
+    #cv2.waitKey(0)
+
+
+    return "good"
+
+    #show the received image
+    #cv2.imshow("Received Image",img)
+    #cv2.waitKey(0)
+
+'''
     #if request is to verify image check image img
     all_identities = recognize_faces_in_img(img,recognizer,le,detector,FRmodel)
     for person in all_identities: #check if recognised face contains the correct person
@@ -85,10 +83,9 @@ def network():
     #if answer is no encode the image and append to the embedding.pick and call train
     #TO DO
 
+'''
 
 
-
-    return "got it" 
 
 
 
@@ -96,4 +93,3 @@ def network():
 if __name__ == '__main__':
     #port = int(os.getenv('PORT', 5000))
     app.run(debug=True)
- 

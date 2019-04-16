@@ -93,6 +93,7 @@ def recognize_faces_in_cam(recognizer,le,detector,model):
                 identity, prob= who_is_it(face,recognizer,le, model)
                 
                 if identity is not None:
+                    #check the actual distance from the embedding for the identified person
                     text = "{}: {:.2f}%".format(identity, prob * 100)
                     y = startY - 10 if startY - 10 > 10 else startY + 10
                     frame = cv2.rectangle(frame,(startX, startY),(endX, endY),(255,255,255),2)
@@ -128,7 +129,7 @@ print("Rcogniser deserilised!")
 protoPath = os.path.sep.join([args["detector"], "deploy.prototxt"])
 modelPath = os.path.sep.join([args["detector"],	"res10_300x300_ssd_iter_140000.caffemodel"])
 detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
-print("detectro loaded!")
+print("Detector Loaded!")
 
 #create a model for the face image
 FRmodel = faceRecoModel(input_shape=(3, 96, 96))
