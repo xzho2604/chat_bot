@@ -1,0 +1,11 @@
+.container {
+    width: 10rem;
+    height: 1rem;
+    border-radius: 1rem;
+    box-shadow: 1px 2px 11px 0px #a67171;
+    text-align: center;
+    background: rgba(0,0,0,0.05);
+    /*margin-bottom: 20px;*/
+    padding: 30px 10px;
+    margin: 5px 0;
+}

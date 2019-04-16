@@ -1,0 +1,32 @@
+.container.weather {
+    width: 30rem;
+    height: 10rem;
+    padding: 0.5rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem 0 #a67171;
+}
+
+.title {
+    text-align: center;
+    font-family: Georgia, monospace;
+    color: whitesmoke;
+    margin-top: 0;
+}
+
+.left {
+    float: left;
+    padding: 1rem 1rem;
+    width: 5rem;
+}
+
+.city { color: white; font-family: Georgia, monospace; }
+
+.Temp { color: white; font-family: Georgia, monospace; }
+
+.right {
+    float: right;
+    padding: 1rem;
+    width: 6rem;
+}

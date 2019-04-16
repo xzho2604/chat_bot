@@ -31,4 +31,7 @@ Week 7
 Designing the Weather UI for user calling weather function, examined and discussed some designs in pinteres, Iphone application, etc. Discussed about the data formation for weather function.
 
 Week 8
-Implemented the Weather UI.
+Implemented the Weather UI in react.
+
+Week 9
+Implemented calling camera, capture photo, send it to the backend functions
