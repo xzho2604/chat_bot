@@ -14,7 +14,7 @@ const login = axios.create({
     baseURL: loginUrl,
 });
 
-login.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+//login.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 login.defaults.headers.post['Access-Control-Allow-Origin'] = loginUrl;
 login.defaults.headers.post['Access-Control-Allow-Methods'] = "GET, POST, PATCH, PUT, DELETE, OPTIONS";
 login.defaults.headers.post['Access-Control-Allow-Headers'] = "Origin, Content-Type, X-Auth-Token, Accept";

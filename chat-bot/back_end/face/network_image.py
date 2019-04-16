@@ -53,8 +53,15 @@ def network():
     #check the request's flag 
     #req = request.get_json(silent=True, force=True) #req is a dict of returned jaso
     req = request.form.to_dict() 
-    print(req)
-
+    r = req['r']
+    g = req ['g']
+    b = req['b']
+    h = req['height']
+    w = req['width']
+    print(h,w)
+    #arr = np.asarray( bytearray( req ,'utf-8'), dtype = np.uint8 )
+    #bgr_image = cv2.imdecode( arr, -1 ) # load it as it is
+    
     #img = imread(io.BytesIO(base64.b64decode(img_string)))
     #cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     #cv2.imshow("Received",cv2_img)

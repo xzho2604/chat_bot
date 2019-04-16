@@ -99,13 +99,13 @@ class LoginModal extends React.Component {
     //     });
     // };
 
-    // upload = (blob) => {
-    //     console.log(blob);
-    //     // formData.set()
-    //     // console.log(formData);
-    //     let formData = new FormData();
-    //     formData.append('image', blob);
-    //     loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
+     upload = (blob) => {
+         console.log(blob);
+         // formData.set()
+         // console.log(formData);
+         let formData = new FormData();
+         formData.append('image', blob);
+         loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
     //     // // 图片ajax上传，字段名是image
     //     // var xhr = new XMLHttpRequest();
     //     // // 文件上传成功
@@ -115,10 +115,11 @@ class LoginModal extends React.Component {
     //     // // 开始上传
     //     // xhr.open('POST', 'upload.php', true);
     //     // xhr.send(data);
-    // };
+     };
     handleSubmit = () => {
         this.closeCam();
         this.setState({ modalLoading: true });
+        /*
         console.log(this.canvasRef.current.getContext('2d'));
         let imageData = this.canvasRef.current.getContext('2d').getImageData(0, 0, canvasWidth, canvasHeight);
         let data = imageData.data;
@@ -128,7 +129,8 @@ class LoginModal extends React.Component {
             outputData.push(brightness);
         }
         loginApi({image: outputData}, this.handleLoginSuccess, this.handleLoginError);
-        // this.canvasRef.current.toBlob(this.upload);
+        */
+        this.canvasRef.current.toBlob(this.upload);
         // let imgURL = this.canvasRef.current.toBlob((cb) => {
         //     let reader = new FileReader();
         //     reader.addEventListener("loadend", function() {
