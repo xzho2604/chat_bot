@@ -54,83 +54,55 @@ class LoginModal extends React.Component {
         console.log(err);
     };
 
-    // blobCallback = () => {
-    //     return (b) =>  {
-    //         let r = new FileReader();
-    //         r.onloadend = () => {
-    //
-    //             let test = new Uint8Array(r.result);
-    //             console.log(test);
-    //             loginApi(test, this.handleLoginSuccess, this.handleLoginError);
-    //             // // r.result contains the ArrayBuffer.
-    //             // Cu.import('resource://gre/modules/osfile.jsm');
-    //             // var writePath = OS.Path.join(OS.Constants.Path.desktopDir,
-    //             //     filename + '.jpeg');
-    //             // var promise = OS.File.writeAtomic(writePath, new Uint8Array(r.result),
-    //             //     {tmpPath:writePath + '.tmp'});
-    //             //
-    //             // promise.then(
-    //             //     function() {
-    //             //         console.log('successfully wrote file');
-    //             //     },
-    //             //     function() {
-    //             //         console.log('failure writing file')
-    //             //     }
-    //             // );
-    //         };
-    //         r.readAsArrayBuffer(b);
-    //     }
-    // };
+    uploadData = () => {
+        let data = this.canvasRef.current.getContext('2d')
+            .getImageData(0, 0, canvasWidth, canvasHeight).data;
+        let r = [];
+        let g = [];
+        let b = [];
+        for(let i = 0; i < data.length; i += 4) {
+            r.push(data[i]);
+            g.push(data[i+1]);
+            b.push(data[i+2]);
+        }
+        let formData = new FormData();
+        formData.append('height', canvasHeight);
+        formData.append('width', canvasWidth);
+        formData.append('r', JSON.stringify(r));
+        formData.append('g', JSON.stringify(g));
+        formData.append('b', JSON.stringify(b));
+        loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
+    };
 
-
-    // getData = () => {
-    //     var canvas = document.getElementById("inputCanvas");
-    //     var imageData = canvas.context.getImageData(0, 0, canvas.width, canvas.height);
-    //     var data = imageData.data;
-    //     var outputData = [];
-    //     for(var i = 0; i < data.length; i += 4) {
-    //         var brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
-    //         outputData.push(brightness);
-    //     }
-    //     $.post( "/postmethod", {
-    //         canvas_data: JSON.stringify(outputData)
-    //     }, function(err, req, resp){
-    //         window.location.href = "/results/"+resp["responseJSON"]["uuid"];
-    //     });
-    // };
-
-     upload = (blob) => {
-         console.log(blob);
-         // formData.set()
-         // console.log(formData);
-         let formData = new FormData();
-         formData.append('image', blob);
-         loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
-    //     // // 图片ajax上传，字段名是image
-    //     // var xhr = new XMLHttpRequest();
-    //     // // 文件上传成功
-    //     // xhr.onload = function() {
-    //     //     // xhr.responseText就是返回的数据
-    //     // };
-    //     // // 开始上传
-    //     // xhr.open('POST', 'upload.php', true);
-    //     // xhr.send(data);
-     };
+    upload = (blob) => {
+        console.log(blob);
+        let formData = new FormData();
+        formData.append('image', blob);
+        loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
+        // // 图片ajax上传，字段名是image
+        // var xhr = new XMLHttpRequest();
+        // // 文件上传成功
+        // xhr.onload = function() {
+        //     // xhr.responseText就是返回的数据
+        // };
+        // // 开始上传
+        // xhr.open('POST', 'upload.php', true);
+        // xhr.send(data);
+    };
     handleSubmit = () => {
         this.closeCam();
         this.setState({ modalLoading: true });
-        /*
-        console.log(this.canvasRef.current.getContext('2d'));
-        let imageData = this.canvasRef.current.getContext('2d').getImageData(0, 0, canvasWidth, canvasHeight);
-        let data = imageData.data;
-        let outputData = [];
-        for(let i = 0; i < data.length; i += 4) {
-            let brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
-            outputData.push(brightness);
-        }
-        loginApi({image: outputData}, this.handleLoginSuccess, this.handleLoginError);
-        */
-        this.canvasRef.current.toBlob(this.upload);
+        this.uploadData();
+        // console.log(this.canvasRef.current.getContext('2d'));
+        // let imageData = this.canvasRef.current.getContext('2d').getImageData(0, 0, canvasWidth, canvasHeight);
+        // let data = imageData.data;
+        // let outputData = [];
+        // for(let i = 0; i < data.length; i += 4) {
+        //     let brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+        //     outputData.push(brightness);
+        // }
+        // loginApi({image: outputData}, this.handleLoginSuccess, this.handleLoginError);
+        // this.canvasRef.current.toBlob(this.upload);
         // let imgURL = this.canvasRef.current.toBlob((cb) => {
         //     let reader = new FileReader();
         //     reader.addEventListener("loadend", function() {
