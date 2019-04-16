@@ -1,22 +1,33 @@
 import axios from 'axios';
-import { backEndUrl, myTestUrl } from '../config';
-const backEnd = axios.create({
+import { loginUrl, chatUrl, myTestUrl } from '../config';
+const chat = axios.create({
     // baseURL: backEndUrl,
-    baseURL: myTestUrl,
+    baseURL: chatUrl,
     headers: {
-        "Access-Control-Allow-Origin": backEndUrl,
+        "Content-Type": 'Application/x-www-form-urlencoded',
+        "Access-Control-Allow-Origin": chatUrl,
         "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, Accept",
     }
 });
+const login = axios.create({
+    // baseURL: backEndUrl,
+    baseURL: loginUrl,
+});
+
+login.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+login.defaults.headers.post['Access-Control-Allow-Origin'] = loginUrl;
+login.defaults.headers.post['Access-Control-Allow-Methods'] = "GET, POST, PATCH, PUT, DELETE, OPTIONS";
+login.defaults.headers.post['Access-Control-Allow-Headers'] = "Origin, Content-Type, X-Auth-Token, Accept";
+
 export const loginApi = (payload, success, error) => {
-    backEnd.post('/login', payload)
+    login.post('', payload)
         .then(success)
         .catch(error);
 };
 
 export const chatApi = (payload, success, error) => {
-    backEnd.post('', payload)
+    chat.post('', payload)
         .then(success)
         .catch(error);
 };
