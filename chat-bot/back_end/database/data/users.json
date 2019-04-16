@@ -1,4 +1,4 @@
-{"_id":{"$oid":"5cad65fe3fbad0e06bd13c43"},"name":"eric","age":24.0,"image":"address_1","pickle":"pickle_1"}
-{"_id":{"$oid":"5cad66483fbad0e06bd13c44"},"name":"zen","age":24.0,"image":"address2","pickle":"pickle2"}
-{"_id":{"$oid":"5cad66553fbad0e06bd13c45"},"name":"allen","age":24.0,"image":"address3","pickle":"pickle3"}
-{"_id":{"$oid":"5cad66633fbad0e06bd13c46"},"name":"milo","age":24.0,"image":"address4","pickle":"pickle4"}
+{"_id":{"$oid":"5cad65fe3fbad0e06bd13c43"},"name":"eric","age":24.0,"image":"address_1","pickle":"pickle_1","content":"context"}
+{"_id":{"$oid":"5cad66483fbad0e06bd13c44"},"name":"zen","age":24.0,"image":"address2","pickle":"pickle2","content":""}
+{"_id":{"$oid":"5cad66553fbad0e06bd13c45"},"name":"allen","age":24.0,"image":"address3","pickle":"pickle3","content":""}
+{"_id":{"$oid":"5cad66633fbad0e06bd13c46"},"name":"milo","age":24.0,"image":"address4","pickle":"pickle4","content":""}
