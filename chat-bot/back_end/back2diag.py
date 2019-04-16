@@ -23,14 +23,23 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
+from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
+from api_service.light.light_control import *
 import random
 from helper import *
 import re
 
 
+
+'''context api
+context_client.delete_all_contexts(parent) #delete alll context
+response = context_client.create_context(parent, context) #create context
+context_client.delete_context(name) #delete a particular context
+context_client.list_contexts(parent) #list all the context
+'''
 
 
 #============================================================================
@@ -40,9 +49,15 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account_key/weather_key.
 
 #function to pass input and get back the response
 def detect_intent_texts(project_id, session_id, texts, language_code):
+    #set up session client
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
     print('Session path: {}\n'.format(session))
+
+    #set up context client to manipulate context
+    context_client = dialogflow.ContextsClient()
+    parent = context_client.session_path(project_id, session_id)
+
 
     for text in texts:
         #extract parametres from the response
@@ -62,13 +77,14 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
             print("the para is" ,p,"with:", param[p])
         print('Fulfillment text: {}\n'.format(fulfillment))
        
-        return param, action ,fulfillment
+        return context_client, parent,param, action ,fulfillment
         #print(response)
 
 #get the project id from google cloud of the dialogflow agent
 project_id = 'weather-f22a9'  
 session_id = 'first'  #API caller defined
 #============================================================================
+'''
 app = Flask(__name__)
 #return to the fron end json:id,text,type
 @app.route('/', methods=['POST'])
@@ -81,7 +97,7 @@ def backend():
     query = params['query']
     print("query:",query)
     
-    param,action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
     #print("action:",action)
     #print("fullfilltext:",fullfill_text)
 
@@ -91,12 +107,6 @@ def backend():
         res=  {'ObjectID': object_id, 'res': fullfill_text,'type':"text"}
         res = json.dumps(res)
         return jsonify(res)
-
-    
-   # x = re.search("music\.",action)#check the action and decide what tp is
-   # tp = "music" if(x) 
-   # x = re.search("weather\.",action)
-   # tp = "weather" if(x) 
     
     #here means the final process , to fullfill in the backend
     if(action == "music.getSongsByArtist"): #get artist return a recomended song
@@ -115,7 +125,19 @@ def backend():
     if(action == "weather"): #get the next 5 day forcast of this city
         fullfill_text=process_weather(param)
         tp = "weather"
-
+    #ligths control
+    if(action == "IOT.turn_on"):
+        status = light_control("on") #turn on the light
+        if(status == 207):
+            fullfill_text="Lights are now on!"
+        else:
+            fullfill_text = "Error turning on the light code: " + str(status)
+    if(action == "IOT.turn_off"):
+        status = light_control("off") #turn on the light
+        if(status == 207):
+            fullfill_text="Lights are now off!"
+        else:
+            fullfill_text = "Error turning off the light code: " + str(status)
     #other functions to fullfill
 
     #if until this stage fullfill_text still not being filled means not recognised intend retunr error to user
@@ -159,9 +181,15 @@ with conn:
             #pass the user text to the dialogflow api
             #music_flag if there is conent stores the parametres
 
-            param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
+            context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
             print("action:",action)
             print("fullfilltext:",fullfill_text)
+
+            #return list of context
+            for element in context_client.list_contexts(parent):
+                print("context elements:",element)
+
+            #context_client.delete_all_contexts(parent) 
 
             tp = 'text' #type init as text
             if(fullfill_text): #if there is response means not the end asking for params so pass as text
@@ -185,11 +213,18 @@ with conn:
             if(action == "weather"): #get the next 5 day forcast of this city
                 fullfill_text=process_weather(param)
                 tp = "weather"
-           
+            if(action == "IOT.turn_on"):
+               light_control("on") #turn on the light
+               fullfill_text="Lights are now on!"
+            if(action == "IOT.turn_off"):
+               light_control("off") #turn on the light
+               fullfill_text="Lights are now off!"
+
+          
             #processing complete sedn the result to the front end
             print(fullfill_text,type(fullfill_text),"type:",tp)
             fullfill_text = json.dumps(fullfill_text) #stringify as json 
 
             conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
 s.close()
-'''
+
