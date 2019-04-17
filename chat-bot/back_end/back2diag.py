@@ -189,6 +189,7 @@ with conn:
             for element in context_client.list_contexts(parent):
                 print("context elements:",element)
 
+
             #context_client.delete_all_contexts(parent) 
 
             tp = 'text' #type init as text

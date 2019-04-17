@@ -9,6 +9,7 @@ import base64
 from imageio import imread
 import io
 from flask_cors import CORS
+import ast
 
 
 # python network_image.py -d face_detection_model -r output 
@@ -46,6 +47,14 @@ print("Listening to the incoming request...")
 '''
 
 #=============================================================================
+#take in a one dim array and will fold into (h,w) 2d np array
+def fold(arr,h,w):
+    arr = np.array(arr)
+    arr=np.expand_dims(arr, axis=1)
+    arr = arr.reshape(h,w)
+    return arr
+
+#---------------------------------------------------------------------------
 app = Flask(__name__)
 CORS(app)
 @app.route('/', methods=['POST'])
@@ -53,20 +62,31 @@ def network():
     #check the request's flag 
     #req = request.get_json(silent=True, force=True) #req is a dict of returned jaso
     req = request.form.to_dict() 
-    r = req['r']
-    g = req ['g']
-    b = req['b']
-    h = req['height']
-    w = req['width']
+    r = ast.literal_eval(req['r'])
+    g = ast.literal_eval(req ['g'])
+    b = ast.literal_eval(req['b'])
+    h = int(req['height'])
+    w = int(req['width'])
     print(h,w)
+
+    rr = fold(r,h,w)
+    gg = fold(g,h,w)
+    bb = fold(b,h,w)
+    img_arr = np.dstack((bb,gg,rr))
+
+    print("image shape of:",img_arr.shape)
+
+    test =cv2.imread("leader.jpg")
+    print("the cv2 read shape:",test.shape)
+
+
+
     #arr = np.asarray( bytearray( req ,'utf-8'), dtype = np.uint8 )
     #bgr_image = cv2.imdecode( arr, -1 ) # load it as it is
     
     #img = imread(io.BytesIO(base64.b64decode(img_string)))
     #cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    #cv2.imshow("Received",cv2_img)
-
-    #cv2.waitKey(0)
+    cv2.imwrite("received.jpeg",img_arr)
 
 
     return "good"
