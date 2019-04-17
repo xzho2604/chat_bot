@@ -27,11 +27,17 @@ import argparse
 import imutils
 import dlib
 import pickle
+
+
+
+
+
 #=============================================================================
 #given a new image ,and all the existing encoded of the authorised people ,find out
 #who thie person is or none of the existing perons
 def who_is_it(img,recognizer,le, model):
-    encoding = img_encode(img,model) #image is a croped cv read array
+    with graph.as_default():
+        encoding = img_encode(img,model) #image is a croped cv read array
     preds = recognizer.predict_proba(encoding)[0]
     j = np.argmax(preds)
     proba = preds[j]
@@ -41,11 +47,12 @@ def who_is_it(img,recognizer,le, model):
 
 #------------------------------------------------------------------------------------
 def recognize_faces_in_img(image,recognizer,le,detector,model):
-    cv2.namedWindow("Face Recognizer")
+    #cv2.namedWindow("Face Recognizer")
     font = cv2.FONT_HERSHEY_SIMPLEX#set the font
-    
-    frame = image
+    frame = image.astype(np.float32)
     height, width, channels = frame.shape
+
+    #cv2.imwrite("loaded.jpeg",frame)
 
     frame = imutils.resize(frame, width=600)
     (h, w) = frame.shape[:2]
@@ -68,7 +75,7 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
         confidence = detections[0, 0, i, 2]
 
         # filter out weak detections
-        if confidence > args["confidence"]:
+        if confidence > 0.5:
             # compute the (x, y)-coordinates of the bounding box for
             # the face
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -91,12 +98,14 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
                 frame = cv2.rectangle(frame,(startX, startY),(endX, endY),(255,255,255),2)
                 cv2.putText(frame, text, (startX, y),cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
                 all_identities[identity] = prob
-        
+        ''' 
         key = cv2.waitKey(100)
         cv2.imshow("Face Recognizer", frame)
         
         if key == 27: # exit on ESC
             break
+        '''
+        cv2.imwrite("recognised.jpeg",frame)
 
     return all_identities
 

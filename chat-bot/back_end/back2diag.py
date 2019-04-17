@@ -185,6 +185,15 @@ with conn:
             print("action:",action)
             print("fullfilltext:",fullfill_text)
 
+
+            #get the signal from the front end if user login check data base for user context and load
+            #TO DO
+
+
+
+            #if signal from the front end if user logout save the user's cocurrent context to the backend
+            #TO DO
+
             #return list of context
             for element in context_client.list_contexts(parent):
                 print("context elements:",element)

@@ -137,6 +137,11 @@ imagePaths = list(paths.list_images("test"))
 correct = 0 #keep track of the correct image recognised
 total_rec = 0 #keep track of the total image recognised
 
+all_identities = recognize_faces_in_cam("loaded.jpeg",recognizer,le,detector,FRmodel)
+for person in all_identities:
+    print(person)
+
+'''
 for (i, imagePath) in enumerate(imagePaths):
     name = imagePath.split(os.path.sep)[-2] #get the name of the person (the dir name)
     #return dict of {person:prob,...}
@@ -150,7 +155,7 @@ for (i, imagePath) in enumerate(imagePaths):
 #finish all the rec calculate total
 print("Test Finished with accuracy of:",round(correct/total_rec,2))
 
-
+'''
 
 
 
