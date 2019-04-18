@@ -184,4 +184,84 @@ def backend():
 
 if __name__ == '__main__':
     app.run(debug=True)
+'''
+#============================================================================
+#socket version
+#set up the socket listening to the cient request
+args = sys.argv[1:] #python 8888 5555
+ip =  "127.0.0.1"
+port = int(args[0])
+print(ip)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((str(ip), port))
+s.listen()
+conn, addr = s.accept()
+
+with conn:
+    print('Connected by', addr)
+    while True:
+        data = conn.recv(1024)
+        if data: #if there is any data from the front end
+            print("received:",data.decode())
+
+            #pass the user text to the dialogflow api
+            #music_flag if there is conent stores the parametres
+
+            context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
+            print("action:",action)
+            print("fullfilltext:",fullfill_text)
+
+
+            #get the signal from the front end if user login check data base for user context and load
+            #TO DO
+
+
+
+            #if signal from the front end if user logout save the user's cocurrent context to the backend
+            #TO DO
+
+            #return list of context
+            for element in context_client.list_contexts(parent):
+                print("context elements:",element)
+
+
+            #context_client.delete_all_contexts(parent) 
+
+            tp = 'text' #type init as text
+            if(fullfill_text): #if there is response means not the end asking for params so pass as text
+                print(fullfill_text,type(fullfill_text),"type:",tp)
+                conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
+                continue
+                #return res
+            
+            #here means the final process , to fullfill in the backend
+            if(action == "music.getSongsByArtist"): 
+                fullfill_text=artist_song(param)
+                tp ="music"
+            if(action == "music.getAlbumListByArtist"):
+                fullfill_text=artist_album(param)
+                tp ="music"
+            if(action == "music.playSong"):
+                fullfill_text=play_song(param)
+                tp = "music"
+
+            #if user is action weather
+            if(action == "weather"): #get the next 5 day forcast of this city
+                fullfill_text=process_weather(param)
+                tp = "weather"
+            if(action == "IOT.turn_on"):
+               light_control("on") #turn on the light
+               fullfill_text="Lights are now on!"
+            if(action == "IOT.turn_off"):
+               light_control("off") #turn on the light
+               fullfill_text="Lights are now off!"
+
+          
+            #processing complete sedn the result to the front end
+            print(fullfill_text,type(fullfill_text),"type:",tp)
+            fullfill_text = json.dumps(fullfill_text) #stringify as json 
+
+            conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
+s.close()
 
