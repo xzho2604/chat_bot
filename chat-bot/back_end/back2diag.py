@@ -46,43 +46,43 @@ context_client.list_contexts(parent) #list all the context
 #dialogflow client api config
 #get access to the service key each service account has its key
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account_key/weather_key.json'
-
-#function to pass input and get back the response
-def detect_intent_texts(project_id, session_id, texts, language_code):
-    #set up session client
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(project_id, session_id)
-    print('Session path: {}\n'.format(session))
-
-    #set up context client to manipulate context
-    context_client = dialogflow.ContextsClient()
-    parent = context_client.session_path(project_id, session_id)
-
-
-    for text in texts:
-        #extract parametres from the response
-        text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
-        query_input = dialogflow.types.QueryInput(text=text_input)
-
-        response = session_client.detect_intent(session=session, query_input=query_input)
-        intent = response.query_result.intent.display_name
-        action  = response.query_result.action
-        param = response.query_result.parameters
-        fulfillment = response.query_result.fulfillment_text
-
-
-        print("the intent name is:",intent)
-        print("the action is",action)
-        for p in param:
-            print("the para is" ,p,"with:", param[p])
-        print('Fulfillment text: {}\n'.format(fulfillment))
-       
-        return context_client, parent,param, action ,fulfillment
-        #print(response)
-
 #get the project id from google cloud of the dialogflow agent
 project_id = 'weather-f22a9'  
 session_id = 'first'  #API caller defined
+
+#set up session client
+session_client = dialogflow.SessionsClient()
+session = session_client.session_path(project_id, session_id)
+print('Session path: {}\n'.format(session))
+
+#set up context client to manipulate context
+context_client = dialogflow.ContextsClient()
+parent = context_client.session_path(project_id, session_id)
+
+
+#function to pass input and get back the response
+def detect_intent_texts(text, language_code):
+
+    #extract parametres from the response
+    text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
+    query_input = dialogflow.types.QueryInput(text=text_input)
+
+    response = session_client.detect_intent(session=session, query_input=query_input)
+    intent = response.query_result.intent.display_name
+    action  = response.query_result.action
+    param = response.query_result.parameters
+    fulfillment = response.query_result.fulfillment_text
+
+
+    print("the intent name is:",intent)
+    print("the action is",action)
+    for p in param:
+        print("the para is" ,p,"with:", param[p])
+    print('Fulfillment text: {}\n'.format(fulfillment))
+   
+    return param, action ,fulfillment
+    #print(response)
+
 #============================================================================
 app = Flask(__name__)
 
@@ -94,7 +94,16 @@ def login(): #the front end signal user log in retrive the user context from dat
     user = params["user"] #user is of struct {userID:id, userName:name}
     user_id = user["userID"]
 
+    #clear the current context if there is any
+    context_client.delete_all_contexts(parent)
+
     #with user_id get the context from the databse if there is any
+    #TO DO
+    user_contexts = []
+
+    #load all the user context to dialogflow 
+    for context in user_contexts:
+        load_context = context_client.create_context(parent,context)
  
     return
 
@@ -106,7 +115,9 @@ def logout(): #front end signal user log off save the user context to the databs
     user = params["user"] #user is of struct {userID:id, userName:name}
     user_id = user["userID"]
 
+    user_contexts = context_client_contexts(parent)
     #with user_id save the current context of the user to the databse
+    #TO DO
 
     return
 
@@ -123,7 +134,7 @@ def backend():
     user = params["user"] #user is of struct {userID:id, userName:name}
     print("query:",query)
     
-    context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    param,action,fullfill_text = detect_intent_texts(query,"en-US")
     #print("action:",action)
     #print("fullfilltext:",fullfill_text)
     

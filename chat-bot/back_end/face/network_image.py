@@ -76,6 +76,10 @@ load_weights_from_FaceNet(FRmodel)
 print("Weight and Model Loaded!")
 print("Listening to the incoming request...")
 
+#user name and id gloab dict
+user_name_id = {"erik":1,"milo":2,"zen":3,"allan":4}
+detect_confidence = 0.7 #confidence threshhold for detecting face
+
 #=============================================================================
 #take in a one dim array and will fold into (h,w) 2d np array
 def fold(arr,h,w):
@@ -128,7 +132,7 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
         confidence = detections[0, 0, i, 2]
 
         # filter out weak detections
-        if confidence > 0.7:
+        if confidence > detect_confidence: 
             # compute the (x, y)-coordinates of the bounding box for
             # the face
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -153,7 +157,7 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
                 cv2.putText(frame, text, (startX, y),cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
                 all_identities[identity] = prob
 
-        cv2.imwrite("recognised.jpeg",frame)
+        cv2.imwrite("recognised.jpeg",frame) 
 
     return all_identities
 #========================================================================================
@@ -182,9 +186,7 @@ def network():
     all_identities = recognize_faces_in_img(img_arr,recognizer,le,detector,FRmodel)
     for person in all_identities: #check if recognised face contains the correct person
         print(person ,"is recognised with prob of", all_identities[person])
-
-
-    return "good"
+        return {"user":{"userName":person,"userID":user_id[person]}} #only return the first result
 
 
 #=============================================================================
