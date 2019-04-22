@@ -77,7 +77,7 @@ print("Weight and Model Loaded!")
 print("Listening to the incoming request...")
 
 #user name and id gloab dict
-user_name_id = {"erik":1,"milo":2,"zen":3,"allan":4}
+user_id = {"erik":1,"milo":2,"zen":3,"allan":4}
 detect_confidence = 0.7 #confidence threshhold for detecting face
 
 #=============================================================================
