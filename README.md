@@ -7,13 +7,16 @@
 * [Project Proposal](https://www.overleaf.com/5973716318hnyngfttwfyj)
 ## BackEnd Usage:
 * cd chat-bot/back_end
+* conda activate ass2 (To run in this env)
 * python back2dialogflow.py
 * In another terminal:
-```bash
-ssh -R chabot:80:localhost:8000 serveo.net
-```
-Then your local host can be access via static ip address of: <br /><br />
-https://chatbot.serveo.net/
+run ./ngrok http 5000
+
+
+* cd chat-bot/back_end/face
+* conda activae carND-term1 (TO opencv env)
+* python network_image.py -d face_detection_model -r output/recognizer.pickle -l output/le.pickle
+
 
 
 ## FrontEnd Usage:
