@@ -65,12 +65,19 @@ class LoginModal extends React.Component {
             g.push(data[i+1]);
             b.push(data[i+2]);
         }
-        let formData = new FormData();
-        formData.append('height', canvasHeight);
-        formData.append('width', canvasWidth);
-        formData.append('r', JSON.stringify(r));
-        formData.append('g', JSON.stringify(g));
-        formData.append('b', JSON.stringify(b));
+        // let formData = new FormData();
+        // formData.append('height', canvasHeight);
+        // formData.append('width', canvasWidth);
+        // formData.append('r', JSON.stringify(r));
+        // formData.append('g', JSON.stringify(g));
+        // formData.append('b', JSON.stringify(b));
+        let formData = {
+            r: r,
+            g: g,
+            b: b,
+            height: canvasHeight,
+            width: canvasWidth,
+        };
         loginApi(formData, this.handleLoginSuccess, this.handleLoginError);
     };
 
