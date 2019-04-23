@@ -195,6 +195,9 @@ def backend():
     if(action == "weather"): #get the next 5 day forcast of this city
         fullfill_text=process_weather(param)
         tp = "weather"
+        if(fullfill_text["weather"] == ""): #weather not within the range
+            fullfill_text = "Sorry, Only 5 days weatehr forcast is available"
+            tp = "text"
     #ligths control
     if(action == "IOT.turn_on"):
         status = light_control("on") #turn on the light

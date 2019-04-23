@@ -13,14 +13,15 @@ city_name = 'London'
 api_key = 'dcab36878042169db010d12e64498409'
 
 #given the request extract the city name and gives forcast wthin 5 days
-def get_forecast(city_name):
+def get_forecast(city_name,when):
     #city_name = req['queryResult']['parameters']['address']['city']
 
     ret_dict = {} #store the result of the enqury
     date_arr= ["mon","tue",'wed',"thu","fri","sat","sun"]
+    weather = ""
 
     url = URL + '/forecast?q=' + city_name + '&' + 'APPID=' + api_key + '&' + 'mode=xml'
-    print(url)
+    #print(url)
     http = httplib2.Http()
     content_type_header = "application/xml"
 
@@ -35,14 +36,15 @@ def get_forecast(city_name):
         month = time[5:7]
         day= time[8:10]
         date = datetime.date(int(year),int(month),int(day))
+        print("The date is :",date,when)
 
-        if(time[11:] == '12:00:00'): #only get the noon time weather as that day weather
+        if(time[11:] == '12:00:00' and str(date)  == when): #only get the noon time weather as that day weather
             weather =xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name']
-            ret_dict[date_arr[date.weekday()]]= weather
+            #ret_dict[date_arr[date.weekday()]]= weather
             #print(date_arr[date.weekday()],weather)
-
-    print(ret_dict)
-    return ret_dict
+    
+    print(weather)
+    return weather
 
 #return the client requery result
 def weather_service(req):
@@ -62,7 +64,7 @@ def weather_service(req):
 
 
 if __name__=="__main__":
-    get_forecast("sydney")
+    get_forecast("sydney","2019-04-24T12:00:00+10:00")
 
 
 '''
