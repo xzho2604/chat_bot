@@ -17,6 +17,13 @@ run ./ngrok http 5000
 * conda activae carND-term1 (TO opencv env)
 * python network_image.py -d face_detection_model -r output/recognizer.pickle -l output/le.pickle
 
+### Env Set up
+* To Export and create an env with .yml:
+```shell
+conda env export > environment.yml
+conda env create -f environment.yml
+```
+
 
 
 ## FrontEnd Usage:
