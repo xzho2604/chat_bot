@@ -7,13 +7,23 @@
 * [Project Proposal](https://www.overleaf.com/5973716318hnyngfttwfyj)
 ## BackEnd Usage:
 * cd chat-bot/back_end
+* conda activate ass2 (To run in this env)
 * python back2dialogflow.py
 * In another terminal:
-```bash
-ssh -R chabot:80:localhost:8000 serveo.net
+run ./ngrok http 5000
+
+
+* cd chat-bot/back_end/face/network_imgage.py
+* conda activate carND-term1 (TO opencv env)
+* python network_image.py -d face_detection_model -r output/recognizer.pickle -l output/le.pickle
+
+### Env Set up
+* To Export and create an env with .yml:
+```shell
+conda env export > environment.yml
+conda env create -f environment.yml
 ```
-Then your local host can be access via static ip address of: <br /><br />
-https://chatbot.serveo.net/
+
 
 
 ## FrontEnd Usage:
@@ -54,7 +64,7 @@ https://dialogflow-python-client-v2.readthedocs.io/en/latest/gapic/v2/api.html<b
 * visit localhsot:8888 and log in with a spotify account then the token will be stored in local program automatically
 
 ## Mongodb init:
-* install Mogodb, cd ../MongoDB/Server/3.4/bin
-* run 'mongod.exe -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
+* brew install mongodb
+* run 'mongod -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
 * run 'mongoimport -d chatbot -c users --file ../data/users.json' to import the data into database
 * import userservice.py to call the functions
