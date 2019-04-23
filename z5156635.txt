@@ -1,0 +1,38 @@
+Week 1
+Group of four formed. Group members: Erik, Milo, Zen and me.
+Topic chosen: House-butler chatbot.
+Decide to use react to develop frontend. Python Flask to develop back-end.
+
+Week 2
+Work distribution decided. 
+Zen: Front-end
+Erik: Back-end logic
+Milo: API and module design
+Allan: Conversation design and dialogflow configuration
+
+Architecture still in discussion.
+Two choices: 
+1.frontend<->dialogflow<->backend
+2.frontend<->backend<->dialogflow
+
+Week 3
+Working on proposal. I'm in charge of error correction, caching, user customize response and the aim part of the proposal. Get a hand on dialogflow.
+
+Week 4
+Learn basic concepts on dialogflow and how to set up dialogflow for music and weather module.
+
+Week 5
+Discuss with Erik about the characteristic on music and weather agent in conversation and helped get documentation for APIs.
+
+Week 6
+Start developing flight-booking agent and looking for usable flight-booking APIs.
+
+Week 7
+Improve the flight-booking agent and test performance on the comprehensive chatbot.
+
+Week 8
+Help develop context switch feature. Set up IOT agent to help with the device control module.
+
+Week 9
+Testing performance of the chatbot.
+

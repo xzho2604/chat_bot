@@ -190,7 +190,6 @@ def load_dataset():
 
 def img_encode(img_arr,model): #take a image array from open cv
     img1 = cv2.resize(img_arr, (96,96), interpolation = cv2.INTER_AREA)
-
     img = img1[...,::-1]
     img = np.around(np.transpose(img, (2,0,1))/255.0, decimals=12)
     x_train = np.array([img])

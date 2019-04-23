@@ -62,5 +62,17 @@
 12/04:
     Discuss the intergration of the face recognition module into the chat bot and user context information retrival
     
+13/04:
+    Search the context laod and clear api to perserve the state of the client context
+
+15/04:
+    Search and build the api that interact with the smart light , could turn it on and off at command
+
+16/04:
+    make the face verification as a flask server that take request from the front end
+ 
+18/04:
+    discuss the comminication protocal with the front end so that it can verify the user and 
+    perserver the client context at the backend 
   
     

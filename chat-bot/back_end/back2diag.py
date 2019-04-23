@@ -46,46 +46,82 @@ context_client.list_contexts(parent) #list all the context
 #dialogflow client api config
 #get access to the service key each service account has its key
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account_key/weather_key.json'
-
-#function to pass input and get back the response
-def detect_intent_texts(project_id, session_id, texts, language_code):
-    #set up session client
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(project_id, session_id)
-    print('Session path: {}\n'.format(session))
-
-    #set up context client to manipulate context
-    context_client = dialogflow.ContextsClient()
-    parent = context_client.session_path(project_id, session_id)
-
-
-    for text in texts:
-        #extract parametres from the response
-        text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
-        query_input = dialogflow.types.QueryInput(text=text_input)
-
-        response = session_client.detect_intent(session=session, query_input=query_input)
-        intent = response.query_result.intent.display_name
-        action  = response.query_result.action
-        param = response.query_result.parameters
-        fulfillment = response.query_result.fulfillment_text
-
-
-        print("the intent name is:",intent)
-        print("the action is",action)
-        for p in param:
-            print("the para is" ,p,"with:", param[p])
-        print('Fulfillment text: {}\n'.format(fulfillment))
-       
-        return context_client, parent,param, action ,fulfillment
-        #print(response)
-
 #get the project id from google cloud of the dialogflow agent
 project_id = 'weather-f22a9'  
 session_id = 'first'  #API caller defined
+
+#set up session client
+session_client = dialogflow.SessionsClient()
+session = session_client.session_path(project_id, session_id)
+print('Session path: {}\n'.format(session))
+
+#set up context client to manipulate context
+context_client = dialogflow.ContextsClient()
+parent = context_client.session_path(project_id, session_id)
+
+
+#function to pass input and get back the response
+def detect_intent_texts(text, language_code):
+
+    #extract parametres from the response
+    text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
+    query_input = dialogflow.types.QueryInput(text=text_input)
+
+    response = session_client.detect_intent(session=session, query_input=query_input)
+    intent = response.query_result.intent.display_name
+    action  = response.query_result.action
+    param = response.query_result.parameters
+    fulfillment = response.query_result.fulfillment_text
+
+
+    print("the intent name is:",intent)
+    print("the action is",action)
+    for p in param:
+        print("the para is" ,p,"with:", param[p])
+    print('Fulfillment text: {}\n'.format(fulfillment))
+   
+    return param, action ,fulfillment
+    #print(response)
+
 #============================================================================
-'''
 app = Flask(__name__)
+
+#---------------------------------------------------------------------------
+@app.route('/login', methods=['POST'])
+def login(): #the front end signal user log in retrive the user context from data base if there is any
+    req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    params = req['params']
+    user = params["user"] #user is of struct {userID:id, userName:name}
+    user_id = user["userID"]
+
+    #clear the current context if there is any
+    context_client.delete_all_contexts(parent)
+
+    #with user_id get the context from the databse if there is any
+    #TO DO
+    user_contexts = []
+
+    #load all the user context to dialogflow 
+    for context in user_contexts:
+        load_context = context_client.create_context(parent,context)
+ 
+    return
+
+#---------------------------------------------------------------------------
+@app.route('/logout', methods=['POST'])
+def logout(): #front end signal user log off save the user context to the databse 
+    req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    params = req['params']
+    user = params["user"] #user is of struct {userID:id, userName:name}
+    user_id = user["userID"]
+
+    user_contexts = context_client_contexts(parent)
+    #with user_id save the current context of the user to the databse
+    #TO DO
+
+    return
+
+#---------------------------------------------------------------------------
 #return to the fron end json:id,text,type
 @app.route('/', methods=['POST'])
 #@app.route('/', methods=['GET'])
@@ -93,18 +129,22 @@ def backend():
     #extrac the relevant parametrs from the front end 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
     params = req['params']
-    object_id= params['ObjectID']
-    query = params['query']
+    query_id= params['queryID'] #objectID change to query id
+    query = params['msg']
+    user = params["user"] #user is of struct {userID:id, userName:name}
     print("query:",query)
     
-    context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[query],"en-US")
+    param,action,fullfill_text = detect_intent_texts(query,"en-US")
     #print("action:",action)
     #print("fullfilltext:",fullfill_text)
+    
+    #the response to the front end would be
+    #res=  {'queryID': query_id, 'res': fullfill_text,'type':"text","user"":user}
 
     tp = 'text' #type init as text
     if(fullfill_text): #if there is response means not the end asking for params so pass as text
         print(fullfill_text,type(fullfill_text),"type:",tp)
-        res=  {'ObjectID': object_id, 'res': fullfill_text,'type':"text"}
+        res=  {'queryID': query_id, 'res': fullfill_text,'type':"text",'user':user}
         res = json.dumps(res)
         return jsonify(res)
     
@@ -146,7 +186,7 @@ def backend():
 
     #processing complete sedn the result to the front end
     print("final fullfill text:",fullfill_text,type(fullfill_text))
-    res=  {'ObjectID': object_id, 'res': fullfill_text,'type':tp}
+    res=  {'queryID': query_id, 'res': fullfill_text,'type':tp,'user':user}
     print("the response is:" ,res)
 
     #return res
@@ -154,77 +194,5 @@ def backend():
     return jsonify(res) 
 
 if __name__ == '__main__':
-    #port = int(os.getenv('PORT', 5000))
     app.run(debug=True)
-    #app.run()
-'''
-#============================================================================
-#socket version
-#set up the socket listening to the cient request
-args = sys.argv[1:] #python 8888 5555
-ip =  "127.0.0.1"
-port = int(args[0])
-print(ip)
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((str(ip), port))
-s.listen()
-conn, addr = s.accept()
-
-with conn:
-    print('Connected by', addr)
-    while True:
-        data = conn.recv(1024)
-        if data: #if there is any data from the front end
-            print("received:",data.decode())
-
-            #pass the user text to the dialogflow api
-            #music_flag if there is conent stores the parametres
-
-            context_client, parent,param,action,fullfill_text = detect_intent_texts(project_id,session_id,[data],"en-US")
-            print("action:",action)
-            print("fullfilltext:",fullfill_text)
-
-            #return list of context
-            for element in context_client.list_contexts(parent):
-                print("context elements:",element)
-
-            #context_client.delete_all_contexts(parent) 
-
-            tp = 'text' #type init as text
-            if(fullfill_text): #if there is response means not the end asking for params so pass as text
-                print(fullfill_text,type(fullfill_text),"type:",tp)
-                conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
-                continue
-                #return res
-            
-            #here means the final process , to fullfill in the backend
-            if(action == "music.getSongsByArtist"): 
-                fullfill_text=artist_song(param)
-                tp ="music"
-            if(action == "music.getAlbumListByArtist"):
-                fullfill_text=artist_album(param)
-                tp ="music"
-            if(action == "music.playSong"):
-                fullfill_text=play_song(param)
-                tp = "music"
-
-            #if user is action weather
-            if(action == "weather"): #get the next 5 day forcast of this city
-                fullfill_text=process_weather(param)
-                tp = "weather"
-            if(action == "IOT.turn_on"):
-               light_control("on") #turn on the light
-               fullfill_text="Lights are now on!"
-            if(action == "IOT.turn_off"):
-               light_control("off") #turn on the light
-               fullfill_text="Lights are now off!"
-
-          
-            #processing complete sedn the result to the front end
-            print(fullfill_text,type(fullfill_text),"type:",tp)
-            fullfill_text = json.dumps(fullfill_text) #stringify as json 
-
-            conn.send("do not understand".encode() if not fullfill_text else fullfill_text.encode())
-s.close()
 
