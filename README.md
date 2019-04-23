@@ -13,8 +13,8 @@
 run ./ngrok http 5000
 
 
-* cd chat-bot/back_end/face
-* conda activae carND-term1 (TO opencv env)
+* cd chat-bot/back_end/face/network_imgage.py
+* conda activate carND-term1 (TO opencv env)
 * python network_image.py -d face_detection_model -r output/recognizer.pickle -l output/le.pickle
 
 ### Env Set up
