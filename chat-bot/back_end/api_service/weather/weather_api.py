@@ -62,9 +62,7 @@ def weather_service(req):
 
 
 if __name__=="__main__":
-    print("main")
-    get_weather(city_name)
-    get_forecast(city_name, 'tomorrow')
+    get_forecast("sydney")
 
 
 '''

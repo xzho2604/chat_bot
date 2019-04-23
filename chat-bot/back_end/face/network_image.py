@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
+import json
 #from face_lib import *
 from imageio import imread
 import io
@@ -168,6 +169,7 @@ def network():
     #check the request's flag 
     #req = request.get_json(silent=True, force=True) #req is a dict of returned jaso
     req = request.form.to_dict() 
+    #print(req)
     r = ast.literal_eval(req['r'])
     g = ast.literal_eval(req ['g'])
     b = ast.literal_eval(req['b'])
@@ -184,9 +186,19 @@ def network():
 
     #now we have the array of the image and need to pass to the verification network for recoginition
     all_identities = recognize_faces_in_img(img_arr,recognizer,le,detector,FRmodel)
+    print(all_identities)
+
+    
+    answer= {}
     for person in all_identities: #check if recognised face contains the correct person
         print(person ,"is recognised with prob of", all_identities[person])
-        return {"user":{"userName":person,"userID":user_id[person]}} #only return the first result
+        answer ={"user":{"userName":person,"userID":user_id[person]}}  
+        print("This return to the front end:",answer)
+        answer = json.dumps(answer) 
+        return  jsonify(answer)#only return the first result
+    
+    #there is no person detected 
+    return None
 
 
 #=============================================================================

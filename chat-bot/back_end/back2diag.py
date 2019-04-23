@@ -27,10 +27,12 @@ from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
-from api_service.light.light_control import *
+#from api_service.light.light_control import *
 import random
 from helper import *
 import re
+from database.userservice import *
+import pickle
 
 
 
@@ -90,36 +92,63 @@ app = Flask(__name__)
 @app.route('/login', methods=['POST'])
 def login(): #the front end signal user log in retrive the user context from data base if there is any
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    print(req)
     params = req['params']
-    user = params["user"] #user is of struct {userID:id, userName:name}
-    user_id = user["userID"]
+    #user = params["user"] #user is of struct {userID:id, userName:name}
+    user_id = params["userID"]
 
     #clear the current context if there is any
     context_client.delete_all_contexts(parent)
 
     #with user_id get the context from the databse if there is any
     #TO DO
-    user_contexts = []
+    user_contexts = get_context(str(user_id))
+
+    #if not any user context stored
+    if not user_contexts:
+        return jsonify({"logged_in":True}),200
+
+
+    print("now load all the previous user context and login")
 
     #load all the user context to dialogflow 
-    for context in user_contexts:
+    for context in pickle.loads(user_contexts):
         load_context = context_client.create_context(parent,context)
+        print(context)
  
-    return
+    #return status code
+    return jsonify({"logged_in":True}),200
 
 #---------------------------------------------------------------------------
 @app.route('/logout', methods=['POST'])
 def logout(): #front end signal user log off save the user context to the databse 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    print(req)
     params = req['params']
-    user = params["user"] #user is of struct {userID:id, userName:name}
-    user_id = user["userID"]
+    #user = params["user"] #user is of struct {userID:id, userName:name}
+    user_id = params["userID"]
 
-    user_contexts = context_client_contexts(parent)
+    user_contexts = context_client.list_contexts(parent)
     #with user_id save the current context of the user to the databse
     #TO DO
+    print (user_contexts)
+    
+    result = ""
+    #if there is no user context
+    if not user_contexts:
+        return jsonify({"logged_in":True}),200
+    
+    for con in user_contexts:
+        print("the user log out context is:",con)
+        result = pickle.dumps(con)
+        break
 
-    return
+
+    update_user(str(user_id),"content",result)
+    print("now save the user context and log out!")
+    print(user_contexts)
+
+    return jsonify({"logged_in":True}),200
 
 #---------------------------------------------------------------------------
 #return to the fron end json:id,text,type
@@ -128,10 +157,11 @@ def logout(): #front end signal user log off save the user context to the databs
 def backend():
     #extrac the relevant parametrs from the front end 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    print(req)
     params = req['params']
     query_id= params['queryID'] #objectID change to query id
     query = params['msg']
-    user = params["user"] #user is of struct {userID:id, userName:name}
+    user = params["userID"] #user is of struct {userID:id, userName:name}
     print("query:",query)
     
     param,action,fullfill_text = detect_intent_texts(query,"en-US")
@@ -194,5 +224,5 @@ def backend():
     return jsonify(res) 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=8000)
 

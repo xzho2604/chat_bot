@@ -10,7 +10,7 @@ import subprocess
 import threading
 
 def music():
-    subprocess.call("node /Users/erikzhou/Desktop/capstone-project-mr-robot/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/app.js",shell = True)
+    subprocess.call("node /Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/app.js",shell = True)
     time.sleep(1) 
 
     #now can start the login thread
@@ -26,18 +26,18 @@ def login():
 
     # #get will wait until page loaded
     # #get the loging user name and password form field
-    # username = driver.find_element_by_id("login-username")
-    # password = driver.find_element_by_id("login-password")
-    # login_btn = driver.find_element_by_id("login-button")
-    #
-    # #send the username and password
-    # username.send_keys("erikxiangzhou@gmail.com")
-    # password.send_keys("")
-    # login_btn.click()
-    #
-    
-    # minimise the window
-     driver.minimize_window()
+    username = driver.find_element_by_id("login-username")
+    password = driver.find_element_by_id("login-password")
+    login_btn = driver.find_element_by_id("login-button")
+
+    #send the username and password
+    username.send_keys("erikxiangzhou@gmail.com")
+    password.send_keys("Zhou512388!")
+    login_btn.click()
+
+
+    #minimise the window
+    driver.minimize_window()
 
     #wait the refresh token appears and click then very 20 mins
     wait = WebDriverWait(driver, 10)
