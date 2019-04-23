@@ -64,7 +64,7 @@ https://dialogflow-python-client-v2.readthedocs.io/en/latest/gapic/v2/api.html<b
 * visit localhsot:8888 and log in with a spotify account then the token will be stored in local program automatically
 
 ## Mongodb init:
-* install Mogodb, cd ../MongoDB/Server/3.4/bin
-* run 'mongod.exe -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
+* brew install mongodb
+* run 'mongod -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
 * run 'mongoimport -d chatbot -c users --file ../data/users.json' to import the data into database
 * import userservice.py to call the functions
