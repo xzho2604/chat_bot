@@ -43,7 +43,7 @@ def get_forecast(city_name,when):
             #ret_dict[date_arr[date.weekday()]]= weather
             #print(date_arr[date.weekday()],weather)
     
-    print(weather)
+    #print(weather)
     return weather
 
 #return the client requery result

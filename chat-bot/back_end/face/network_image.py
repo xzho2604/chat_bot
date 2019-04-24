@@ -58,12 +58,12 @@ args = vars(ap.parse_args())
 # load the actual face recognition model along with the label encoder
 recognizer = pickle.loads(open(args["recognizer"], "rb").read())
 le = pickle.loads(open(args["le"], "rb").read())
-print("Rcogniser Loaded!")
+print("[Info] Rcogniser Loaded!")
 
 protoPath = os.path.sep.join([args["detector"], "deploy.prototxt"])
 modelPath = os.path.sep.join([args["detector"],	"res10_300x300_ssd_iter_140000.caffemodel"])
 detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
-print("Detector Loaded!")
+print("[Info] Detector Loaded!")
 
 #set up the global graph
 global graph
@@ -74,8 +74,8 @@ FRmodel = faceRecoModel(input_shape=(3, 96, 96))
 
 #load the trained model use the predefined triplet_loss function
 load_weights_from_FaceNet(FRmodel)
-print("Weight and Model Loaded!")
-print("Listening to the incoming request...")
+print("[Info] Weight and Model Loaded!")
+print("[Info] Face Verfication Server Started...")
 
 #user name and id gloab dict
 user_id = {"erik":1,"milo":2,"zen":3,"allan":4}
@@ -110,7 +110,6 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
     height, width, channels = frame.shape
 
     #cv2.imwrite("loaded.jpeg",frame)
-
 
     frame = imutils.resize(frame, width=600)
     (h, w) = frame.shape[:2]
@@ -191,9 +190,11 @@ def network():
     
     answer= {}
     for person in all_identities: #check if recognised face contains the correct person
-        print(person ,"is recognised with prob of", all_identities[person])
         answer ={"user":{"userName":person,"userID":user_id[person]}}  
-        print("This return to the front end:",answer)
+
+        print("[Info] "person ,"is recognised with prob of", all_identities[person])
+        print("[Info] This return to the front end:",answer)
+
         answer = json.dumps(answer) 
         return  jsonify(answer)#only return the first result
     
@@ -203,5 +204,4 @@ def network():
 
 #=============================================================================
 if __name__ == '__main__':
-    #port = int(os.getenv('PORT', 5000))
     app.run(debug=True)
