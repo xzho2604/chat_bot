@@ -82,6 +82,9 @@ def detect_intent_texts(text, language_code):
    
     return param, action ,fulfillment
 
+def music():
+    subprocess.call("python ./api_service/music/web-api-auth/authorization_code/auto_login.py",shell = True)
+
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
@@ -90,6 +93,8 @@ import pickle
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 from google.protobuf.struct_pb2 import Struct, Value
+import subprocess
+import threading
 
 args = sys.argv[1:] #python 8888 5555
 ip =  "127.0.0.1"
@@ -100,6 +105,8 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((str(ip), port))
 s.listen()
 conn, addr = s.accept()
+
+spotify = threading.Thread(target = music)
 
 with conn:
     print('Connected by', addr)
@@ -114,6 +121,7 @@ with conn:
             param,action,fullfill_text = detect_intent_texts(data,"en-US")
             print("action:",action)
             print("fullfilltext:",fullfill_text)
+            spotify.start()
 
             
             #delete_all_contexts(parent) #clear all context for cleans start

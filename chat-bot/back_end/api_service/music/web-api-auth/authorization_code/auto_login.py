@@ -10,18 +10,17 @@ import subprocess
 import threading
 
 def music():
-    subprocess.call("node /Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/app.js",shell = True)
+    #this will be called from the backend 
+    subprocess.call("node ./api_service/music/web-api-auth/authorization_code/app.js",shell = True)
     time.sleep(1) 
 
     #now can start the login thread
-
-
 
 def login():
     options = Options()
     #options.add_argument('--headless')
 
-    driver = webdriver.Chrome('./chromedriver',chrome_options = options)
+    driver = webdriver.Chrome('./api_service/music/web-api-auth/authorization_code/chromedriver',chrome_options = options)
     driver.get('http://localhost:8888/login')
 
     # #get will wait until page loaded
@@ -32,7 +31,7 @@ def login():
 
     #send the username and password
     username.send_keys("erikxiangzhou@gmail.com")
-    password.send_keys("Zhou512388!")
+    password.send_keys("12345!")
     login_btn.click()
 
 
@@ -43,8 +42,9 @@ def login():
     wait = WebDriverWait(driver, 10)
     refresh = wait.until(EC.element_to_be_clickable((By.ID, "obtain-new-token")))
 
-    time.sleep(3) 
-    refresh.click()
+    while True: #auto refresh every 20 mins
+        time.sleep(1000) 
+        refresh.click()
 
 
 music_t = threading.Thread(target=music)

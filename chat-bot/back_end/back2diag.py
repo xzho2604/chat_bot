@@ -65,7 +65,6 @@ print('Session path: {}\n'.format(session))
 context_client = dialogflow.ContextsClient()
 parent = context_client.session_path(project_id, session_id)
 
-
 #============================================================================
 #function to pass input and get back the response
 def detect_intent_texts(text, language_code):
@@ -133,9 +132,14 @@ def save_user_context(userid):
     print(s_list)
     
 
+#------------------------------------------------------------------------------
+def music():
+    subprocess.call("python ./api_service/music/web-api-auth/authorization_code/auto_login.py",shell = True)
 #============================================================================
 app = Flask(__name__)
 
+#the thread to start
+spotify = threading.Thread(target = music)
 #---------------------------------------------------------------------------
 @app.route('/login', methods=['POST'])
 def login(): #the front end signal user log in retrive the user context from data base if there is any
@@ -157,6 +161,8 @@ def login(): #the front end signal user log in retrive the user context from dat
         print("-------------------------------------")
         print("Restored Context:")
         print(e)
+    
+    spotify.start() #auto login user spotify account
 
     return jsonify({"logged_in":True}),200
 
@@ -169,6 +175,9 @@ def logout(): #front end signal user log off save the user context to the databs
     user_id = params["userID"]
 
     save_user_context(userid) #save the current active context to databse
+
+    #stop the spotify thread
+    #spotify.stop()
 
     return jsonify({"logged_in":True}),200
 
