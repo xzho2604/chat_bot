@@ -18,18 +18,36 @@ def process_weather(param):
 #music
 def artist_song(param):
     artist = param["music-artist"][0]
-    return show_recommendations_for_artist(artist)
+    try:
+        result = show_recommendations_for_artist(artist)
+    except:
+        result = ""
+    return result 
 
 def artist_album(param):
     artist = param["music-artist"]
-    return show_artist_albums(artist)
+    try:
+        result = show_artist_albums(artist)
+    except:
+        result = ""
+
+    return result  
 
 def play_song(param):
     song = param["song"]
-    return request_song(song)
+    try:
+        result = request_song(song)
+    except:
+        result = ""
+    return result  
 
 def play_album(param):
     album = param["music-album"]
-    return request_album(album)
+
+    try:
+        result = request_album(album)
+    except:
+        result = ""
+    return result  
 
 

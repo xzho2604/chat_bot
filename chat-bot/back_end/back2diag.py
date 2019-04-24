@@ -204,15 +204,27 @@ def backend():
     if(action == "music.getSongsByArtist"): #get artist return a recomended song
         fullfill_text=artist_song(param)
         tp ="music"
+        if(fullfill_text == ""):
+            fullfill_text = "The Spotify token expired please refresh!"
+            tp = "text"
     if(action == "music.getAlbumListByArtist"): #get artist return an album
         fullfill_text=artist_album(param)
         tp ="music"
+        if(fullfill_text == ""):
+            fullfill_text = "The Spotify token expired please refresh!"
+            tp = "text"
     if(action == "music.playSong"): #get song play a single song
         fullfill_text=play_song(param)
         tp = "music"
+        if(fullfill_text == ""):
+            fullfill_text = "The Spotify token expired please refresh!"
+            tp = "text"
     if(action == "music.getAlbum"): #get song play a single song
         fullfill_text=play_album(param)
         tp = "music"
+        if(fullfill_text == ""):
+            fullfill_text = "The Spotify token expired please refresh!"
+            tp = "text"
     #if user is action weatherjjjj
     if(action == "weather"): #get the next 5 day forcast of this city
         fullfill_text=process_weather(param)

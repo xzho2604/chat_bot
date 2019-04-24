@@ -122,8 +122,8 @@ with conn:
             #context objects class include name, lifespan_count, parameters
             context_list = []
             for element in context_client.list_contexts(parent): #google.cloud.dialogflow_v2.types.Context
-                print("====================================")
-                print("context elements:",element)
+                #print("====================================")
+                #print("context elements:",element)
                 element.lifespan_count =2 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -145,7 +145,7 @@ with conn:
 
 
             new_context = get_context("1")
-            print("the context stored in the daabse is :",new_context)
+            #print("the context stored in the daabse is :",new_context)
 
             #restore the  context stored in the db
             context_list = pickle.loads(new_context)
@@ -165,8 +165,9 @@ with conn:
             
             #show context after restore
             for element in context_client.list_contexts(parent): #google.cloud.dialogflow_v2.types.Context
-                print("+++++++++++++++++++++++++++++++++++++++++")
-                print("retrived elements:",element)
+                pass
+               # print("+++++++++++++++++++++++++++++++++++++++++")
+               # print("retrived elements:",element)
  
     
 
@@ -186,6 +187,10 @@ with conn:
             if(action == "music.getSongsByArtist"): 
                 fullfill_text=artist_song(param)
                 tp ="music"
+                if(fullfill_text == ""):
+                    fullfill_text = "Sorry expried!"
+                    tp = "text"
+                    print("here !!!!!!!!!!")
             if(action == "music.getAlbumListByArtist"):
                 fullfill_text=artist_album(param)
                 tp ="music"
