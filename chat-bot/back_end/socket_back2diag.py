@@ -85,6 +85,12 @@ def detect_intent_texts(text, language_code):
 #============================================================================
 #socket version
 #set up the socket listening to the cient request
+from database.userservice import *
+import pickle
+from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import Parse
+from google.protobuf.struct_pb2 import Struct, Value
+
 args = sys.argv[1:] #python 8888 5555
 ip =  "127.0.0.1"
 port = int(args[0])
@@ -109,24 +115,64 @@ with conn:
             print("action:",action)
             print("fullfilltext:",fullfill_text)
 
+            
+            #delete_all_contexts(parent) #clear all context for cleans start
 
             #return list of context
             #context objects class include name, lifespan_count, parameters
             context_list = []
-            for element in context_client.list_contexts(parent):
+            for element in context_client.list_contexts(parent): #google.cloud.dialogflow_v2.types.Context
                 print("====================================")
-                print("context elements:",element.lifespan_count)
-                element.lifespan_count = 19
-                context_list.append(element)
-                print("====================================")
+                print("context elements:",element)
+                element.lifespan_count =2 
 
-            #load the new context
-            for cont in context_list:
-                result = context_client.create_context(parent,cont)
-                print("The new context loaded:***************")
-                print(result)
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                pay_text = MessageToJson(element) #change the google class to string
+                context_list.append(pay_text)
+                #update_user("1","content",pay_text) #save the context to databse
+                #pay = json.loads(pay_text)
+                #print("Then name of the pay is ######################",pay["name"])
+                #print("the pay text is:",pay_text)
+                #print("reconstruct!",Parse(pay_text,element)) #give class example , deserilise the string to the original google object
+                #print("the context from databse:*********************",get_context("1"))
+            
+            #serilise the list of string contexts and store 
+            s_list = pickle.dumps(context_list) #list serilisable
+            update_user("1","content",s_list) #save the context to databse
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            #clear all active context to demo reload context
+            context_client.delete_all_contexts(parent) 
 
 
+            new_context = get_context("1")
+            print("the context stored in the daabse is :",new_context)
+
+            #restore the  context stored in the db
+            context_list = pickle.loads(new_context)
+            for s in context_list:
+                data = json.loads(s) #make each element structured element
+                name = data["name"]
+                life = data["lifespanCount"]
+                #create a template context class
+                temp = {"name":name,"lifespan_count":life} #a template to create context
+                blank = context_client.create_context(parent,temp) #create a black context
+                context_client.delete_context(name) #delte the previous temp
+                
+                #restore the context
+                restore = Parse(s,blank)
+                result = context_client.create_context(parent,restore) #create a black context
+                #print("wow----------------------",result) #use the blank template to create a context from databse
+            
+            #show context after restore
+            for element in context_client.list_contexts(parent): #google.cloud.dialogflow_v2.types.Context
+                print("+++++++++++++++++++++++++++++++++++++++++")
+                print("retrived elements:",element)
+ 
+    
+
+            #context_temp = {"name":"projects/weather-f22a9/agent/sessions/first/contexts/weather_dialog_params_date-time","lifespan_count":2}
+            #blank = context_client.create_context(parent,context_temp) #create a black context
+            #context_client.delete_all_contexts(parent) #clear all context for cleans start
             #context_client.delete_all_contexts(parent) 
 
             tp = 'text' #type init as text

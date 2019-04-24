@@ -36,7 +36,7 @@ def get_forecast(city_name,when):
         month = time[5:7]
         day= time[8:10]
         date = datetime.date(int(year),int(month),int(day))
-        print("The date is :",date,when)
+        #print("The date is :",date,when)
 
         if(time[11:] == '12:00:00' and str(date)  == when): #only get the noon time weather as that day weather
             weather =xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name']

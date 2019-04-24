@@ -31,8 +31,12 @@ from  api_service.weather.weather_api import *
 import random
 from helper import *
 import re
+
 from database.userservice import *
 import pickle
+from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import Parse
+from google.protobuf.struct_pb2 import Struct, Value
 
 
 
@@ -62,6 +66,7 @@ context_client = dialogflow.ContextsClient()
 parent = context_client.session_path(project_id, session_id)
 
 
+#============================================================================
 #function to pass input and get back the response
 def detect_intent_texts(text, language_code):
 
@@ -85,6 +90,49 @@ def detect_intent_texts(text, language_code):
     return param, action ,fulfillment
     #print(response)
 
+#------------------------------------------------------------------------------
+#given user id will reload the user context 
+def load_user_context(userid):
+    new_context = get_context(str(userid))
+    if new_context == "":
+        return False
+
+    context_list = pickle.loads(new_context) #change string to list  
+    for s in context_list:
+        data = json.loads(s) #make each context string to json
+        name = data["name"]
+        life = data["lifespanCount"]
+
+        #create a template context class
+        temp = {"name":name,"lifespan_count":life} #a template to create context
+        blank = context_client.create_context(parent,temp) #create a black context
+        context_client.delete_context(name) #delte the previous temp
+        
+        #restore the context
+        restore = Parse(s,blank)
+        result = context_client.create_context(parent,restore) #create a black context
+
+    return True
+#------------------------------------------------------------------------------
+def save_user_context(userid):
+    context_list = []#google.cloud.dialogflow_v2.types.Context
+    for e in context_client.list_contexts(parent): 
+        print("====================================")
+        print("Active Context:")
+        print(e)
+
+        pay_text = MessageToJson(e) #change the google class to string
+        context_list.append(pay_text)
+
+
+    #now serilise the list and save to databse
+    s_list = pickle.dumps(context_list) #list serilisable
+    update_user(str(userid),"content",s_list) #save the context to databse
+
+    print("now contexts saved to the databse:")
+    print(s_list)
+    
+
 #============================================================================
 app = Flask(__name__)
 
@@ -101,52 +149,26 @@ def login(): #the front end signal user log in retrive the user context from dat
     context_client.delete_all_contexts(parent)
 
     #with user_id get the context from the databse if there is any
-    #TO DO
-    user_contexts = get_context(str(user_id))
-
-    #if not any user context stored
-    if not user_contexts:
-        return jsonify({"logged_in":True}),200
-
-
+    result = load_user_context(user_id)
     print("now load all the previous user context and login")
 
-    #load all the user context to dialogflow 
-    for context in pickle.loads(user_contexts):
-        load_context = context_client.create_context(parent,context)
-        print(context)
- 
-    #return status code
+    #print out all restored context
+    for e in context_client.list_contexts(parent):
+        print("-------------------------------------")
+        print("Restored Context:")
+        print(e)
+
     return jsonify({"logged_in":True}),200
 
 #---------------------------------------------------------------------------
 @app.route('/logout', methods=['POST'])
 def logout(): #front end signal user log off save the user context to the databse 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-    print(req)
+    #print(req)
     params = req['params']
-    #user = params["user"] #user is of struct {userID:id, userName:name}
     user_id = params["userID"]
 
-    user_contexts = context_client.list_contexts(parent)
-    #with user_id save the current context of the user to the databse
-    #TO DO
-    print (user_contexts)
-    
-    result = ""
-    #if there is no user context
-    if not user_contexts:
-        return jsonify({"logged_in":True}),200
-    
-    for con in user_contexts:
-        print("the user log out context is:",con)
-        result = pickle.dumps(con)
-        break
-
-
-    update_user(str(user_id),"content",result)
-    print("now save the user context and log out!")
-    print(user_contexts)
+    save_user_context(userid) #save the current active context to databse
 
     return jsonify({"logged_in":True}),200
 
