@@ -28,7 +28,7 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-        toggleInputDisabled();
+        //toggleInputDisabled();
         //TODO testing
         renderCustomComponent(
             TestLoading, null, true);
@@ -57,7 +57,7 @@ class App extends Component {
                 () => console.error("Login failed"));
 
             //Enable input
-            toggleInputDisabled();
+            //toggleInputDisabled();
         } else {
             addResponseMessage(`Sorry I can't recognize you, would you like to login manually?`);
             renderCustomComponent(

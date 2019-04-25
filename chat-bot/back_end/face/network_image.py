@@ -192,7 +192,7 @@ def network():
     for person in all_identities: #check if recognised face contains the correct person
         answer ={"user":{"userName":person,"userID":user_id[person]}}  
 
-        print("[Info] "person ,"is recognised with prob of", all_identities[person])
+        print("[Info] ",person ,"is recognised with prob of", all_identities[person])
         print("[Info] This return to the front end:",answer)
 
         answer = json.dumps(answer) 

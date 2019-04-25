@@ -104,7 +104,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           console.log(body);
           console.log("ready to write down the auth_token.txt");
-          fs.writeFile('auth_token.txt', access_token,  function(err) {
+          fs.writeFile('./api_service/music/web-api-auth/authorization_code/auth_token.txt', access_token,  function(err) {
              if (err) {
                  return console.error(err);
              }

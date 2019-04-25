@@ -37,6 +37,10 @@ import pickle
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 from google.protobuf.struct_pb2 import Struct, Value
+import threading
+import subprocess
+import auto_login
+from auto_login import *
 
 
 
@@ -62,7 +66,6 @@ print('Session path: {}\n'.format(session))
 #set up context client to manipulate context
 context_client = dialogflow.ContextsClient()
 parent = context_client.session_path(project_id, session_id)
-
 #============================================================================
 #function to pass input and get back the response
 def detect_intent_texts(text, language_code):
@@ -96,8 +99,13 @@ def load_user_context(userid):
     context_list = pickle.loads(new_context) #change string to list  
     for s in context_list:
         data = json.loads(s) #make each context string to json
+        print("[INFO] The data is:",data)
         name = data["name"]
-        life = data["lifespanCount"]
+        if "lifespanCount" in data:
+            life = data["lifespanCount"]
+        else:
+            life = 1
+
 
         #create a template context class
         temp = {"name":name,"lifespan_count":life} #a template to create context
@@ -131,13 +139,23 @@ def save_user_context(userid):
 
 #------------------------------------------------------------------------------
 #call sub process to start the auto spotify login thread
+'''
 def music():
-    subprocess.call("python ./api_service/music/web-api-auth/authorization_code/auto_login.py",shell = True)
+    global p
+    cmd = "python ./api_service/music/web-api-auth/authorization_code/auto_login.py"
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    #subprocess.call(,shell = True)
+'''
 #============================================================================
 app = Flask(__name__)
 
+#p = "lallalalalala"
+#flag = 1
 #the thread to start
-spotify = threading.Thread(target = music)
+#spotify = threading.Thread(target = music)
+login_t ="login"
+music_t="music"
+
 #---------------------------------------------------------------------------
 @app.route('/login', methods=['POST'])
 def login(): #the front end signal user log in retrive the user context from data base if there is any
@@ -152,6 +170,9 @@ def login(): #the front end signal user log in retrive the user context from dat
 
     #with user_id get the context from the databse if there is any
     result = load_user_context(user_id)
+    if not result: #if no context stored previously in the databse
+        return jsonify({"logged_in":True}),200
+
     print("[Info] Now load all the previous user context and login:")
 
     #print out all restored context
@@ -159,8 +180,14 @@ def login(): #the front end signal user log in retrive the user context from dat
         print("-------------------------------------")
         print("[Info] Restored Context:")
         print(e)
-    
-    spotify.start() #auto login user spotify account
+
+    print("[Info] Now starting the spotify auto login...") 
+    #app.js run only at the start
+    music_t = threading.Thread(target=music)
+    music_t.start()
+    login_t = threading.Thread(target=login_f)
+    login_t.start()
+#
 
     return jsonify({"logged_in":True}),200
 
@@ -172,10 +199,15 @@ def logout(): #front end signal user log off save the user context to the databs
     params = req['params']
     user_id = params["userID"]
 
-    save_user_context(userid) #save the current active context to databse
+    save_user_context(user_id) #save the current active context to databse
 
     #stop the spotify thread
-    #spotify.stop()
+    print("[Info] Now stopping the spotify log in thread...",p)
+    kill(auto_login.p.pid)
+    #music_t.join()
+    auto_login.flag = 0
+    #login_t.join()
+    print("[Info] Now auto login stopped")
 
     return jsonify({"logged_in":True}),200
 
@@ -210,28 +242,28 @@ def backend():
     if(action == "music.getSongsByArtist"): #get artist return a recomended song
         fullfill_text=artist_song(param)
         tp ="music"
-        if(fullfill_text == ""):
+        if(fullfill_text == "500"):
             fullfill_text = "The Spotify token expired please refresh!"
             tp = "text"
 
     if(action == "music.getAlbumListByArtist"): #get artist return an album
         fullfill_text=artist_album(param)
         tp ="music"
-        if(fullfill_text == ""):
+        if(fullfill_text == "500"):
             fullfill_text = "The Spotify token expired please refresh!"
             tp = "text"
 
     if(action == "music.playSong"): #get song play a single song
         fullfill_text=play_song(param)
         tp = "music"
-        if(fullfill_text == ""):
+        if(fullfill_text == "500"):
             fullfill_text = "The Spotify token expired please refresh!"
             tp = "text"
 
     if(action == "music.getAlbum"): #get song play a single song
         fullfill_text=play_album(param)
         tp = "music"
-        if(fullfill_text == ""):
+        if(fullfill_text == "500"):
             fullfill_text = "The Spotify token expired please refresh!"
             tp = "text"
     #----------------------------------------------------------------- 
@@ -264,12 +296,11 @@ def backend():
     if(not fullfill_text):
         fullfill_text = "Sorry I do not understand what you said!"
 
-    #processing complete sedn the result to the front end
+    #return res
+    res=  {'queryID': query_id, 'res': fullfill_text,'type':tp,'user':user}
     print("[Info] Final fullfill text:",fullfill_text,type(fullfill_text))
     print("[Info] The response is:" ,res)
 
-    #return res
-    res=  {'queryID': query_id, 'res': fullfill_text,'type':tp,'user':user}
     res = json.dumps(res)
     return jsonify(res) 
 

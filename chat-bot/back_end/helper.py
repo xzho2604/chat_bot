@@ -21,7 +21,7 @@ def artist_song(param):
     try:
         result = show_recommendations_for_artist(artist)
     except:
-        result = ""
+        result = "500" # 500 indicate expetion for token expire
     return result 
 
 def artist_album(param):
@@ -29,16 +29,17 @@ def artist_album(param):
     try:
         result = show_artist_albums(artist)
     except:
-        result = ""
+        result = "500"
 
     return result  
 
 def play_song(param):
     song = param["song"]
+    print("the song is :",song)
     try:
         result = request_song(song)
     except:
-        result = ""
+        result = "500"
     return result  
 
 def play_album(param):
@@ -47,7 +48,7 @@ def play_album(param):
     try:
         result = request_album(album)
     except:
-        result = ""
+        result = "500"
     return result  
 
 
