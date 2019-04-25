@@ -25,6 +25,7 @@ import proximity_shower_rain from './weatherIcons/proximity_shower_rain.svg';
 import rain from './weatherIcons/rain.svg';
 import scattered_clouds from './weatherIcons/scattered_clouds.svg';
 import snow from './weatherIcons/snow.svg';
+import default_icon from './weatherIcons/default.svg';
 
 export const Cities = {
     sydney: Sydney,
@@ -40,6 +41,7 @@ export const Cities = {
 
 export const Weathers = {
     'clear': clear,
+    'clear sky': clear,
     'clouds': cloud,
     'few clouds': few_clouds,
     'scattered clouds': scattered_clouds,
@@ -60,4 +62,20 @@ export const Weathers = {
     'moderate snow': moderate_snow,
 
     'mist': mist,
+    'Default': default_icon,
+};
+
+export const Months = {
+    '01': "Jan",
+    '02': "Feb",
+    '03': "Mar",
+    '04': "Apr",
+    '05': "May",
+    '06': "Jun",
+    '07': "Jul",
+    '08': "Aug",
+    '09': "Sep",
+    '10': "Oct",
+    '11': 'Nov',
+    '12': 'Dec'
 };

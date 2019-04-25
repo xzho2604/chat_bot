@@ -4,7 +4,6 @@ const musicItem = (item) => {
     // If item type is album, return a music list
     if (item.type === 'track') {
         // else return a single song track
-        console.log(item);
         return (
             <div>
                 <iframe
@@ -18,7 +17,6 @@ const musicItem = (item) => {
             </div>
         )
     } else {
-        console.log(item);
         return (
             <div>
                 <iframe

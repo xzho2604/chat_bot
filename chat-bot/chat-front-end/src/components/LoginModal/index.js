@@ -45,10 +45,10 @@ class LoginModal extends React.Component {
         // this.destoryAll();
         this.props[0](user);
         // TODO hide the button after loggedIn
-        //     if (res.data.user !== null) {
-        //         this.modalRef.current.style = {display: "none"};
-        //         console.log("Here");
-        //     }
+        if (res.data.user !== null) {
+            this.modalRef.current.style = {display: "none"};
+            console.log("Here");
+        }
     };
 
     handleLoginError = (err) => {
@@ -110,8 +110,8 @@ class LoginModal extends React.Component {
             }.bind(this))
             .catch(function(err) {
                 /* handle the error */
-                this.props[0]("Poor guy with no cam");
-                alert("You don't have a camera, you foo! But I'll still log you in.");
+                this.props[0]("Test user");
+                alert("You need a camera to login.");
                 console.log(`Error: ${err.name}, ${err.message}`);
             }.bind(this));
     };
