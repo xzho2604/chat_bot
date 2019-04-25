@@ -28,7 +28,7 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-        toggleInputDisabled();
+        // toggleInputDisabled();
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
@@ -59,10 +59,11 @@ class App extends Component {
             //Enable input
             toggleInputDisabled();
         } else {
-            addResponseMessage(`Sorry I can't recognize you, would you like to login manually?`);
-            renderCustomComponent(
-                LoginItem, null, true
-            );
+            addResponseMessage(`Sorry I can't recognize you, would you like to login again?`);
+            // TODO manually login
+            // renderCustomComponent(
+            //     LoginItem, null, true
+            // );
         }
     };
 
@@ -70,8 +71,6 @@ class App extends Component {
         console.log(r.data);
         let {type, res } = JSON.parse(r.data);
         // let {type, res} = r.data;
-        console.log(type);
-        console.log(typeof(res));
         if (type === "text") {
             addResponseMessage(res);
         } else if (type === "link") {
