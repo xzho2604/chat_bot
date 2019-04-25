@@ -48,8 +48,8 @@ def get_forecast(city_name,when):
     #print("++++++++++++++++++++++++++++++++++++++++")
     data['weather'] = weather
     data['temp'] = temperature
-    print(data)
-    return data
+    #print(data)
+    return weather, temperature, day
 
 #return the client requery result
 def weather_service(req):
@@ -69,7 +69,8 @@ def weather_service(req):
 
 
 if __name__=="__main__":
-    get_forecast("sydney","2019-04-26T12:00:00+10:00"[:10])
+    result= get_forecast("sydney","2019-04-25T17:49:20+10:00"[:10])
+    print(result)
 
 
 '''

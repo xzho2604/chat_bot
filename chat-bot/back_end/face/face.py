@@ -43,6 +43,11 @@ def who_is_it(img,recognizer,le, model):
     
     return name, proba 
 
+#give a identified user check the the user's embedding in 
+#data base and output the uclidiant distance of the nearest match
+def verify_encoding(user):
+    pass
+
 #------------------------------------------------------------------------------------
 def recognize_faces_in_cam(recognizer,le,detector,model):
     cv2.namedWindow("Face Recognizer")
