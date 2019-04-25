@@ -28,19 +28,11 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-<<<<<<< HEAD
-        //toggleInputDisabled();
-        //TODO testing
-        renderCustomComponent(
-            TestLoading, null, true);
-        //
-=======
         toggleInputDisabled();
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
         // //
->>>>>>> e61c96ea21191b026e2f8c96b04368307b2eb269
         addResponseMessage("Hello! I'm a household butler, how can I help you?");
         setTimeout(() => {
             renderCustomComponent(
@@ -76,8 +68,8 @@ class App extends Component {
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        // let {type, res } = JSON.parse(r.data);
-        let {type, res} = r.data;
+        let {type, res } = JSON.parse(r.data);
+        // let {type, res} = r.data;
         console.log(type);
         console.log(typeof(res));
         if (type === "text") {
