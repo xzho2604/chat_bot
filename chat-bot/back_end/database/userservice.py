@@ -15,6 +15,13 @@ def get_user(user_name):
     print(data)
     return data
 
+def get_context(user_name):
+    user = collection.find_one({"name":user_name})
+    return user["content"]
+
+
+
+
 def update_user(user_name, field_name, value):
     myquery = {"name":user_name}
     newvalues = { "$set": { field_name: value }}

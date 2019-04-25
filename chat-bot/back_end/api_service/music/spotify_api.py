@@ -2,6 +2,7 @@
 import sys
 import spotipy
 import json
+import random
 
 
 ''' main function to call the spotify api
@@ -47,7 +48,9 @@ def show_recommendations_for_artist(name):
             #print(track['name'], '-', track['artists'][0]['name'])
             content.append({'name': track['name'], 'url': external_url, 'artist_name': track['artists'][0]['name']})
     #data = json.dumps({'type': 'track', 'contents': content})
-    data = {'type': 'track', 'contents': content}
+
+    #select random song from content
+    data = {'type': 'track', 'contents': random.choice(content)}
 
     #print(data)
     return data
@@ -73,7 +76,8 @@ def show_artist_albums(name):
         if name not in seen:
             #print((' ' + name))
             seen.add(name)
-    data = {'type': 'album', 'contents': content}
+    #random choose one of the album in conent
+    data = {'type': 'album', 'contents': random.choice(content)}
     #print(data)
     return data
 
@@ -115,8 +119,7 @@ def request_song(track):
     # 'url': items[0]['artists'][0]['external_urls']['spotify']
     content.append({'name': items[1]['name'], 'url': items[1]['external_urls']['spotify'].replace('com', 'com/embed'),
                     'artist_name': items[1]['artists'][0]['name']})
-    data = {'type': 'track', 'contents': content}
-    print(data)
+    data = {'type': 'track', 'contents': content[0]}
     return data
 
 def request_album(album):
@@ -128,8 +131,7 @@ def request_album(album):
     external_url = items[0]["album"]['external_urls']['spotify'].replace('com', 'com/embed')
     content.append({'name': items[0]['album']['name'], 'url': external_url,
                     'artist_name': items[0]['artists'][0]['name']})
-    data = {'type': 'album', 'contents': content}
-    print(data)
+    data = {'type': 'album', 'contents': random.choice(content)}
     return data
 
 if __name__ == '__main__':
@@ -139,13 +141,17 @@ if __name__ == '__main__':
     sp = spotipy.Spotify(auth = token)
 
     # test 1
-    request_song('Dangerous')
-
+    #request_song('Dangerous')
     name = 'michael jackson'
+    print(request_song("let it go"))
+    #print(request_album("Eat a Peach"))
+    
+
+    #print(show_recommendations_for_artist(name))
     #if name:
         # test2
-        #print(show_artist_albums(name))
+    #print(show_artist_albums(name))
         # test3
-        #print(show_recommendations_for_artist(name))
+    #print(show_recommendations_for_artist(name))
     #else:
     #    print("Can't find that artist")

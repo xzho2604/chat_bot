@@ -36,3 +36,6 @@ Help develop context switch feature. Set up IOT agent to help with the device co
 Week 9
 Testing performance of the chatbot.
 
+Week 10
+Design demo procedure and also do adjustments on the dialogflow. Apart from that, work on installation on windows of the chatbot.
+
