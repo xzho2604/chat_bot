@@ -28,7 +28,7 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-        toggleInputDisabled();
+        // toggleInputDisabled();
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
@@ -69,8 +69,8 @@ class App extends Component {
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        let {type, res } = JSON.parse(r.data);
-        // let {type, res} = r.data;
+        // let {type, res } = JSON.parse(r.data);
+        let {type, res} = r.data;
         if (type === "text") {
             addResponseMessage(res);
         } else if (type === "link") {

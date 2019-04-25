@@ -1,6 +1,6 @@
 import React from 'react';
 import './WeatherComponent.css';
-import { Cities, Weathers } from './WeatherMap';
+import { Cities, Weathers, Months } from './WeatherMap';
 const weatherItem = (weatherItem) => {
     let image = Cities[weatherItem.city.toLowerCase()]
         ? Cities[weatherItem.city.toLowerCase()]
@@ -10,11 +10,14 @@ const weatherItem = (weatherItem) => {
         ? Weathers[weatherItem.weather]
         : Weathers['Default'];
 
+    let [year, month, day] = weatherItem.time.split("-");
+    console.log(year, month, day);
+    let date = weatherItem.day + ' ' + Months[month] + ' ' + day;
     return (
         <div className="container weather" style={{backgroundImage : `url(${image})`}}>
             <div className="info">
                 <h1 className="city">{weatherItem.city}</h1>
-                <h2 className="date">{weatherItem.day + ' ' + weatherItem.time}</h2>
+                <h2 className="date">{date}</h2>
                 <h1 className="Temp">{weatherItem.temp + '°'}</h1>
             </div>
             <div className="right">
