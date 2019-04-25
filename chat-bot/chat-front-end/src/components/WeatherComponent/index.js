@@ -1,29 +1,28 @@
 import React from 'react';
-import testSvg from './weatherIcons/wi-cloud.svg'
 import './WeatherComponent.css';
-import { Cities } from './Cities';
+import { Cities, Weathers } from './WeatherMap';
 const weatherItem = (weatherItem) => {
+    let image = null;
+    if (weatherItem.city.toLowerCase() in Cities) {
+        image = Cities[weatherItem.city.toLowerCase()];
+    } else {
+        image = Cities['Default'];
+    }
+    let icon = Weathers[weatherItem.weather];
     return (
-        <div className="container weather" style={{backgroundImage : `url(${Cities[weatherItem.city]})`}}>
-            <h1 className="title">{weatherItem.title}</h1>
-            <div className="left">
-                <h3 className="city">{weatherItem.city}</h3>
-                <div className="Temp">{weatherItem.temp}</div>
+        <div className="container weather" style={{backgroundImage : `url(${image})`}}>
+            <div className="info">
+                <h1 className="city">{weatherItem.city}</h1>
+                <h2 className="date">{weatherItem.time}</h2>
+                <h1 className="Temp">{weatherItem.temp + '°'}</h1>
             </div>
             <div className="right">
-                {/*<div className="icon">This is an icon</div>*/}
-                <img src={testSvg} alt="test" />
+                <object id="mySVG"  aria-label="weatherIcon" data={icon} type="image/svg+xml"/>
+                <h3 className="textWeather">{weatherItem.weather}</h3>
             </div>
+
         </div>
     );
-
-    /*
-     *    UI container: width: 30em; height: 10em; background:linear-gradient(to right, red, pink); border-radius: 10px
-     *    title: text-align: center
-     *    left:
-     */
-
-
 };
 
 export default weatherItem;
