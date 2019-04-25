@@ -55,11 +55,10 @@ class App extends Component {
             backLoginApi({userID: this.state.userID},
                 () => addResponseMessage(`Hello ${this.state.username}! How can I help you?`),
                 () => console.error("Login failed"));
-
             //Enable input
             toggleInputDisabled();
         } else {
-            addResponseMessage(`Sorry I can't recognize you, would you like to login again?`);
+            addResponseMessage("Sorry I can't recognize you, would you like to login again?");
             // TODO manually login
             // renderCustomComponent(
             //     LoginItem, null, true
@@ -69,7 +68,7 @@ class App extends Component {
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        let {type, res } = JSON.parse(r.data);
+        let { type, res } = JSON.parse(r.data);
         // let {type, res} = r.data;
         if (type === "text") {
             addResponseMessage(res);

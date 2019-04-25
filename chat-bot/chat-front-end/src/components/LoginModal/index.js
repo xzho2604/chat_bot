@@ -40,21 +40,22 @@ class LoginModal extends React.Component {
         console.log(res.data);
         console.log(typeof(res.data));
         let { user } = JSON.parse(res.data);
+        // let { user } = res.data;
         console.log(user);
         this.setState({ modalLoading: false, modalVisible: false });
         // this.destoryAll();
         this.props[0](user);
         // TODO hide the button after loggedIn
-        if (res.data.user !== null) {
-            this.modalRef.current.style = {display: "none"};
-            console.log("Here");
-        }
+        // if (res.data.user !== null) {
+        //     this.modalRef.current.style = {display: "none"};
+        //     console.log("Here");
+        // }
     };
 
     handleLoginError = (err) => {
+        console.log(err);
         this.setState({ modalLoading: false, modalVisible: false });
         this.props[0](null);
-        console.log(err);
     };
 
     handleSubmit = () => {
@@ -101,8 +102,6 @@ class LoginModal extends React.Component {
         })
             .then(function(stream) {
                 /* use the stream */
-                console.log("Here");
-                // this.setModalVisible(true);
                 let video = this.videoRef.current;
                 this.setState({video: video});
                 video.srcObject = stream;
