@@ -27,7 +27,7 @@ from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
-#from api_service.light.light_control import *
+from api_service.light.light_control import *
 import random
 from helper import *
 import re
@@ -66,6 +66,15 @@ print('Session path: {}\n'.format(session))
 #set up context client to manipulate context
 context_client = dialogflow.ContextsClient()
 parent = context_client.session_path(project_id, session_id)
+
+
+login_t ="login"
+music_t="music"
+
+#app.js run only at the start
+music_t = threading.Thread(target=music)
+music_t.start()
+
 #============================================================================
 #function to pass input and get back the response
 def detect_intent_texts(text, language_code):
@@ -95,7 +104,8 @@ def load_user_context(userid):
     new_context = get_context(str(userid))
     if new_context == "":
         return False
-
+    
+    print("[Info] The laod user context list from databse:",new_context)
     context_list = pickle.loads(new_context) #change string to list  
     for s in context_list:
         data = json.loads(s) #make each context string to json
@@ -153,9 +163,6 @@ app = Flask(__name__)
 #flag = 1
 #the thread to start
 #spotify = threading.Thread(target = music)
-login_t ="login"
-music_t="music"
-
 #---------------------------------------------------------------------------
 @app.route('/login', methods=['POST'])
 def login(): #the front end signal user log in retrive the user context from data base if there is any
@@ -182,9 +189,6 @@ def login(): #the front end signal user log in retrive the user context from dat
         print(e)
 
     print("[Info] Now starting the spotify auto login...") 
-    #app.js run only at the start
-    music_t = threading.Thread(target=music)
-    music_t.start()
     login_t = threading.Thread(target=login_f)
     login_t.start()
 #
@@ -202,8 +206,8 @@ def logout(): #front end signal user log off save the user context to the databs
     save_user_context(user_id) #save the current active context to databse
 
     #stop the spotify thread
-    print("[Info] Now stopping the spotify log in thread...",p)
-    kill(auto_login.p.pid)
+    print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
+    #kill(auto_login.p.pid)
     #music_t.join()
     auto_login.flag = 0
     #login_t.join()
