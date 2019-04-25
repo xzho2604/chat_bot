@@ -10,9 +10,9 @@ def process_weather(param):
     city = param["address"]["city"]
     when = param["date-time"] #string of:"2019-04-24T12:00:00+10:00"
     when = when[:10]
-    weather = get_forecast(city,when)
+    weather,temp, day = get_forecast(city,when)
 
-    return {"city":city,"weather":weather,"time":when,"temp":20} 
+    return {"city":city,"weather":weather,"time":when,"temp":temp,"day":day}
 
 #---------------------------------------------
 #music

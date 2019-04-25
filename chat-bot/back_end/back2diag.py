@@ -147,15 +147,6 @@ def save_user_context(userid):
     print(s_list)
     
 
-#------------------------------------------------------------------------------
-#call sub process to start the auto spotify login thread
-'''
-def music():
-    global p
-    cmd = "python ./api_service/music/web-api-auth/authorization_code/auto_login.py"
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-    #subprocess.call(,shell = True)
-'''
 #============================================================================
 app = Flask(__name__)
 
@@ -191,7 +182,6 @@ def login(): #the front end signal user log in retrive the user context from dat
     print("[Info] Now starting the spotify auto login...") 
     login_t = threading.Thread(target=login_f)
     login_t.start()
-#
 
     return jsonify({"logged_in":True}),200
 
