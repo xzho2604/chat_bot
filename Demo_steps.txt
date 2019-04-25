@@ -15,7 +15,11 @@
 
 3. Context continuation
 	3.1 Context Reload
-	    Log off and log in another user to reload the conversation.
+		3.1.1 Log in user1 and ask some questions.
+	    	3.1.2 Log off and log in another user2 and ask some other questions.
+		3.1.3 Log off and log in user1 again
+to reload the conversation context.
+		3.1.4 Ask some question to show the context loaded.
 	3.2 Context switch
 	    shared param(music.album, music.artist, flight.to<=shared by weather and flight booking)
 
