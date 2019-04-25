@@ -21,14 +21,14 @@ class App extends Component {
     };
 
     componentDidMount = () => {
-        const listener = ev => {
-            ev.preventDefault();
-            backLogoutApi({'userID': this.state.userID}, null, null);
-            ev.returnValue='leaving, loging out';
-        };
-        window.addEventListener('beforeunload', listener);
+        // const listener = ev => {
+        //     ev.preventDefault();
+        //     backLogoutApi({'userID': this.state.userID}, null, null);
+        //     ev.returnValue='leaving, loging out';
+        // };
+        // window.addEventListener('beforeunload', listener);
 
-        toggleInputDisabled();
+        // toggleInputDisabled();
         //TODO testing
         renderCustomComponent(
             TestLoading, null, true);
@@ -68,15 +68,15 @@ class App extends Component {
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        let {type, res } = JSON.parse(r.data);
+        // let {type, res } = JSON.parse(r.data);
+        let {type, res} = r.data;
         console.log(type);
+        console.log(typeof(res));
         if (type === "text") {
             addResponseMessage(res);
         } else if (type === "link") {
             addLinkSnippet(res);
         } else {
-            console.log(type);
-            console.log(this.itemDict[type]);
             renderCustomComponent(
                 this.itemDict[type], res, true
             )
@@ -94,7 +94,6 @@ class App extends Component {
             timeStamp: new Date(),
             userID: this.state.userID
         };
-        // messageTester(message);
         chatApi(payload, this.handleChatSuccess, this.handleChatErr);
     };
 
