@@ -37,11 +37,13 @@
 		3.1.4 Ask some question to show the context loaded.
 			Input: What is the weather then? (address==from(Brisbane) & date==(22/05/2019) => No need to input address and date)
 	4.2 Context switch
-	    shared param(music.album, music.artist, flight.from+flight.departure<=shared by weather and flight booking)
+	    shared param(music.album, music.artist, music.song, flight.to<->weather.address+flight.departure<->weather.date-time)
 
 	    Input: Get me Bruno Mars (Artist given) => Play album + Play song
 
-	    Input: Book a flight from Cairns to Darwin today (from, date shared) => Get weather
+	    Input: Book a flight from Cairns to Darwin today => Get weather
+
+	    Input: What's the weather in Sydney today => Book a flight from Shenzhen
  
 5. Further improvement
 	5.1 More flexible context switching
