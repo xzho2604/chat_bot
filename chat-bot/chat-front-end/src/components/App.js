@@ -21,18 +21,18 @@ class App extends Component {
     };
 
     componentDidMount = () => {
-        // const listener = ev => {
-        //     ev.preventDefault();
-        //     backLogoutApi({'userID': this.state.userID}, null, null);
-        //     ev.returnValue='leaving, loging out';
-        // };
-        // window.addEventListener('beforeunload', listener);
+        const listener = ev => {
+            ev.preventDefault();
+            backLogoutApi({'userID': this.state.userID}, null, null);
+            ev.returnValue='leaving, loging out';
+        };
+        window.addEventListener('beforeunload', listener);
 
-        // toggleInputDisabled();
-        //TODO testing
-        renderCustomComponent(
-            TestLoading, null, true);
-        //
+        toggleInputDisabled();
+        // //TODO testing
+        // renderCustomComponent(
+        //     TestLoading, null, true);
+        // //
         addResponseMessage("Hello! I'm a household butler, how can I help you?");
         setTimeout(() => {
             renderCustomComponent(

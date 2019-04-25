@@ -72,12 +72,12 @@ class LoginModal extends React.Component {
     };
 
     handleCapture = () => {
-        this.closeCam();
         let canvas = this.canvasRef.current;
         let video = this.videoRef.current;
         canvas.height = canvasHeight;
         canvas.width = canvasWidth;
         canvas.getContext('2d').drawImage(video, 0, 0, canvasWidth, canvasHeight);
+        this.closeCam();
         this.setState( {stat: "Submit"});
         console.log("Captured!");
     };
