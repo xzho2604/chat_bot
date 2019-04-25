@@ -49,7 +49,7 @@ def get_forecast(city_name,when):
     data['weather'] = weather
     data['temp'] = temperature
     #print(data)
-    return weather, temperature, day
+    return weather, temperature, data["day"]
 
 #return the client requery result
 def weather_service(req):

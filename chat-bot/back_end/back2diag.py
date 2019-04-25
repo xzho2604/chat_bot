@@ -71,9 +71,7 @@ parent = context_client.session_path(project_id, session_id)
 login_t ="login"
 music_t="music"
 
-#app.js run only at the start
-music_t = threading.Thread(target=music)
-music_t.start()
+spotify_on = 1
 
 #============================================================================
 #function to pass input and get back the response
@@ -163,6 +161,17 @@ def login(): #the front end signal user log in retrive the user context from dat
     #user = params["user"] #user is of struct {userID:id, userName:name}
     user_id = params["userID"]
 
+    print("[Info] Now starting the spotify auto login...") 
+    #app.js run only at the start
+    global spotify_on
+    if spotify_on:
+        music_t = threading.Thread(target=music)
+        music_t.start()
+        spotify_on =0 
+
+    login_t = threading.Thread(target=login_f)
+    login_t.start()
+
     #clear the current context if there is any
     context_client.delete_all_contexts(parent)
 
@@ -179,9 +188,6 @@ def login(): #the front end signal user log in retrive the user context from dat
         print("[Info] Restored Context:")
         print(e)
 
-    print("[Info] Now starting the spotify auto login...") 
-    login_t = threading.Thread(target=login_f)
-    login_t.start()
 
     return jsonify({"logged_in":True}),200
 
