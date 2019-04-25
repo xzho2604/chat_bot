@@ -28,7 +28,6 @@ def get_forecast(city_name,when):
     headers = {'Content-Type': content_type_header}
     response, content = http.request(url,'GET',headers=headers)
     xmlparse = xmltodict.parse(content)
-
     #time from 2019-04-03T06:00:00 2019-04-03T09:00:00 time to few clouds
     for i in range (len(xmlparse['weatherdata']['forecast']['time'])):
         time = xmlparse['weatherdata']['forecast']['time'][i]['@from'] #get the from time of forcast
@@ -41,11 +40,13 @@ def get_forecast(city_name,when):
         if(time[11:] == '12:00:00' and str(date)  == when): #only get the noon time weather as that day weather
             weather =xmlparse['weatherdata']['forecast']['time'][i]['symbol']['@name']
             print(weather)
-            #ret_dict[date_arr[date.weekday()]]= weather
+            print(date_arr[date.weekday()])
             #print(date_arr[date.weekday()],weather)
-    
-    #print(weather)
-    return weather
+    temperature = int(float(xmlparse['weatherdata']['forecast']['time'][i]['temperature']['@value']) - 273.15)  ##开氏温度转换摄氏度
+    #print(int(float(xmlparse['weatherdata']['forecast']['time'][i]['temperature']['@value']) - 273.15) )
+    #print("++++++++++++++++++++++++++++++++++++++++")
+    data = {'weather': weather, 'temp': temperature}
+    return data
 
 #return the client requery result
 def weather_service(req):
