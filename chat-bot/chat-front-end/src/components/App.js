@@ -28,7 +28,7 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-        // toggleInputDisabled();
+        toggleInputDisabled();
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
