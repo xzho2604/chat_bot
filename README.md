@@ -65,6 +65,6 @@ https://dialogflow-python-client-v2.readthedocs.io/en/latest/gapic/v2/api.html<b
 
 ## Mongodb init:
 * brew install mongodb
-* run 'mongod -dbpath ../chat-bot/back_end/database/data/db2' to init the database data and service at "localhost:27017"
-* run 'mongoimport -d chatbot -c users --file ../data/users.json' to import the data into database
+* run 'mongod -dbpath ./data/db2' to init the database data and service at "localhost:27017"
+* run 'mongoimport -d chatbot -c users --file ./data/users.json' to import the data into database
 * import userservice.py to call the functions
