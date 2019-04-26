@@ -67,7 +67,7 @@ https://dialogflow-python-client-v2.readthedocs.io/en/latest/gapic/v2/api.html<b
 * brew install mongodb
 * run to init the database data and service at "localhost:27017"
 ```shell
-mongod -dbpath ./data/db2
+mongod -dbpath ./db2
 ```
 * run to import the data into database
 ```shell
