@@ -74,5 +74,14 @@
 18/04:
     discuss the comminication protocal with the front end so that it can verify the user and 
     perserver the client context at the backend 
+ 
+20/04:
+    sucessfully received face image from the front end
+  
+24/04:
+    reserach on serilisation of the google class
+  
+26/04
+    successfully connected with the front end
   
     
