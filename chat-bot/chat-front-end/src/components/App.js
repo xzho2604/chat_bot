@@ -11,13 +11,20 @@ import LoginModal from './LoginModal';
 import TestLoading from './TestLoading';
 // import {messageTester} from '../testItems';
 import './App.css';
-import {chatApi, backLoginApi, backLogoutApi} from '../apis';
+import {chatApi, backLoginApi, backLogoutApi, faceLogin} from '../apis';
 import {ObjectID} from "bson";
 
 class App extends Component {
     state = {
         username: null,
-        userID: null
+        userID: null,
+        phase: 'login'
+    };
+    componentWillMount = () => {
+        faceLogin({"msg": "test"}, (res) => console.log(res.data), (res) => {console.log(res)});
+    };
+    switch = () => {
+
     };
 
     componentDidMount = () => {
@@ -28,16 +35,16 @@ class App extends Component {
         };
         window.addEventListener('beforeunload', listener);
 
-        toggleInputDisabled();
+        // toggleInputDisabled();
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
         // //
-        addResponseMessage("Hello! I'm a household butler, how can I help you?");
-        setTimeout(() => {
-            renderCustomComponent(
-                LoginModal, [this.loginModalCallback], true);
-        }, 1000);
+        // addResponseMessage("Hello! I'm a household butler, how can I help you?");
+        // setTimeout(() => {
+        //     renderCustomComponent(
+        //         LoginModal, [this.loginModalCallback], true);
+        // }, 1000);
         console.log(process.argv);
 
         this.itemDict = {
@@ -50,7 +57,7 @@ class App extends Component {
 
     loginModalCallback = (user) => {
         if (user !== null) {
-            this.setState({username: user.userName, userID: user.userID});
+            this.setState({username: user.userName, userID: user.userID, phase: 'chat'});
             // ReactDOM.unmountComponentAtNode(this.modalRef.current);
             backLoginApi({userID: this.state.userID},
                 () => addResponseMessage(`Hello ${this.state.username}! How can I help you?`),
@@ -68,8 +75,8 @@ class App extends Component {
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        let { type, res } = JSON.parse(r.data);
-        // let {type, res} = r.data;
+        // let { type, res } = JSON.parse(r.data);
+        let {type, res} = r.data;
         if (type === "text") {
             addResponseMessage(res);
         } else if (type === "link") {
@@ -96,19 +103,25 @@ class App extends Component {
     };
 
     render() {
-        return (
-            <div className="App">
-                <Widget
-                    handleNewUserMessage={this.handleNewUserMessage}
-                    profileAvatar={logo}
-                    titleAvatar={logo}
-                    title="COMP9900"
-                    subtitle="Team Mr.Robot"
-                    height="300"
-                    senderPlaceHolder="Hello"
-                />
-            </div>
-        );
+        if (this.state.phase === 'login') {
+            return (
+                <LoginModal callback={this.loginModalCallback}/>
+            )
+        } else {
+            return (
+                <div className="App">
+                    <Widget
+                        handleNewUserMessage={this.handleNewUserMessage}
+                        profileAvatar={logo}
+                        titleAvatar={logo}
+                        title="COMP9900"
+                        subtitle="Team Mr.Robot"
+                        height="300"
+                        senderPlaceHolder="Hello"
+                    />
+                </div>
+            );
+        }
     }
 }
 
