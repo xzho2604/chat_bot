@@ -1,9 +1,8 @@
 1. Frontend
 	Demonstrated by Zen
 2. Log in: Face recognition.
-	2.1 Try stranger log in.
-	2.2 Try team member log in.
-	2.3 Illustrate implementation
+	2.1 Try team member log in (and show confidence).
+	2.2 Illustrate implementation
 
 3. API functionality
 	3.1 Music
