@@ -38,8 +38,17 @@ sp_oauth = oauth2.SpotifyClientCredentials(
 token = sp_oauth.get_access_token()
 sp = spotipy.Spotify(auth=token)
 
+
+def refresh_sp():
+    global sp
+    new_token = sp_oauth.get_access_token()
+    if new_token != token:
+        sp = spotipy.Spotify(auth=newToken)
+
+
 # get the basic jason file of the artist
 def get_artist(name):
+    refresh_sp()
     results = sp.search(q='artist:' + name, type='artist')
     items = results['artists']['items']
     if len(items) > 0:
@@ -48,9 +57,11 @@ def get_artist(name):
     else:
         return None
 
+
 # random  get one or several recommended songs name and url by search artist[id]
 #take in a request from the dialogflow and parse to take out the artist name parame and return a jason with recommened song
 def show_recommendations_for_artist(name):
+    refresh_sp()
     artist = get_artist(name)
     content = []
     results = sp.recommendations(seed_artists = [artist['id']])
@@ -71,6 +82,7 @@ def show_recommendations_for_artist(name):
 
 # show all the albums of the artist
 def show_artist_albums(name):
+    refresh_sp()
     artist = get_artist(name)
     content = []
     albums = []
@@ -96,6 +108,7 @@ def show_artist_albums(name):
     return data
 
 def get_artist_albums(artist_name, album_name):
+    refresh_sp()
     if artist_name == None:
         request_album(album_name)
     else:
@@ -125,6 +138,7 @@ def get_artist_albums(artist_name, album_name):
 
 #given song name return artist name,url,album
 def request_song(track):
+    refresh_sp()
     content = []
     results = sp.search(q='track:' + track, type='track')
     items = results['tracks']['items']
@@ -137,6 +151,7 @@ def request_song(track):
     return data
 
 def request_album(album):
+    refresh_sp()
     content = []
     results = sp.search(q='album:' + album, type='track')
     items = results['tracks']['items']
@@ -149,10 +164,10 @@ def request_album(album):
     return data
 
 if __name__ == '__main__':
-
-    filename = './web-api-auth/authorization_code/auth_token.txt'
-    token = get_access_token(filename)
-    sp = spotipy.Spotify(auth = token)
+    # TODO commented out these lines
+    # filename = './web-api-auth/authorization_code/auth_token.txt'
+    # token = get_access_token(filename)
+    # sp = spotipy.Spotify(auth=token)
 
     # test 1
     #request_song('Dangerous')
