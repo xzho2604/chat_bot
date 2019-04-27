@@ -163,14 +163,15 @@ def login(): #the front end signal user log in retrive the user context from dat
 
     print("[Info] Now starting the spotify auto login...") 
     #app.js run only at the start
-    global spotify_on
+    global spotify_on 
+    spotify_on = 0
     if spotify_on:
         music_t = threading.Thread(target=music)
         music_t.start()
         spotify_on =0 
 
-    login_t = threading.Thread(target=login_f)
-    login_t.start()
+    #login_t = threading.Thread(target=login_f)
+    #login_t.start()
 
     #clear the current context if there is any
     context_client.delete_all_contexts(parent)
@@ -205,7 +206,7 @@ def logout(): #front end signal user log off save the user context to the databs
     print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
     #kill(auto_login.p.pid)
     #music_t.join()
-    auto_login.flag = 0
+    ##auto_login.flag = 0
     #login_t.join()
     print("[Info] Now auto login stopped")
 
