@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Widget, addResponseMessage, addLinkSnippet, renderCustomComponent, toggleInputDisabled} from 'react-chat-widget';
-// import ReactDOM from 'react-dom';
+import {Widget, addResponseMessage, addLinkSnippet, renderCustomComponent} from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import logo from '../img/UNSW.png';
 import VideoItem from './VideoComponent';
@@ -8,11 +7,11 @@ import MusicItem from './MusicComponent';
 import WeatherItem from './WeatherComponent';
 import LoginItem from './LoginItem';
 import LoginModal from './LoginModal';
-import TestLoading from './TestLoading';
-// import {messageTester} from '../testItems';
 import './App.css';
-import {chatApi, backLoginApi, backLogoutApi, faceLogin} from '../apis';
+import {chatApi, backLoginApi, backLogoutApi} from '../apis';
 import {ObjectID} from "bson";
+// import { toggleInputDisabled } from 'react-chat-widget';
+// import TestLoading from './TestLoading';
 
 class App extends Component {
     state = {
@@ -20,14 +19,9 @@ class App extends Component {
         userID: null,
         phase: 'login'
     };
-    componentWillMount = () => {
-        faceLogin({"msg": "test"}, (res) => console.log(res.data), (res) => {console.log(res)});
-    };
-    switch = () => {
-
-    };
 
     componentDidMount = () => {
+        // TODO customize alert info
         const listener = ev => {
             ev.preventDefault();
             backLogoutApi({'userID': this.state.userID}, null, null);
@@ -39,13 +33,6 @@ class App extends Component {
         // //TODO testing
         // renderCustomComponent(
         //     TestLoading, null, true);
-        // //
-        // addResponseMessage("Hello! I'm a household butler, how can I help you?");
-        // setTimeout(() => {
-        //     renderCustomComponent(
-        //         LoginModal, [this.loginModalCallback], true);
-        // }, 1000);
-        console.log(process.argv);
 
         this.itemDict = {
             music: MusicItem,
@@ -58,25 +45,20 @@ class App extends Component {
     loginModalCallback = (user) => {
         if (user !== null) {
             this.setState({username: user.userName, userID: user.userID, phase: 'chat'});
-            // ReactDOM.unmountComponentAtNode(this.modalRef.current);
             backLoginApi({userID: this.state.userID},
                 () => addResponseMessage(`Hello ${this.state.username}! How can I help you?`),
                 () => console.error("Login failed"));
             //Enable input
-            toggleInputDisabled();
+            // toggleInputDisabled();
         } else {
-            addResponseMessage("Sorry I can't recognize you, would you like to login again?");
             // TODO manually login
-            // renderCustomComponent(
-            //     LoginItem, null, true
-            // );
         }
     };
 
     handleChatSuccess = (r) => {
         console.log(r.data);
-        // let { type, res } = JSON.parse(r.data);
-        let {type, res} = r.data;
+        let { type, res } = JSON.parse(r.data);
+        // let {type, res} = r.data;
         if (type === "text") {
             addResponseMessage(res);
         } else if (type === "link") {
@@ -89,7 +71,7 @@ class App extends Component {
     };
 
     handleChatErr = (err) => {
-        console.log(err);
+        console.error(err);
     };
 
     handleNewUserMessage = (message) => {

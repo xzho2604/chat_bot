@@ -11,7 +11,7 @@ const weatherItem = (weatherItem) => {
         : Weathers['Default'];
 
     let [year, month, day] = weatherItem.time.split("-");
-    console.log(year, month, day);
+    // console.log(year, month, day);
     let date = weatherItem.day + ' ' + Months[month] + ' ' + day;
     return (
         <div className="container weather" style={{backgroundImage : `url(${image})`}}>

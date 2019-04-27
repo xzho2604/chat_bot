@@ -33,6 +33,7 @@ export const faceLogin = (data, success, error) => {
         g.push(data[i+1]);
         b.push(data[i+2]);
     }
+    // convert the image in canvas to r,g,b matrix and send it to login server.
     let formData = new FormData();
     formData.append('height', canvasHeight);
     formData.append('width', canvasWidth);
