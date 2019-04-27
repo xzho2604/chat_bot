@@ -21,6 +21,7 @@ import json
 import os
 from flask import Flask
 from flask import request
+import requests as req_req
 from flask import make_response
 from flask import jsonify
 from flask_assistant import context_manager
@@ -280,11 +281,16 @@ def backend():
     #light
     #ligths control
     if(action == "IOT.turn_on"):
+        response = req_req.get("http://b23a43cd.ngrok.io")
+        result = response.json()
+        fullfill_text = result["message"]
+        '''
         status = light_control("on") #turn on the light
         if(status == 207):
             fullfill_text="Lights are now on!"
         else:
             fullfill_text = "Error turning on the light code: " + str(status)
+        '''
     if(action == "IOT.turn_off"):
         status = light_control("off") #turn on the light
         if(status == 207):
