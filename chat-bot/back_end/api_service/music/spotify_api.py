@@ -3,26 +3,40 @@ import sys
 import spotipy
 import json
 import random
-
+from spotipy import oauth2
 
 ''' main function to call the spotify api
 
     last updated time :
     21/03/2019
 '''
-filename ='/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
-# filename = './web-api-auth/authorization_code/auth_token.txt'
-def  get_access_token(filename):
-    file = open(filename)
-    try:
-        token = file.read()
-    finally:
-        file.close()
-    return token
+# TODO commented out these line
+# filename ='/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
+# # filename = './web-api-auth/authorization_code/auth_token.txt'
+# def  get_access_token(filename):
+#     file = open(filename)
+#     try:
+#         token = file.read()
+#     finally:
+#         file.close()
+#     return token
+#
+# #initialisation of token
+# token = get_access_token(filename)
+# sp = spotipy.Spotify(auth = token)
 
-#initialisation of token
-token = get_access_token(filename)
-sp = spotipy.Spotify(auth = token)
+# TODO
+# new version of getting token
+# need to install spotipy with command: "pip3 install git+https://github.com/plamere/spotipy.git --upgrade"
+# to get the latest version, otherwise some function will be missing.
+CLIENTID = 'e7aa73aec5d24f48a00f6a4428e8cf94'
+CLIENT_SECRET = '1a350fe2add24438b737dcf51c3a4a7c'
+
+sp_oauth = oauth2.SpotifyClientCredentials(
+    CLIENTID,
+    CLIENT_SECRET)
+token = sp_oauth.get_access_token()
+sp = spotipy.Spotify(auth=token)
 
 # get the basic jason file of the artist
 def get_artist(name):
