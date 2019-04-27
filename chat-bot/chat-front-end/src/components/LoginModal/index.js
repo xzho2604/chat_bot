@@ -5,7 +5,6 @@ import "./LoginModal.css";
 import { faceLogin } from "../../apis";
 import { canvasHeight, canvasWidth} from "../../config";
 
-// import { getUserMedia, camSuccess, camError } from "./functions/getCamera";
 class LoginModal extends React.Component {
     constructor(props) {
         super(props);
@@ -13,22 +12,19 @@ class LoginModal extends React.Component {
             modalVisible: false,
             modalLoading: false,
             stat: null,
-            capturedImg: null,
+            title: "Please login"
         };
-
         this.videoRef = React.createRef();
         this.canvasRef = React.createRef();
-        // this.modalRef = React.createRef();
     }
-    handleOK() {
-        alert("OK!!");
-        console.log("OK");
+
+    componentDidMount = () => {
+        this.setModalVisible(true);
     };
 
-    // destoryAll = () => {
-    //     console.log("DESTORY!!");
-    //     Modal.destroyAll();
-    // };
+    handleOK = () =>  {
+        console.log("Ok");
+    };
 
     setModalVisible(modalVisible) {
         this.setState({ modalVisible });
@@ -37,25 +33,20 @@ class LoginModal extends React.Component {
     }
 
     handleLoginSuccess = (res) => {
-        console.log(res.data);
-        console.log(typeof(res.data));
         let { user } = JSON.parse(res.data);
         // let { user } = res.data;
-        console.log(user);
         this.setState({ modalLoading: false, modalVisible: false });
-        // this.destoryAll();
-        this.props[0](user);
-        // TODO hide the button after loggedIn
-        // if (res.data.user !== null) {
-        //     this.modalRef.current.style = {display: "none"};
-        //     console.log("Here");
-        // }
+        setTimeout(() => this.props.callback(user), 500);
     };
 
     handleLoginError = (err) => {
-        console.log(err);
-        this.setState({ modalLoading: false, modalVisible: false });
-        this.props[0](null);
+        this.setState({
+            modalLoading: false,
+            modalVisible: true,
+            stat: "Capture",
+            title: "Can't recognize you, please place your face in the center area." });
+        alert("Login failed");
+        console.error(err);
     };
 
     handleSubmit = () => {
@@ -64,7 +55,6 @@ class LoginModal extends React.Component {
         let data = this.canvasRef.current.getContext('2d')
             .getImageData(0, 0, canvasWidth, canvasHeight).data;
         faceLogin(data, this.handleLoginSuccess, this.handleLoginError);
-        console.log("Submitting!");
     };
 
     handleCancel = () => {
@@ -80,13 +70,11 @@ class LoginModal extends React.Component {
         canvas.getContext('2d').drawImage(video, 0, 0, canvasWidth, canvasHeight);
         this.closeCam();
         this.setState( {stat: "Submit"});
-        console.log("Captured!");
     };
 
     handleRetake = () => {
         this.openCam();
         this.setState( {stat: "Capture"});
-        console.log("Retaking!");
     };
 
     closeCam = () => {
@@ -99,8 +87,7 @@ class LoginModal extends React.Component {
         navigator.mediaDevices.getUserMedia({
             audio: false,
             video: { width: 400, height: 300 }
-        })
-            .then(function(stream) {
+        }).then(function(stream) {
                 /* use the stream */
                 let video = this.videoRef.current;
                 this.setState({video: video});
@@ -108,10 +95,10 @@ class LoginModal extends React.Component {
                 video.play();
             }.bind(this))
             .catch(function(err) {
-                /* handle the error */
-                this.props[0]("Test user");
-                alert("You need a camera to login.");
-                console.log(`Error: ${err.name}, ${err.message}`);
+                /* TODO pass the user without cam by. */
+                this.props.callback("Test User");
+                alert("You need a camera to login. But I'll log you in in this test mode.");
+                console.error(`Error: ${err.name}, ${err.message}`);
             }.bind(this));
     };
 
@@ -125,21 +112,24 @@ class LoginModal extends React.Component {
                 </Button>,
             ],
             "Capture": [
-                <Button key="cancelBtn" onClick={this.handleCancel}>Cancel</Button>,
+                //<Button key="cancelBtn" onClick={this.handleCancel}>Cancel</Button>,
                 <Button key="submitBtn" type="primary" onClick={this.handleCapture}>
                     Capture
                 </Button>,
-            ]
+            ],
+            // "Form": [
+            //     <Button key="cancelBtn" onClick={this.handleCancel}>Cancel</Button>,
+            //     <Button key="submitBtn" type="primary" onClick={this.handleCapture}>
+            //         Face Login
+            //     </Button>,
+            // ]
         };
 
         return (
             <div>
-                <Button type="primary" onClick={() => this.setModalVisible(true)}>
-                    Login
-                </Button>
                 <Modal
                     visible={modalVisible}
-                    title="Please place your face in the center area"
+                    title={this.state.title}
                     style={{ top: 20 }}
                     onOk={this.handleOK}
                     onCancel={this.handleCancel}
