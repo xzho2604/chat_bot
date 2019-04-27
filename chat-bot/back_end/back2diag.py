@@ -24,7 +24,7 @@ from flask import request
 import requests as req_req
 from flask import make_response
 from flask import jsonify
-from flask_assistant import context_manager
+#from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
