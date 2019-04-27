@@ -281,7 +281,7 @@ def backend():
     #light
     #ligths control
     if(action == "IOT.turn_on"):
-        response = req_req.get("http://b23a43cd.ngrok.io")
+        response = req_req.get("https://xzho2604.serveo.net")
         result = response.json()
         fullfill_text = result["message"]
         '''
