@@ -1,6 +1,6 @@
 import pymongo
 from pymongo import MongoClient
-client=MongoClient("localhost",27017)
+client=MongoClient("localhost",3000)
 db = client["chatbot"]
 collection = db["users"]
 
