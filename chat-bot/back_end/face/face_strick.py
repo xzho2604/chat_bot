@@ -41,13 +41,24 @@ def who_is_it(img,recognizer,le, model):
     proba = preds[j]
     name = le.classes_[j]
     
-    return name, proba 
+    return name, proba,encoding 
 
+#------------------------------------------------------------------------------------
 #give a identified user check the the user's embedding in 
 #data base and output the uclidiant distance of the nearest match
-def verify_encoding(user):
-    pass
+def verify_encoding(user,user_en):
+    #loop through all the embeddings and find the one that 
+    data=pickle.loads(open(args["embedding"],"rb").read())
+   
+    min_dist = 100 #dist init as large value
+    for l,e in zip(data["names"],data["embeddings"]):
+        print(l,user,l==user)
+        if(l == user):
+            dist = np.linalg.norm(user_en - e)
+            if(dist < min_dist):
+                min_dist = dist
 
+    return min_dist
 #------------------------------------------------------------------------------------
 def recognize_faces_in_cam(recognizer,le,detector,model):
     cv2.namedWindow("Face Recognizer")
@@ -95,11 +106,14 @@ def recognize_faces_in_cam(recognizer,le,detector,model):
                 	continue
                 
                 #affine align the image 
-                identity, prob= who_is_it(face,recognizer,le, model)
+                identity, prob,encoding= who_is_it(face,recognizer,le, model)
                 
                 if identity is not None:
+                    #verify the given identified user with the embedding in db
+                    dist = verify_encoding(identity,encoding)
+
                     #check the actual distance from the embedding for the identified person
-                    text = "{}: {:.2f}%".format(identity, prob * 100)
+                    text = "{}: {:.2f}%;{}".format(identity, prob * 100,dist) 
                     y = startY - 10 if startY - 10 > 10 else startY + 10
                     frame = cv2.rectangle(frame,(startX, startY),(endX, endY),(255,255,255),2)
                     cv2.putText(frame, text, (startX, y),cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
@@ -124,6 +138,8 @@ ap.add_argument("-r", "--recognizer", required=True,
 	help="path to model trained to recognize faces")
 ap.add_argument("-l", "--le", required=True,
 	help="path to label encoder")
+ap.add_argument("-e", "--embedding", required=True,
+	help="path to embedding encoder")
 args = vars(ap.parse_args())
 
 # load the actual face recognition model along with the label encoder

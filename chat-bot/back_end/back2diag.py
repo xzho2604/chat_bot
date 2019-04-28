@@ -21,13 +21,14 @@ import json
 import os
 from flask import Flask
 from flask import request
+import requests as req_req
 from flask import make_response
 from flask import jsonify
-from flask_assistant import context_manager
+#from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
 from  api_service.weather.weather_api import *
-#from api_service.light.light_control import *
+from api_service.light.light_control import *
 import random
 from helper import *
 import re
@@ -66,6 +67,13 @@ print('Session path: {}\n'.format(session))
 #set up context client to manipulate context
 context_client = dialogflow.ContextsClient()
 parent = context_client.session_path(project_id, session_id)
+
+
+login_t ="login"
+music_t="music"
+
+spotify_on = 1
+
 #============================================================================
 #function to pass input and get back the response
 def detect_intent_texts(text, language_code):
@@ -95,7 +103,8 @@ def load_user_context(userid):
     new_context = get_context(str(userid))
     if new_context == "":
         return False
-
+    
+    print("[Info] The laod user context list from databse:",new_context)
     context_list = pickle.loads(new_context) #change string to list  
     for s in context_list:
         data = json.loads(s) #make each context string to json
@@ -137,15 +146,6 @@ def save_user_context(userid):
     print(s_list)
     
 
-#------------------------------------------------------------------------------
-#call sub process to start the auto spotify login thread
-'''
-def music():
-    global p
-    cmd = "python ./api_service/music/web-api-auth/authorization_code/auto_login.py"
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-    #subprocess.call(,shell = True)
-'''
 #============================================================================
 app = Flask(__name__)
 
@@ -153,9 +153,6 @@ app = Flask(__name__)
 #flag = 1
 #the thread to start
 #spotify = threading.Thread(target = music)
-login_t ="login"
-music_t="music"
-
 #---------------------------------------------------------------------------
 @app.route('/login', methods=['POST'])
 def login(): #the front end signal user log in retrive the user context from data base if there is any
@@ -164,6 +161,18 @@ def login(): #the front end signal user log in retrive the user context from dat
     params = req['params']
     #user = params["user"] #user is of struct {userID:id, userName:name}
     user_id = params["userID"]
+
+    print("[Info] Now starting the spotify auto login...") 
+    #app.js run only at the start
+    global spotify_on 
+    spotify_on = 0
+    if spotify_on:
+        music_t = threading.Thread(target=music)
+        music_t.start()
+        spotify_on =0 
+
+    #login_t = threading.Thread(target=login_f)
+    #login_t.start()
 
     #clear the current context if there is any
     context_client.delete_all_contexts(parent)
@@ -181,13 +190,6 @@ def login(): #the front end signal user log in retrive the user context from dat
         print("[Info] Restored Context:")
         print(e)
 
-    print("[Info] Now starting the spotify auto login...") 
-    #app.js run only at the start
-    music_t = threading.Thread(target=music)
-    music_t.start()
-    login_t = threading.Thread(target=login_f)
-    login_t.start()
-#
 
     return jsonify({"logged_in":True}),200
 
@@ -202,10 +204,10 @@ def logout(): #front end signal user log off save the user context to the databs
     save_user_context(user_id) #save the current active context to databse
 
     #stop the spotify thread
-    print("[Info] Now stopping the spotify log in thread...",p)
-    kill(auto_login.p.pid)
+    print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
+    #kill(auto_login.p.pid)
     #music_t.join()
-    auto_login.flag = 0
+    ##auto_login.flag = 0
     #login_t.join()
     print("[Info] Now auto login stopped")
 
@@ -279,11 +281,16 @@ def backend():
     #light
     #ligths control
     if(action == "IOT.turn_on"):
+        response = req_req.get("https://xzho2604.serveo.net")
+        result = response.json()
+        fullfill_text = result["message"]
+        '''
         status = light_control("on") #turn on the light
         if(status == 207):
             fullfill_text="Lights are now on!"
         else:
             fullfill_text = "Error turning on the light code: " + str(status)
+        '''
     if(action == "IOT.turn_off"):
         status = light_control("off") #turn on the light
         if(status == 207):

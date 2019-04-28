@@ -40,7 +40,7 @@
     width: 5rem;
 }
 
-.textWeather { color: white; font-family: Georgia, monospace; margin: 1rem 1rem }
+.textWeather { color: white; font-family: Georgia, monospace; margin: 1rem 0 }
 
 .Temp { color: white; font-family: Georgia, monospace; font-size: 3rem }
 

@@ -82,8 +82,9 @@ def detect_intent_texts(text, language_code):
    
     return param, action ,fulfillment
 
-def music():
-    subprocess.call("python ./api_service/music/web-api-auth/authorization_code/auto_login.py",shell = True)
+# TODO commented these line out
+# def music():
+#     subprocess.call("python ./api_service/music/web-api-auth/authorization_code/auto_login.py",shell = True)
 
 #============================================================================
 #socket version
@@ -93,7 +94,8 @@ import pickle
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 from google.protobuf.struct_pb2 import Struct, Value
-import subprocess
+# TODO commented these line out
+# import subprocess
 import threading
 
 args = sys.argv[1:] #python 8888 5555
