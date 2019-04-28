@@ -101,8 +101,8 @@ def detect_intent_texts(text, language_code):
 #------------------------------------------------------------------------------
 #given user id will reload the user context 
 def load_user_context(userid):
-    '''
     new_context = get_context(str(userid))
+    print("new context",new_context)
     if new_context == "":
         return False
     
@@ -126,11 +126,9 @@ def load_user_context(userid):
         #restore the context
         restore = Parse(s,blank)
         result = context_client.create_context(parent,restore) #create a black context
-'''
     return True
 #------------------------------------------------------------------------------
 def save_user_context(userid):
-    '''
     context_list = []#google.cloud.dialogflow_v2.types.Context
     for e in context_client.list_contexts(parent): 
         print("====================================")
@@ -147,8 +145,6 @@ def save_user_context(userid):
 
     print("[Info] Now contexts saved to the databse:")
     print(s_list)
-    '''
-    pass
     
 
 #============================================================================
@@ -203,19 +199,20 @@ def login(): #the front end signal user log in retrive the user context from dat
 @app.route('/logout', methods=['POST'])
 def logout(): #front end signal user log off save the user context to the databse 
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-    #print(req)
+    print(req)
     params = req['params']
     user_id = params["userID"]
+    print("[Info] Saving user contexts...")
 
     save_user_context(user_id) #save the current active context to databse
 
     #stop the spotify thread
-    print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
+    #print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
     #kill(auto_login.p.pid)
     #music_t.join()
     ##auto_login.flag = 0
     #login_t.join()
-    print("[Info] Now auto login stopped")
+    print("[Info] user context saved!")
 
     return jsonify({"logged_in":True}),200
 
