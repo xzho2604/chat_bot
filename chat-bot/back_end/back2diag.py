@@ -24,6 +24,7 @@ from flask import request
 import requests as req_req
 from flask import make_response
 from flask import jsonify
+from flask_cors import CORS
 #from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
@@ -40,8 +41,8 @@ from google.protobuf.json_format import Parse
 from google.protobuf.struct_pb2 import Struct, Value
 import threading
 import subprocess
-import auto_login
-from auto_login import *
+#import auto_login
+#from auto_login import *
 
 
 
@@ -100,6 +101,7 @@ def detect_intent_texts(text, language_code):
 #------------------------------------------------------------------------------
 #given user id will reload the user context 
 def load_user_context(userid):
+    '''
     new_context = get_context(str(userid))
     if new_context == "":
         return False
@@ -124,10 +126,11 @@ def load_user_context(userid):
         #restore the context
         restore = Parse(s,blank)
         result = context_client.create_context(parent,restore) #create a black context
-
+'''
     return True
 #------------------------------------------------------------------------------
 def save_user_context(userid):
+    '''
     context_list = []#google.cloud.dialogflow_v2.types.Context
     for e in context_client.list_contexts(parent): 
         print("====================================")
@@ -144,10 +147,13 @@ def save_user_context(userid):
 
     print("[Info] Now contexts saved to the databse:")
     print(s_list)
+    '''
+    pass
     
 
 #============================================================================
 app = Flask(__name__)
+CORS(app)
 
 #p = "lallalalalala"
 #flag = 1
@@ -165,7 +171,7 @@ def login(): #the front end signal user log in retrive the user context from dat
     print("[Info] Now starting the spotify auto login...") 
     #app.js run only at the start
     global spotify_on 
-    spotify_on = 0
+    spotify_on =0 
     if spotify_on:
         music_t = threading.Thread(target=music)
         music_t.start()
@@ -312,5 +318,5 @@ def backend():
     return jsonify(res) 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=8000)
+    app.run(debug=True,host="0.0.0.0",port=4000)
 
