@@ -1,6 +1,6 @@
 import pymongo
 from pymongo import MongoClient
-client=MongoClient("localhost")
+client=MongoClient(host ="localhost")
 db = client["chatbot"]
 collection = db["users"]
 
@@ -34,8 +34,7 @@ if __name__ == "__main__":
     string = 'context'
     show()
     print(string)
-    get_user("eric")
-    update_user("eric", "pickle", "pickle_1")
-    get_user("eric")
-    update_user("eric", "content", string)
-    get_user("eric")
+    update_user("2",'age',99)
+    print("=================")
+    r= get_context("1")
+    print(r)
