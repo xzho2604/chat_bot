@@ -45,6 +45,7 @@ class LoginModal extends React.Component {
             modalVisible: true,
             stat: "Capture",
             title: "Can't recognize you, please place your face in the center area." });
+        this.openCam();
         alert("Login failed");
         console.error(err);
     };

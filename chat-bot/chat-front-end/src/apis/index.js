@@ -55,8 +55,8 @@ export const backLoginApi = (payload, success, error) => {
         .catch(error);
 };
 
-export const backLogoutApi = (payload, success, error) => {
-    chat.post('/logout', {params: payload})
-        .then(success)
-        .catch(error);
+export const backLogoutApi = (userID) => {
+    let data = new FormData();
+    data.append('userID', userID);
+    return navigator.sendBeacon(chatUrl + '/logout', data);
 };
