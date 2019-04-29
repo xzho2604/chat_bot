@@ -10,8 +10,6 @@ import LoginModal from './LoginModal';
 import './App.css';
 import {chatApi, backLoginApi, backLogoutApi} from '../apis';
 import {ObjectID} from "bson";
-// import { toggleInputDisabled } from 'react-chat-widget';
-// import TestLoading from './TestLoading';
 
 class App extends Component {
     state = {
@@ -22,12 +20,13 @@ class App extends Component {
 
     componentDidMount = () => {
         // TODO customize alert info
-        const listener = ev => {
+        window.onbeforeunload = (ev) => {
             ev.preventDefault();
-            backLogoutApi({'userID': this.state.userID}, null, null);
+            let result = backLogoutApi(this.state.userID);
+            console.log(result);
             ev.returnValue='leaving, loging out';
+            return "Logged out.";
         };
-        window.addEventListener('beforeunload', listener);
 
         // toggleInputDisabled();
         // //TODO testing
@@ -48,7 +47,7 @@ class App extends Component {
             backLoginApi({userID: this.state.userID},
                 () => addResponseMessage(`Hello ${this.state.username}! How can I help you?`),
                 () => console.error("Login failed"));
-            //Enable input
+            // Enable input
             // toggleInputDisabled();
         } else {
             // TODO manually login
