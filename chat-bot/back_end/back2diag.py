@@ -24,6 +24,7 @@ from flask import request
 import requests as req_req
 from flask import make_response
 from flask import jsonify
+from flask_cors import CORS
 #from flask_assistant import context_manager
 #music webhook fullfill is disabled process from the backedn
 from api_service.music.spotify_api import *
@@ -40,8 +41,8 @@ from google.protobuf.json_format import Parse
 from google.protobuf.struct_pb2 import Struct, Value
 import threading
 import subprocess
-import auto_login
-from auto_login import *
+#import auto_login
+#from auto_login import *
 
 
 
@@ -101,6 +102,7 @@ def detect_intent_texts(text, language_code):
 #given user id will reload the user context 
 def load_user_context(userid):
     new_context = get_context(str(userid))
+    print("new context",new_context)
     if new_context == "":
         return False
     
@@ -124,7 +126,6 @@ def load_user_context(userid):
         #restore the context
         restore = Parse(s,blank)
         result = context_client.create_context(parent,restore) #create a black context
-
     return True
 #------------------------------------------------------------------------------
 def save_user_context(userid):
@@ -148,6 +149,7 @@ def save_user_context(userid):
 
 #============================================================================
 app = Flask(__name__)
+CORS(app)
 
 #p = "lallalalalala"
 #flag = 1
@@ -165,7 +167,7 @@ def login(): #the front end signal user log in retrive the user context from dat
     print("[Info] Now starting the spotify auto login...") 
     #app.js run only at the start
     global spotify_on 
-    spotify_on = 0
+    spotify_on =0 
     if spotify_on:
         music_t = threading.Thread(target=music)
         music_t.start()
@@ -196,20 +198,22 @@ def login(): #the front end signal user log in retrive the user context from dat
 #---------------------------------------------------------------------------
 @app.route('/logout', methods=['POST'])
 def logout(): #front end signal user log off save the user context to the databse 
+    print("I am here ")
     req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-    #print(req)
+    print(req)
     params = req['params']
     user_id = params["userID"]
+    print("[Info] Saving user contexts...")
 
     save_user_context(user_id) #save the current active context to databse
 
     #stop the spotify thread
-    print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
+    #print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
     #kill(auto_login.p.pid)
     #music_t.join()
     ##auto_login.flag = 0
     #login_t.join()
-    print("[Info] Now auto login stopped")
+    print("[Info] user context saved!")
 
     return jsonify({"logged_in":True}),200
 
@@ -278,19 +282,24 @@ def backend():
             fullfill_text = "Sorry, Only 5 days weatehr forcast is available"
             tp = "text"
     #----------------------------------------------------------------- 
+    #dog feeder
+    if(action == "IOT.dog"):
+        try:
+            response = req_req.get("https://xzho2604.serveo.net")
+            result = response.json()
+            fullfill_text = result["message"]
+        except:
+            fullfill_text = "Oops,Looks like the dog feeder is not online ..."
+
+    #----------------------------------------------------------------- 
     #light
     #ligths control
     if(action == "IOT.turn_on"):
-        response = req_req.get("https://xzho2604.serveo.net")
-        result = response.json()
-        fullfill_text = result["message"]
-        '''
         status = light_control("on") #turn on the light
         if(status == 207):
             fullfill_text="Lights are now on!"
         else:
             fullfill_text = "Error turning on the light code: " + str(status)
-        '''
     if(action == "IOT.turn_off"):
         status = light_control("off") #turn on the light
         if(status == 207):
@@ -312,5 +321,5 @@ def backend():
     return jsonify(res) 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=8000)
+    app.run(debug=True,host="0.0.0.0",port=4000)
 
