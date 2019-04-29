@@ -198,11 +198,10 @@ def login(): #the front end signal user log in retrive the user context from dat
 #---------------------------------------------------------------------------
 @app.route('/logout', methods=['POST'])
 def logout(): #front end signal user log off save the user context to the databse 
-    print("I am here ")
-    req = request.get_json(silent=True, force=True) #req is a dict of returned jason
-    print(req)
-    params = req['params']
-    user_id = params["userID"]
+    #req = request.get_json(silent=True, force=True) #req is a dict of returned jason
+    req = request.form.to_dict()
+    print("[Info], Received log out req",req)
+    user_id = req["userID"]
     print("[Info] Saving user contexts...")
 
     save_user_context(user_id) #save the current active context to databse
