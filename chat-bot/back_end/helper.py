@@ -8,10 +8,9 @@ from api_service.music.spotify_api import *
 # return {time,city,title,weather}
 def process_weather(param):
     addr = param["address"]
-    for key in addr:
-        city = addr[key]
+    city = addr['city']
 
-    when = param["date-time"] #string of:"2019-04-24T12:00:00+10:00"
+    when = param["date-time"]["date_time"] #string of:"2019-04-24T12:00:00+10:00"
     when = when[:10]
     weather,temp, day = get_forecast(city,when)
 
