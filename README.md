@@ -5,6 +5,9 @@
 * (Run this command only at the first time: ) npm install
 * npm start
 
+## Backend: 
+* Backend will be running in aws ,so if you want to test our system please let me know in advance so that I can start the 
+Backend server on aws
 ## Mongodb init:
 * brew install mongodb
 * run to init the database data and service at "localhost:27017"
