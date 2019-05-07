@@ -83,5 +83,22 @@
   
 26/04
     successfully connected with the front end
-  
+    
+28/04:
+    make a the auto dog feeder hardware, 3d printed the harness and install the Raspberrypi and Ardurino,connect the harware       wire and install the time module as well
+
+29/04:
+    software part of the auto dog feeder, using raspi as gateway to send PWM signal to the motor to start the auto dog feeder
+    Connnect the dog feeder with the chat bot
+    
+30/04:
+    Mannage to Connect the Roomba smart vacum cleaner with the chat bot using MQTT protocol
+    Overall testing of the whole system and debugging
+
+01/05:
+    Proejct Demo
+    
+
+    
+    
     

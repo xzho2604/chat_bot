@@ -34,9 +34,9 @@ Week 8
 Help develop context switch feature. Set up IOT agent to help with the device control module.
 
 Week 9
-Testing performance of the chatbot.Design demo procedure and also do adjustments on the dialogflow.
+Testing performance of the chatbot. Design demo procedure and also do adjustments on the dialogflow.
 
 Week 10
-Work on on cloud deployment. Add dog-feeder intent.
+Work on on-cloud deployment. Add dog-feeder intent. Final report writing (Introduction+background+conclusion+Appendix). 
 
 
