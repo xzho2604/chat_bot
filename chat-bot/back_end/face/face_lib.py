@@ -98,17 +98,10 @@ def recognize_faces_in_img(image,recognizer,le,detector,model):
                 frame = cv2.rectangle(frame,(startX, startY),(endX, endY),(255,255,255),2)
                 cv2.putText(frame, text, (startX, y),cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
                 all_identities[identity] = prob
-        ''' 
-        key = cv2.waitKey(100)
-        cv2.imshow("Face Recognizer", frame)
-        
-        if key == 27: # exit on ESC
-            break
-        '''
+
         cv2.imwrite("recognised.jpeg",frame)
 
     return all_identities
 
-#cv2.destroyAllWindows()
 
 #==================================================================================

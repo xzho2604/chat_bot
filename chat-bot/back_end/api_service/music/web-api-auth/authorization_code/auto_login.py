@@ -46,9 +46,11 @@ def login():
     login_btn = driver.find_element_by_id("login-button")
 
     #send the username and password
-    username.send_keys("erikxiangzhou@gmail.com")
-    password.send_keys("12345!")
+    '''
+    username.send_keys("")
+    password.send_keys("")
     login_btn.click()
+    '''
 
 
     #minimise the window

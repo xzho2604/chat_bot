@@ -5,27 +5,6 @@ import json
 import random
 from spotipy import oauth2
 
-''' main function to call the spotify api
-
-    last updated time :
-    21/03/2019
-'''
-# TODO commented out these line
-# filename ='/Users/erikzhou/Desktop/9900_project/chat-bot/back_end/api_service/music/web-api-auth/authorization_code/auth_token.txt'
-# # filename = './web-api-auth/authorization_code/auth_token.txt'
-# def  get_access_token(filename):
-#     file = open(filename)
-#     try:
-#         token = file.read()
-#     finally:
-#         file.close()
-#     return token
-#
-# #initialisation of token
-# token = get_access_token(filename)
-# sp = spotipy.Spotify(auth = token)
-
-# TODO
 # new version of getting token
 # need to install spotipy with command: "pip3 install git+https://github.com/plamere/spotipy.git --upgrade"
 # to get the latest version, otherwise some function will be missing.
@@ -164,11 +143,6 @@ def request_album(album):
     return data
 
 if __name__ == '__main__':
-    # TODO commented out these lines
-    # filename = './web-api-auth/authorization_code/auth_token.txt'
-    # token = get_access_token(filename)
-    # sp = spotipy.Spotify(auth=token)
-
     # test 1
     #request_song('Dangerous')
     name = 'michael jackson'

@@ -173,8 +173,6 @@ def login(): #the front end signal user log in retrive the user context from dat
         music_t.start()
         spotify_on =0 
 
-    #login_t = threading.Thread(target=login_f)
-    #login_t.start()
 
     #clear the current context if there is any
     context_client.delete_all_contexts(parent)
@@ -202,16 +200,10 @@ def logout(): #front end signal user log off save the user context to the databs
     req = request.form.to_dict()
     print("[Info], Received log out req",req)
     user_id = req["userID"]
+
     print("[Info] Saving user contexts...")
-
     save_user_context(user_id) #save the current active context to databse
-
     #stop the spotify thread
-    #print("[Info] Now stopping the spotify log in thread...",p==auto_login.p)
-    #kill(auto_login.p.pid)
-    #music_t.join()
-    ##auto_login.flag = 0
-    #login_t.join()
     print("[Info] user context saved!")
 
     return jsonify({"logged_in":True}),200

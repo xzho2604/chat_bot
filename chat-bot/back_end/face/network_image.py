@@ -180,9 +180,6 @@ def network():
     bb = fold(b,h,w)
     img_arr = np.dstack((bb,gg,rr))
 
-    #print("Received image shape of:",img_arr.shape)
-    #cv2.imwrite("received.jpeg",img_arr)
-
     #now we have the array of the image and need to pass to the verification network for recoginition
     all_identities = recognize_faces_in_img(img_arr,recognizer,le,detector,FRmodel)
     print(all_identities)
