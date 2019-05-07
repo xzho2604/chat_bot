@@ -1,5 +1,5 @@
 # Smart-house-bulter-chat-bot
-That is able to control IOT devices like lights , vacum cleaner , auto dog feeder and other serivices like spotify to play music and open weather to enquiry weather.Using google dialogflow as NLP to produce human like smmooth converstation
+Is able to recognised user face using cutting edge face recognition deep learnining method and load user context accordingly. it is able to control IOT devices like lights , vacum cleaner , auto dog feeder and other serivices like spotify to play music and open weather to enquiry weather.Using google dialogflow as NLP to produce human like smmooth converstation
 ## FrontEnd Usage:
 * make sure you have nodejs installed in your system
 * cd chat-bot/chat-front-end
